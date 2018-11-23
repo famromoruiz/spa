@@ -24,7 +24,7 @@ use \route\Route;
         <div class="col-md-12">
             <div class="card">
   <div class="card-header bg-seremas text-white font-weight-bold d-flex justify-content-between align-items-center">
-    Cuenta general por cobrar
+    Cuenta general por 
     <span>Total 6</span>
   </div>
   <div class="card-body productos">
