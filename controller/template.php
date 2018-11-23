@@ -1,0 +1,124 @@
+<?php 
+/**
+ * summary
+ */
+
+
+
+$template = new Template();
+
+
+
+class Template
+{
+    /**
+     * summary
+     */
+//public $route;
+
+   
+
+    public function __construct()
+    {
+
+    	
+
+ ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+	<title>SEREMAS</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- LIBRERIAS BOOTSTRAP-->
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="<?=HOME?>vendor/boostrap/dist/css/bootstrap.css">
+	
+	<link rel="stylesheet" href="<?=HOME?>vendor/css/styles.css">
+
+	<link type="text/css" rel="stylesheet" href="<?=HOME?>vendor/qtip/qtip.min.css" />
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="<?=HOME?>vendor/boostrap/dist/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="<?=HOME?>vendor/qtip/qtip.min.js"></script>
+
+	<link href='<?=HOME?>vendor/fullcalendar/fullcalendar.min.css' rel='stylesheet' />
+	<link href='<?=HOME?>vendor/fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+	<script src='<?=HOME?>vendor/fullcalendar/lib/moment.min.js'></script>
+	<script src='<?=HOME?>vendor/fullcalendar/fullcalendar.min.js'></script>
+	<script src='<?=HOME?>vendor/fullcalendar/locale/es.js'></script>
+	<script src='<?=HOME?>vendor/slimScroll/jquery.slimscroll.min.js'></script>
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js" type="text/javascript"></script>
+	<link href='<?=HOME?>vendor/Date_Time/build/css/bootstrap-datetimepicker.min.css' rel='stylesheet' />
+	<script src='<?=HOME?>vendor/Date_Time/build/js/bootstrap-datetimepicker.min.js'></script>
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+	<style>
+		/* Show it is fixed to the top */
+html{
+	height: 100%;
+}
+body {
+	min-height: 100%;
+  padding-top: 4.5rem;
+}
+
+	</style>
+</head>
+
+<body>
+<header>
+	<?php 
+	
+		require __DIR__ .'/../view/layauts/header.php';
+	?>	
+</header>
+
+
+
+<main role="main" class="">
+
+
+<?php
+    }
+
+   public function __destruct()
+   {
+?>
+
+</main>
+
+<footer>
+	<?php 
+	require __DIR__ .'/../view/layauts/footer.php';
+	?>
+</footer>
+</body>
+<script>
+
+
+</script>
+</html>
+
+<?php
+
+   }
+}
+?>
