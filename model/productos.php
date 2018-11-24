@@ -56,6 +56,22 @@ public $precio_publico;
 		}
 	}
 
+	public function Buscar2($b){
+		try
+		{
+			$result = array();
+
+			$stm = $this->pdo->prepare("SELECT * FROM productos WHERE upc = '".$b."' ");
+			$stm->execute();
+
+			return $stm->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function Obtener($id)
 	{
 		try 

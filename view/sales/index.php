@@ -4,20 +4,33 @@ use \route\Route;
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <div class="input-group mb-4">
+      <div class="input-group ">
+
+<datalist id="busqueda">
+    
+    
+</datalist>
         
-        <select id="bs" class="form-control buscar" name="bs">
-  <?php foreach($this->modelProductos->Listar() as $c) {?>
-  <option value="<?= $c->id_producto?>"><?php echo $c->descripcion?></option>
-<?php } ?>
-</select>
-  <!-- <input id="buscar" type="text" class="form-control" placeholder="Productos" autofocus="" aria-label="productos" aria-describedby="button-addon2">
+      
+  <input id="buscar" list="busqueda" type="search" class="form-control" placeholder="Productos"  aria-label="productos" aria-describedby="button-addon2" onkeyup="buscar(this.value);">
   <div class="input-group-append">
-    <button class="btn btn-outline-seremas" type="button" id="button-addon2"><i class="fa fa-plus" aria-hidden="true"></i></button>
-  </div> -->
-</div>
-    </div>
+    <button onclick="agregar_p()" class="btn btn-outline-seremas" type="button" id="button-addon2"><i class="fa fa-plus" aria-hidden="true"></i></button>
+
   </div>
+
+</div>
+ <!-- <div class="list-group busqueda">
+    <li class="list-group-item ">
+      hola
+  </li>
+</div> -->
+
+
+
+    </div>
+    
+  </div>
+  <br>
   <div class="row">
     <div class="col-md-8">
       <div class="row">
@@ -30,34 +43,7 @@ use \route\Route;
   <div class="card-body productos">
 
     <ul id="pagos" class="list-group-flush " ondrop="drop(event)" ondragover="allowDrop(event)">
-  <li class="list-group-item d-flex justify-content-between align-items-center ">
-    <p>
-       Facial <br> <small>Vaporisado</small>
-    </p>
-   
-    <span class="">$ 100.00</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <p>
-       Facial <br> <small>Vaporisado</small>
-    </p>
-   
-    <span class="">$ 100.00</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <p>
-       Facial <br> <small>Vaporisado</small>
-    </p>
-   
-    <span class="">$ 100.00</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <p>
-       Facial <br> <small>Vaporisado</small>
-    </p>
-   
-    <span class="">$ 100.00</span>
-  </li>
+ 
 </ul>
 
     
@@ -76,35 +62,8 @@ use \route\Route;
   </div>
   <div class="card-body servicios">
 
-    <ul class="list-group-flush">
-  <li id="dg1" class="list-group-item d-flex justify-content-between align-items-center" draggable="true" ondragstart="drag(event)" >
-    <p>
-       Masaje dropp <br> <small>Vaporisado</small>
-    </p>
-   
-    <span class="">$ 100.00</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <p>
-       Facial <br> <small>Vaporisado</small>
-    </p>
-   
-    <span class="">$ 100.00</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <p>
-       Facial <br> <small>Vaporisado</small>
-    </p>
-   
-    <span class="">$ 100.00</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <p>
-       Facial <br> <small>Vaporisado</small>
-    </p>
-   
-    <span class="">$ 100.00</span>
-  </li>
+    <ul class="list-group-flush prod_cob">
+  
 </ul>
 
     
@@ -139,13 +98,104 @@ use \route\Route;
 </div>
 
 <script>
-  $(document).ready(function() {
 
-   $('.buscar').select2({
-        placeholder: '',
 
-   });
- });
+
+
+
+
+function buscar(b){
+
+  console.log(b);
+
+if ( b === '') {
+  $('#busqueda').html('');
+}else{
+
+   $.ajax({
+                data:  { q:b },
+                url:   '<?= Route::Ruta(['sale' , 'json']) ?>',
+                type:  'get',
+                beforeSend: function () {
+                        // $("#alert").html('<div class="alert alert-secondary" role="alert">Procesando, espere por favor...</div>');
+
+                },
+                success:  function (response) {
+
+                  $('#busqueda').html('');
+               
+                  console.log(response);
+
+                 $.each(JSON.parse(response), function(i, v) {
+                    console.log(v.id);
+                    $('#busqueda').append('<option value="'+v.title+'">test</option>');
+                    
+                 });
+
+
+
+
+                  
+                     
+                       
+
+                }
+
+        });
+
+}
+
+   
+
+ 
+}
+
+function agregar_p(){
+
+ var str = $('#buscar').val().split(' ');
+
+  var p =str[0];
+
+
+   $.ajax({
+                data:  { p:p },
+                url:   '<?= Route::Ruta(['sale' , 'json']) ?>',
+                type:  'get',
+                beforeSend: function () {
+                        // $("#alert").html('<div class="alert alert-secondary" role="alert">Procesando, espere por favor...</div>');
+
+                },
+                success:  function (response) {
+
+                 
+               
+                  console.log(response);
+
+                 $.each(JSON.parse(response), function(i, v) {
+                    console.log(v.id);
+                    $('#pagos').append('<li id="dg1" class="list-group-item d-flex justify-content-between align-items-center" draggable="true" ondragstart="drag(event)" ><p> Masaje dropp <br> <small>orisado</small></p><span class="">$ 100.00</span></li>');
+                    
+                 });
+
+
+
+
+                  
+                     
+                       
+
+                }
+
+        });
+
+
+
+   
+
+ 
+}
+
+
 
 
 

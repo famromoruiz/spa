@@ -21,22 +21,36 @@ class SaleController{
 
       //header('Content-Type: application/json');
 
-    
+    $q = isset($_GET['q']);
+    $p = isset($_GET['p']);
+
+    $res;
 
     //$test = isset($GET['b']);
-
+    if ($q == false) {
+      if ($p == false) {
+        
+      }else{
+         $b = $_GET['p'];
+      $res = $this->modelProductos->Buscar2($b);
+      }
+     
+    }else{
+      $b = $_GET['q'];
+      $res = $this->modelProductos->Buscar($b);
+    }
+    
+   
     
 
-    
-
-      //var_dump($b);exit;
+      
 
      $bs=[];
 
-       foreach ($this->modelProductos->Buscar($_GET['q']) as $r) {
+       foreach ( $res as $r) {
 
          
-          $bs[] = ["id"=>$r->id_producto, "title"=>$r->upc.' '.$r->nombre.' '.$r->descripcion];
+          $bs[] = ["id"=>$r->id_producto, "title"=>$r->upc.' '.$r->nombre.' '.$r->descripcion,"precio"=> $r->precio_publico];
         
        }
 
