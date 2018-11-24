@@ -37,7 +37,7 @@ use \route\Route;
         <div class="col-md-12">
             <div class="card">
   <div class="card-header bg-seremas text-white font-weight-bold d-flex justify-content-between align-items-center">
-    Cuenta general por 
+    Cuenta general por cobrar
     <span id="items">Total 0</span>
   </div>
   <div class="card-body productos">
@@ -128,7 +128,7 @@ if ( b === '') {
 
                  $.each(JSON.parse(response), function(i, v) {
                     console.log(v.id);
-                    $('#busqueda').append('<option value="'+v.title+'">test</option>');
+                    $('#busqueda').append('<option value="'+v.title+'"></option>');
                     
                  });
 
