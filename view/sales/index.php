@@ -38,7 +38,7 @@ use \route\Route;
             <div class="card">
   <div class="card-header bg-seremas text-white font-weight-bold d-flex justify-content-between align-items-center">
     Cuenta general por 
-    <span>Total 6</span>
+    <span id="items">Total 0</span>
   </div>
   <div class="card-body productos">
 
@@ -82,7 +82,7 @@ use \route\Route;
   </div>
   <div class="card-body text-center">
 
-    <h1 class="font-weight-bold"><i class="fa fa-dollar text-seremas" aria-hidden="true"></i> 100.00</h1>
+    <h1  class="font-weight-bold"><i class="fa fa-dollar text-seremas" aria-hidden="true"></i><span id="pesos">00.00</span></h1>
 
     
 </div>
@@ -156,6 +156,8 @@ function agregar_p(){
 
   var p =str[0];
 
+  var precio;
+
 
    $.ajax({
                 data:  { p:p },
@@ -172,17 +174,29 @@ function agregar_p(){
                   console.log(response);
 
                  $.each(JSON.parse(response), function(i, v) {
-                    console.log(v.id);
-                    $('#pagos').append('<li id="dg1" class="list-group-item d-flex justify-content-between align-items-center" draggable="true" ondragstart="drag(event)" ><p> Masaje dropp <br> <small>orisado</small></p><span class="">$ 100.00</span></li>');
+                  var p = v.title;
+
+                  precio = v.precio;
+                      
+                    console.log(v.precio);
+                    $('#pagos').append('<li id="dg1" class="list-group-item d-flex justify-content-between align-items-center" draggable="true" ondragstart="drag(event)" ><p> '+p+' <br> <small>'+p[0]+'</small></p><span class="">$'+v.precio+'</span></li>');
                     
                  });
 
 
 
 
-                  
+                $("#items").html('Total '+$("#pagos li").length);  
+
+                $('#buscar').val(' '); 
+
+                var pesos = $('#pesos').html();
+
+                pesos = parseFloat(pesos) + parseFloat(precio);
                      
-                       
+                    console.log(pesos);  
+
+                    $('#pesos').html(pesos.toFixed(2)); 
 
                 }
 
@@ -191,6 +205,8 @@ function agregar_p(){
 
 
    
+
+
 
  
 }

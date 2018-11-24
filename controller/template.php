@@ -29,7 +29,7 @@ class Template
 <html lang="es">
 <head>
 
-	<title>SEREMAS</title>
+	<title>SERE+</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
