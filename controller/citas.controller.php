@@ -94,14 +94,33 @@ class CitasController{
           $servicios = "";
           $flag= 0;
 
+          switch ($r->status) {
+            case 1:
+              $color = "#563d7c";
+              break;case 2:
+              $color = "#00BFFF";
+              break;case 3:
+              $color = "#FF4000";
+              break;case 4:
+              $color = "#FF0040";
+              break;case 5:
+              $color = "#D8D8D8";
+              break;
+            
+            
+          }
+
           foreach ($this->modelCita->Listarserv($r->id_cita) as $sr) {
             $flag++;
             
             $servicios .= "Servicio: ".$flag." Zona: ".$sr->zona." Tratamiento: ".$sr->tratamiento."<br>";
           }
 
+      
+
+          
          
-       	  $citas[] = array("id"=>1, "title"=>$r->nombre,'start'=>$r->inicio,'end'=>$r->fin, "description"=>$servicios,"allDay"=>false);
+       	  $citas[] = array("id"=>1, "title"=>$r->nombre,'start'=>$r->inicio,'end'=>$r->fin, "description"=>$servicios,"color"=>$color, "allDay"=>false);
        	
        }
 

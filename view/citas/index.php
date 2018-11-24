@@ -205,7 +205,7 @@ function agregarCita(){
     // your event source
     {
       url: '<?= Route::Ruta(['citas' , 'json']) ?>', // use the `url` property
-      color: '#563d7c',    // an option!
+      //color: '#563d7c',    // an option!
       textColor: 'white',  // an option!
     }
 

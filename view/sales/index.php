@@ -41,10 +41,15 @@ use \route\Route;
     <span id="items">Total 0</span>
   </div>
   <div class="card-body productos">
-
-    <ul id="pagos" class="list-group-flush " ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div class="row">
+      <div class="col_md_12">
+        <ul id="pagos" class="list-group-flush " ondrop="drop(event)" ondragover="allowDrop(event)">
  
 </ul>
+      </div>
+    </div>
+
+    
 
     
    
@@ -115,7 +120,7 @@ use \route\Route;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Confirmar</button>
+        <button type="button" class="btn btn-seremas">Confirmar</button>
       </div>
     </div>
   </div>
@@ -197,13 +202,17 @@ function agregar_p(){
                
                   console.log(response);
 
+                  var id = 0;
+
                  $.each(JSON.parse(response), function(i, v) {
                   var p = v.title;
 
                   precio = v.precio;
+
+                   id ++;
                       
                     console.log(v.precio);
-                    $('#pagos').append('<li id="dg1" class="list-group-item d-flex justify-content-between align-items-center" draggable="true" ondragstart="drag(event)" ><p> '+p+' <br> <small>'+p[0]+'</small></p><span class="">$'+v.precio+'</span></li>');
+                    $('#pagos').append('<li id="dg1" class="list-group-item"> <p class=" "><span class="text-danger"> <i class="fa fa-times" aria-hidden="true"></i></span> '+p+' </p> <p class="text-right"> <span class="font-weight-bold">$'+v.precio+'</span></p></li>');
                     
                  });
 
