@@ -164,7 +164,7 @@ use \route\Route;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-seremas">Confirmar</button>
+        <button type="button" class="btn btn-seremas confirmar disabled" ">Confirmar</button>
       </div>
     </div>
   </div>
@@ -172,16 +172,30 @@ use \route\Route;
 
 <script>
 
+  $(".custom-control-input").on("click", function(){
+    habilitar_boton_confirmar();
+});
+
+  
+
 
 $(document).ready(function(){
   $(".pagos_2").html('Total '+$(".items_2 li").length); 
 });
 
+function habilitar_boton_confirmar(){
+    if ($( ".confirmar" ).hasClass( "disabled" )) {
+      $('.confirmar').removeClass('disabled');
+    }else{
+       
+    }
+}
+
 
 
 function buscar(b){
 
-  console.log(b);
+  //console.log(b);
 
 if ( b === '') {
   $('#busqueda').html('');
@@ -199,7 +213,7 @@ if ( b === '') {
 
                   $('#busqueda').html('');
                
-                  console.log(response);
+                 // console.log(response);
 
                  $.each(JSON.parse(response), function(i, v) {
                     console.log(v.id);
@@ -273,7 +287,7 @@ function agregar_p(){
 
                 pesos = parseFloat(pesos) + parseFloat(precio);
                      
-                    console.log(pesos);  
+                   // console.log(pesos);  
 
                     $('.pesos').html(pesos.toFixed(2)); 
 
@@ -301,9 +315,9 @@ function agregar_citas_pago(id ,nombre , costo){
 
   costo =costo.replace(",","");
 
-  alert(id);
+  //alert(id);
 
-   console.log(costo.toString());
+  // console.log(costo.toString());
 
 
 

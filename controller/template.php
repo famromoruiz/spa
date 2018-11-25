@@ -78,6 +78,7 @@ html{
 body {
 	min-height: 100%;
   padding-top: 4.5rem;
+  background-color: #F2F2F2;
 }
 
 	</style>
