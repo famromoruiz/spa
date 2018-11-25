@@ -92,7 +92,7 @@ use \route\Route;
                     $costo = $servicios[$i]->$tipo + $costo;
                   }
                    ?>
-            <li id="<?=$id?>" class="list-group-item d-flex justify-content-between align-items-center "><?= $fecha ?>   <?= strtoupper($c->nombre) ?>  <?= '$'.number_format($costo,2) ?> <span><button type="button" class="btn btn-seremas btn-sm" onclick="agregar_citas_pago(<?=$id?>);">Añadir</button></span></li>
+            <li id="<?='masajes_l'.$id?>" class="list-group-item d-flex justify-content-between align-items-center "><?= $fecha ?>   <?= strtoupper($c->nombre) ?>  <?= '$'.number_format($costo,2) ?> <span><button type="button" class="btn btn-seremas btn-sm" onclick="agregar_citas_pago('<?='masajes_l'.$id?>','<?= strtoupper($c->nombre) ?>','<?= number_format($costo,2)?>');">Añadir</button></span></li>
       <?php } ?>
   
             </ul>
@@ -138,8 +138,29 @@ use \route\Route;
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center">
+      <div class="modal-body ">
+        <div class="row">
+          <div class="col-md-12 text-center">
         <h1  class="font-weight-bold"><i class="fa fa-dollar text-seremas" aria-hidden="true"></i><span id="pesos_2" class="pesos">00.00</span></h1>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 d-flex justify-content-center">
+            <div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+  <label class="custom-control-label" for="customRadioInline1">Efectivo</label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+  <label class="custom-control-label" for="customRadioInline2">Tarjeta credito / debito</label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+  <label class="custom-control-label" for="customRadioInline3">Credito</label>
+</div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -263,9 +284,38 @@ function agregar_p(){
 }
 
 
-function agregar_citas_pago(id){
+function agregar_citas_pago(id ,nombre , costo){
+
+  //alert(nombre , costo);
+
+ 
+
+
+  $('#pagos').append('<li id="" class="list-group-item"> <p class=" "><span class="text-danger"> <i class="fa fa-times" aria-hidden="true"></i></span> '+nombre+' </p> <p class="text-right"> <span class="font-weight-bold">$'+costo+'</span></p></li>');
+
+   $("#items").html('Total '+$("#pagos li").length);
+
+  $('#'+id).remove();
+
+   $(".pagos_2").html('Total '+$(".items_2 li").length);
+
+  costo =costo.replace(",","");
 
   alert(id);
+
+   console.log(costo.toString());
+
+
+
+    var pesos = $('#pesos').html();
+
+                pesos = parseFloat(pesos) + parseFloat(costo);
+                     
+                    console.log(pesos);  
+
+                    $('.pesos').html(pesos.toFixed(2)); 
+
+
 
 }
 
