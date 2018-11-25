@@ -1,5 +1,7 @@
 <?php
 require __DIR__ . '/../model/productos.php';
+require __DIR__ . '/../model/cita.php';
+require __DIR__ . '/../model/servicio.php';
 
 
 class SaleController{
@@ -9,6 +11,8 @@ class SaleController{
     
     public function __CONSTRUCT(){
       $this->modelProductos = new Productos();
+      $this->modelCita = new Cita();
+      //$this->modelCita = new Servicio();
     }
     
     public function Index(){

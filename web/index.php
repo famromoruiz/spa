@@ -9,6 +9,7 @@ require __DIR__ . '/../model/database.php';
 
 require __DIR__ . '/../vendor/widgets/route/route.php';
 
+
 session_start();
 
 if (empty($_SESSION)) {

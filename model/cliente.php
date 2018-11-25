@@ -21,6 +21,7 @@ class Cliente
 	public $facebook;
 	public $instagram;
 	public $foto;
+	public $tipo_cliente;
 	public $status;
 
 	public function __CONSTRUCT()

@@ -2,79 +2,102 @@
 use \route\Route;
 ?>
 <div class="container">
+
   <div class="row">
+
     <div class="col-md-12">
+
       <div class="input-group ">
 
-<datalist id="busqueda">
-    
-    
-</datalist>
-        
-      
-  <input id="buscar" list="busqueda" type="search" class="form-control" placeholder="Productos"  aria-label="productos" aria-describedby="button-addon2" onkeyup="buscar(this.value);">
-  <div class="input-group-append">
-    <button onclick="agregar_p()" class="btn btn-outline-seremas" type="button" id="button-addon2"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <datalist id="busqueda">
+          
+        </datalist>
+
+        <input id="buscar" list="busqueda" type="search" class="form-control" placeholder="Productos"  aria-label="productos" aria-describedby="button-addon2" onkeyup="buscar(this.value);">
+
+          <div class="input-group-append">
+            <button onclick="agregar_p()" class="btn btn-outline-seremas" type="button" id="button-addon2"><i class="fa fa-plus" aria-hidden="true"></i></button>
+          </div>
+
+     </div>
 
   </div>
-
 </div>
- <!-- <div class="list-group busqueda">
-    <li class="list-group-item ">
-      hola
-  </li>
-</div> -->
 
-
-
-    </div>
-    
-  </div>
   <br>
+
   <div class="row">
+
     <div class="col-md-8">
+
       <div class="row">
+
         <div class="col-md-12">
+
             <div class="card">
-  <div class="card-header bg-seremas text-white font-weight-bold d-flex justify-content-between align-items-center">
-    Cuenta general por cobrar
-    <span id="items">Total 0</span>
-  </div>
-  <div class="card-body productos">
-    <div class="row">
-      <div class="col_md_12">
-        <ul id="pagos" class="list-group-flush " ondrop="drop(event)" ondragover="allowDrop(event)">
- 
-</ul>
-      </div>
-    </div>
 
-    
+              <div class="card-header bg-seremas text-white font-weight-bold d-flex justify-content-between align-items-center">
+               Cuenta general por cobrar  <span id="items">Total 0</span>
+             </div>
 
-    
-   
-  </div>
-</div>
+             <div class="card-body productos">
+
+              <ul id="pagos" class="list-group-flush " ondrop="drop(event)" ondragover="allowDrop(event)">
+                
+              </ul>
+
+             </div>
+
+            </div>
         </div>
+
       </div>
+
       <br>
+
       <div class="row">
+
         <div class="col-md-12">
+
           <div class="card">
-  <div class="card-header bg-seremas text-white font-weight-bold d-flex justify-content-between align-items-center">
-    Citas por cobrar
-    <span>Total 6</span>
-  </div>
-  <div class="card-body servicios">
 
-    <ul class="list-group-flush prod_cob">
+            <div class="card-header bg-seremas text-white font-weight-bold d-flex justify-content-between align-items-center">
+
+              Citas por cobrar  <span class="pagos_2">Total 0</span>
+            </div>
+
+            <div class="card-body servicios">
+
+              <ul class="list-group-flush prod_cob  items_2">
+
+                <?php $id =0;  foreach ($this->modelCita->Listarcobro() as $c) { 
+
+                    $id++;
+
+
+                  $fecha = $c->inicio;
+                  $fecha = explode(' ', $fecha);
+                  $fecha = explode('-', $fecha[0]);
+                  $fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+
+                  $servicios = $this->modelCita->Listarserv($c->id_cita);
+
+                  $n =count($servicios);
+
+                  $tipo =$c->tipo_cliente;
+
+                  $costo = 0.00;
+
+                  for ($i = 0; $i < $n ; $i++) {
+                    $costo = $servicios[$i]->$tipo + $costo;
+                  }
+                   ?>
+            <li id="<?=$id?>" class="list-group-item d-flex justify-content-between align-items-center "><?= $fecha ?>   <?= strtoupper($c->nombre) ?>  <?= '$'.number_format($costo,2) ?> <span><button type="button" class="btn btn-seremas btn-sm" onclick="agregar_citas_pago(<?=$id?>);">Añadir</button></span></li>
+      <?php } ?>
   
-</ul>
-
-    
-   
-  </div>
-</div>
+            </ul>
+        </div>
+    </div>
         </div>
       </div>
     </div>
@@ -129,7 +152,9 @@ use \route\Route;
 <script>
 
 
-
+$(document).ready(function(){
+  $(".pagos_2").html('Total '+$(".items_2 li").length); 
+});
 
 
 
@@ -234,14 +259,14 @@ function agregar_p(){
                 }
 
         });
-
-
-
-   
-
-
-
  
+}
+
+
+function agregar_citas_pago(id){
+
+  alert(id);
+
 }
 
 
