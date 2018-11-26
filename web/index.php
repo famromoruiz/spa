@@ -44,15 +44,22 @@ if(!isset($_REQUEST['r']) || $_REQUEST['r'] == '' ){
 
     $accion = count($r) > 1 ? $r[1] == '' ? 'Index' : $r[1] : 'Index';
 
+    if ($controller == 'ajax') {
+        
+    }else{
+        require __DIR__ . '/../controller/template.php'; 
+    }
+
+        
+
      require __DIR__ . "/../controller/$controller.controller.php";
 
     $controller = ucwords($controller) . 'Controller';
 
     $controller = new $controller;
 
-    if ($accion != 'json') {
-        require __DIR__ . '/../controller/template.php';
-    }
+
+   
 
     $acciones = get_class_methods($controller);
 

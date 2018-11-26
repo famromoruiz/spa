@@ -32,6 +32,7 @@ class SiteController{
                     $shaclave = sha1($clave);
 
                     $usuario = $this->model->Obtener($usuario , $shaclave);
+
                     //var_dump($usuario);exit;
                         if($usuario->nikname) {
                             session_start();
@@ -54,7 +55,7 @@ class SiteController{
 
     public function Salir(){
         
-        session_start();
+        //session_start();
         
         $_SESSION = array();
 

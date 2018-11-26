@@ -203,7 +203,7 @@ if ( b === '') {
 
    $.ajax({
                 data:  { q:b },
-                url:   '<?= Route::Ruta(['sale' , 'json']) ?>',
+                url:   '<?= Route::Ruta(['ajax' , 'ventas']) ?>',
                 type:  'get',
                 beforeSend: function () {
                         // $("#alert").html('<div class="alert alert-secondary" role="alert">Procesando, espere por favor...</div>');
@@ -250,7 +250,7 @@ function agregar_p(){
 
    $.ajax({
                 data:  { p:p },
-                url:   '<?= Route::Ruta(['sale' , 'json']) ?>',
+                url:   '<?= Route::Ruta(['ajax' , 'ventas']) ?>',
                 type:  'get',
                 beforeSend: function () {
                         // $("#alert").html('<div class="alert alert-secondary" role="alert">Procesando, espere por favor...</div>');

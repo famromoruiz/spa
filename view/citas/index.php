@@ -122,7 +122,7 @@ function agregarCita(){
 
     // your event source
     {
-      url: '<?= Route::Ruta(['citas' , 'json']) ?>', // use the `url` property
+      url: '<?= Route::Ruta(['ajax' , 'citas']) ?>', // use the `url` property
       color: 'yellow',    // an option!
       textColor: 'black'  // an option!
     }
@@ -204,10 +204,11 @@ function agregarCita(){
 
     // your event source
     {
-      url: '<?= Route::Ruta(['citas' , 'json']) ?>', // use the `url` property
+      url: '<?= Route::Ruta(['ajax' , 'citas']) ?>', // use the `url` property
       //color: '#563d7c',    // an option!
       textColor: 'white',  // an option!
-    }
+    },
+    
 
     // any other sources...
 
