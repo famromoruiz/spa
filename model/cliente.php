@@ -112,22 +112,50 @@ class Cliente
 		}
 	}
 
-	public function Registrar(Alumno $data)
+	public function Registrar(Cliente $data)
 	{
 		try 
 		{
-		$sql = "INSERT INTO clientes (Nombre,Correo,Apellido,Sexo,FechaNacimiento,FechaRegistro) 
-		        VALUES (?, ?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO clientes (
+			nombre,
+			a_paterno,
+			a_materno,
+			direccion,
+			fraccionamiento,
+			ciudad,
+			municipio,
+			estado,
+			pais,
+			tel_f,
+			cel_1,
+			cel_2,
+			tel_o,
+			email,
+			facebook,
+			instagram,
+			foto) 
+		        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		$this->pdo->prepare($sql)
 		     ->execute(
 				array(
-                    $data->Nombre,
-                    $data->Correo, 
-                    $data->Apellido, 
-                    $data->Sexo,
-                    $data->FechaNacimiento,
-                    date('Y-m-d')
+                   	$data->nombre,
+					$data->a_paterno,
+					$data->a_materno,
+					$data->direccion,
+					$data->fraccionamiento,
+					$data->ciudad,
+					$data->municipio,
+					$data->estado,
+					$data->pais,
+					$data->tel_f,
+					$data->cel_1,
+					$data->cel_2,
+					$data->tel_o,
+					$data->email,
+					$data->facebook,
+					$data->instagram,
+					$data->foto
                 )
 			);
 		} catch (Exception $e) 

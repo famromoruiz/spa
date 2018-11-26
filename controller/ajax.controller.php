@@ -109,11 +109,32 @@ class AjaxController{
     }
 
 
-    public function Tablaclientes(){
-      
-     $test ='test';
-     //var_dump( $this->modelCliente->Listar());
-       return $test;
+    public function Agregarcliente(){
+      if ($_POST) {
+
+        $cliente = new Cliente;
+        $cliente->nombre = $_POST['nombre'];
+        $cliente->a_paterno = $_POST['a_paterno'];
+        $cliente->a_materno = $_POST['a_materno'];
+        $cliente->direccion = $_POST['calle'];
+        $cliente->fraccionamiento = $_POST['fraccionamiento'];
+        $cliente->ciudad = $_POST['ciudad'];
+        $cliente->municipio = $_POST['municipio'];
+        $cliente->estado = $_POST['estado'];
+        $cliente->pais = 'Mexico';
+        $cliente->tel_f =$_POST['telefono'];
+        $cliente->cel_1 = $_POST['cel_1'];
+        $cliente->cel_2 = $_POST['cel_2'];
+        $cliente->tel_o =$_POST['telefono_oficina'];
+        $cliente->email = $_POST['email'];
+        $cliente->facebook = $_POST['facebook'];
+        $cliente->instagram = $_POST['instagram'];
+        $cliente->foto = 'kuasfjkafgkuhcajkfhsah';
+
+        $this->modelCliente->Registrar($cliente);
+       
+
+      }
     }
 
    
