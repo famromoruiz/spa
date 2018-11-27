@@ -32,6 +32,8 @@ class CitasController{
     public function Agregar(){
 
       if ($_POST) {
+
+
         
         
       
@@ -42,23 +44,48 @@ class CitasController{
        $fecha = explode('/',$fechaform[0]);
        $fecha = $fecha[2].'-'.$fecha[1].'-'.$fecha[0];
 
-       //$date= $para_sumar; 
-//       $fecha2 = $fecha.' '.$fechaform[1];
-// $nuevafecha = strtotime ( '+1 hour' , strtotime ( $fecha2 ) ) ;
-// $nuevafecha = strtotime ( '+13 minute' , strtotime ( $fecha2 ) ) ;
-// $nuevafecha = strtotime ( '+30 second' , strtotime ( $fecha2 ) ) ;
-// $nuevafecha = date ( 'Y-m-j H:i:s' , $nuevafecha );
+       $minutos_añadir = 0;
 
-//       echo $fecha.' '.$fechaform[1];
+       $n_serv = $_POST['servicios'];
 
-//       echo '<br>';
+       $cuenta = count($n_serv);
 
-//        var_dump($nuevafecha);exit;
+      for ($i = 0; $i < $cuenta ; $i++) {
+      
+        $śervicios_t = $this->modelServicio->Obtener($n_serv[0]); 
+
+         $minutos_añadir = $śervicios_t->tiempo + $minutos_añadir;
+      
+      }
+
+
+
+     
+         
+       
+
+
+     
+
+  
+      $fecha2 = $fechaform[1];
+      $nuevafecha = strtotime( $fecha2 );
+      $minutos_añadir = $minutos_añadir * 60;
+      $fechafin = date("H:i:s", $nuevafecha + $minutos_añadir);
+
+
+     
+
+      // echo $fechaform[1];
+
+      // echo '<br>';
+
+      //  var_dump();exit;
 
        $cit = new Cita;
 
         $cit->inicio = $fecha.' '.$fechaform[1];
-        $cit->fin = $fecha.' '.$fechaform[1];
+        $cit->fin = $fecha.' '.$fechafin;
         $cit->id_cliente = $_POST['cliente'];
         $cit->id_habitacion = $_POST['habitacion'];
         $cit->id_masajista = $_POST['masajista'];

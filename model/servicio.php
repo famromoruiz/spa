@@ -52,7 +52,7 @@ public $notas;
 		try 
 		{
 			$stm = $this->pdo
-			          ->prepare("SELECT * FROM clientes WHERE id = ?");
+			          ->prepare("SELECT * FROM servicios WHERE id_servicio = ?");
 			          
 
 			$stm->execute(array($id));
