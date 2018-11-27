@@ -1,4 +1,5 @@
 <?php
+use \roles\Roles;
 require __DIR__ . '/../model/cliente.php';
 require __DIR__ . '/../model/cita.php';
 require __DIR__ . '/../model/habitacion.php';
@@ -15,6 +16,8 @@ class CitasController{
    private $modelServiciosCita;
     
     public function __CONSTRUCT(){
+
+      Roles::Acceso($_SESSION['rol']);
        $this->modelCliente = new Cliente();
        $this->modelCita = new Cita();
        $this->modelHabitacion = new Habitacion();

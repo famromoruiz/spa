@@ -5,6 +5,7 @@ class Masajista
 
 
 public $id_personal;
+public $id_usuario;
 public $nombre;
 public $a_paterno;
 public $a_materno;
@@ -50,7 +51,7 @@ public $direccion;
 		try 
 		{
 			$stm = $this->pdo
-			          ->prepare("SELECT * FROM clientes WHERE id = ?");
+			          ->prepare("SELECT * FROM personal WHERE id_usuario = ?");
 			          
 
 			$stm->execute(array($id));

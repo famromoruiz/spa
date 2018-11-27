@@ -15,4 +15,9 @@ class Route{
         return $ruta;       
     }
 
+     static function Active($menu){
+      $active = $_REQUEST['r'] == $menu ? 'active': ''; 
+        return $active;       
+    }
+
 }

@@ -1,4 +1,6 @@
 <?php
+use \roles\Roles;
+use \route\Route;
 require __DIR__ . '/../model/usuario.php';
 
 
@@ -39,7 +41,9 @@ class SiteController{
                             $_SESSION['nombre'] = $usuario->nikname;
                             $_SESSION['rol'] = $usuario->rol;
 
-                            header("location: ?site");
+                            
+
+                           header(Roles::Rol($usuario->rol));
                         }
                         else 
                             {

@@ -1,4 +1,5 @@
 <?php
+use \roles\Roles;
 require __DIR__ . '/../model/productos.php';
 require __DIR__ . '/../model/cita.php';
 require __DIR__ . '/../model/servicio.php';
@@ -10,6 +11,7 @@ class SaleController{
    //private $modelCita;
     
     public function __CONSTRUCT(){
+      Roles::Acceso($_SESSION['rol']);
       $this->modelProductos = new Productos();
       $this->modelCita = new Cita();
       //$this->modelCita = new Servicio();

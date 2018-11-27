@@ -8,6 +8,7 @@ define('HOME', '../');
 require __DIR__ . '/../model/database.php';
 
 require __DIR__ . '/../vendor/widgets/route/route.php';
+require __DIR__ . '/../vendor/widgets/roles/roles.php';
 
 
 session_start();
@@ -34,7 +35,7 @@ if(!isset($_REQUEST['r']) || $_REQUEST['r'] == '' ){
 
     require __DIR__ . '/../controller/template.php';
 
-    $controller->Index();    
+    $controller->Error();    
 }else{
     // Obtenemos el controlador que queremos cargar
 

@@ -90,12 +90,12 @@ class Cita
 	{
 		try 
 		{
-			$stm = $this->pdo
-			          ->prepare("SELECT * FROM clientes WHERE id = ?");
+			$stm = $this->pdo->prepare("SELECT ci.status, ci.id_cita , CONCAT(cl.nombre,' ',cl.a_paterno,' ',cl.a_materno) as nombre, cl.cel_1, ci.inicio, ci.fin, hb.nombre as habitacion, pr.nombre as masajista  FROM citas ci JOIN clientes cl on ci.id_cliente = cl.id_cliente join habitaciones hb on ci.id_habitacion = hb.id_habitacion join personal pr on ci.id_masajista = pr.id_personal join servicios_cita svc on ci.id_cita = svc.id_cita join servicios sr on svc.id_servicio = sr.id_servicio join zonas zn on sr.id_zona = zn.id_zona where ci.id_masajista = ? GROUP by ci.id_cita");
+			
 			          
 
 			$stm->execute(array($id));
-			return $stm->fetch(PDO::FETCH_OBJ);
+			return $stm->fetchAll(PDO::FETCH_OBJ);
 		} catch (Exception $e) 
 		{
 			die($e->getMessage());

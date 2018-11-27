@@ -1,26 +1,27 @@
 <?php
 use \roles\Roles;
-require __DIR__ . '/../model/cliente.php';
-//require __DIR__ . '/../model/cita.php';
+require __DIR__ . '/../model/cita.php';
 
-class ClientesController{
+
+
+class MasajistaController{
     
-  private $modelCliente;
+  // private $modelCliente;
    //private $modelCita;
     
     public function __CONSTRUCT(){
       Roles::Acceso($_SESSION['rol']);
-      $this->modelCliente = new Cliente();
-      // $this->modelCita = new Cita();
+      $this->modelCita = new Cita();
+     
     }
     
     public function Index(){
        // require_once 'view/layauts/header.php';
-        require __DIR__ .'/../view/clientes/index.php';
+        require __DIR__ .'/../view/masajista/index.php';
        // require_once 'view/layauts/footer.php';
     }
 
-   
+ 
 
      public function Error(){
       require __DIR__ .'/../view/layauts/error.php';

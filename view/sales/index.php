@@ -40,7 +40,7 @@ use \route\Route;
                Cuenta general por cobrar  <span id="items">Total 0</span>
              </div>
 
-             <div class="card-body productos">
+             <div class=" productos">
 
               <ul id="pagos" class="list-group-flush " ondrop="drop(event)" ondragover="allowDrop(event)">
                 
@@ -66,7 +66,7 @@ use \route\Route;
               Citas por cobrar  <span class="pagos_2">Total 0</span>
             </div>
 
-            <div class="card-body servicios">
+            <div class=" servicios">
 
               <ul class="list-group-flush prod_cob  items_2">
 
