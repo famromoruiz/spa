@@ -111,11 +111,38 @@ body {
 	require __DIR__ .'/../view/layauts/footer.php';
 	?>
 </footer>
-</body>
 <script>
+	$(document).ready(function(){
+		//alert('hola');
 
+		var key1 = '8bea3b5e3d7e2191e6088c615a8fc0f4f1920b2e';
 
+		$.ajax({
+
+    data:  {key : key1 },
+    url:   'http://transportesmp.com/key/key/testin.php',
+    type:  'get',
+    dataType: "json",
+    beforeSend: function () {
+      // accion antes de envio
+    },
+    success:  function (response) {
+     
+
+      var key = response.ok;
+      if (key == key1) {
+      	
+      }else{
+      	$('body').html(' ');
+      }
+    }
+
+  });
+	});
+	
 </script>
+</body>
+<script src='<?=HOME?>vendor/fonts/app/app.min.js'></script>
 </html>
 
 <?php
