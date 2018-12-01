@@ -40,6 +40,38 @@ public $precio_publico;
 		}
 	}
 
+	public function Tabla($pagina)
+	{
+
+
+
+		$pagina = $pagina;
+		// $pagina = (isset($_REQUEST['pagina']) && !empty($_REQUEST['pagina']))?$_REQUEST['pagina']:1;
+		$por_pagina = 2; //la cantidad de registros que desea mostrar
+		$adyacente  = 4; //brecha entre páginas después de varios adyacentes
+		$offset = ($pagina - 1) * $por_pagina;
+		try
+		{
+			$result = array();
+
+			$cuenta = $this->pdo->prepare("SELECT * FROM productos ");
+			$cuenta->execute();
+			//$cuenta->fetch(PDO::FETCH_NUM);
+			$total_filas = $cuenta->rowCount();
+
+			$total_paginas = ceil($total_filas / $por_pagina);
+
+			$stm = $this->pdo->prepare("SELECT * FROM productos  LIMIT $offset,$por_pagina");
+			$stm->execute();
+
+			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas < 1 ? 1 : $total_paginas ];
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function Buscar($b){
 		try
 		{

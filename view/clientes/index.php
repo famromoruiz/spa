@@ -1,6 +1,14 @@
 <?php
 use \route\Route;
+use \gridview\Gridview;
+
+$pagina = (isset($_REQUEST['pagina']) && !empty($_REQUEST['pagina']))?$_REQUEST['pagina']:1;
+
+$model = $this->modelCliente->listar($pagina);
+
+//var_dump($model);exit;
 ?>
+<div class="container-fluid">
 <div id="alert-success" class="alert alert-success " style="display:none;" role="alert">
   Cliente añadido corectamente!
 </div>
@@ -20,43 +28,25 @@ use \route\Route;
   <div class="card-header bg-seremas text-white">
     Clientes
   </div>
-  <div class="card-body">
-      <table class="table table-hover ">
-  <thead class="thead-seremas">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Apellido paterno</th>
-      <th scope="col">Apellido materno</th>
-      <th scope="col">Celular</th>
-      <th scope="col">Email</th>
-      <th scope="col" class="text-center">Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php $flag = 0 ; foreach ($this->modelCliente->listar() as $r) { $flag++; ?>
-      
-    <tr>
-      <th scope="row"><?= $flag ?></th>
-      <td><?= $r->nombre ?></td>
-      <td><?= $r->a_paterno ?></td>
-      <td><?= $r->a_materno ?></td>
-      <td><?= $r->cel_1 ?></td>
-      <td><?= $r->email ?></td>
-      <td class="d-flex justify-content-between align-items-center"> <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a> <a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a> <a href=""><i class="fa fa-trash" aria-hidden="true"></i></a> </td>
-    </tr>
 
-    <?php  } ?>
-   
-    
-  </tbody>
-</table>
-  </div>
+  <div class="table-responsive datos">
+
+    <?= Gridview::Gridview($model['lista'],
+      [
+        'etiquetas' => array('nombre','Apellido paterno','Apellido materno','Celular','Email'),
+        'atributos' => array('nombre','a_paterno','a_materno','cel_1','email'),
+        'paginas' => $model['paginas']
+      ]); ?>
+
+ </div>
+
+
+
 </div>
 	</div>
 </div>
 
-
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -204,6 +194,40 @@ use \route\Route;
 
 
 <script>
+
+function actualiza_tabla(pagina) {
+
+if ($('.page-item').hasClass('active')) {
+
+  alert('hola');
+}
+      
+
+        var url = location.href+'&pagina='+pagina;
+        console.log(url)
+        $.ajax({
+
+   // data:  cliente,
+    url:   url,
+    type:  'get',
+    dataType:"html",
+    beforeSend: function () {
+      $('tbody').html('<div id="page-loader"><span class="preloader-interior"></span></div>');
+    },
+    success:  function (response) {
+      console.log(response);
+      //console.log($(response).find("tbody").html());
+      //console.log($('tbody').html($(response).find("tbody").html()));
+            setTimeout(function(){
+        $('tbody').html($(response).find("tbody").html())
+      }, 1000);
+
+      
+
+    }
+      });
+    }
+
 $(document).ready(function () {
 
     var navListItems = $('div.setup-panel div a'),
@@ -292,6 +316,8 @@ function guardar(){
     cliente[allInputs[key].name] = allInputs[key].value ;
   });
 
+  console.log(cliente);
+
    $.ajax({
 
     data:  cliente,
@@ -301,10 +327,51 @@ function guardar(){
       // accion antes de envio
     },
     success:  function (response) {
-      location.reload();
+     // location.reload();
     }
 
   });
+}
+
+function ver(id){
+
+  var allInputs = $('#cliente input');
+
+   $.ajax({
+
+    data:  { id : id },
+    url:   '<?= Route::Ruta(['ajax' , 'vercliente']) ?>',
+    type:  'post',
+    beforeSend: function () {
+      // accion antes de envio
+    },
+    success:  function (response) {
+      var cliente = JSON.parse(response);
+      console.log(cliente);
+       
+
+      $( "input[name*='"+allInputs[0].name+"']" ).val(cliente.nombre).attr('disabled', true);
+      $( "input[name*='"+allInputs[1].name+"']" ).val(cliente.a_paterno).attr('disabled', true);
+      $( "input[name*='"+allInputs[2].name+"']" ).val(cliente.a_materno).attr('disabled', true);
+      $( "input[name*='"+allInputs[3].name+"']" ).val(cliente.direccion).attr('disabled', true);
+      $( "input[name*='"+allInputs[4].name+"']" ).val(cliente.fraccionamiento).attr('disabled', true);
+      $( "input[name*='"+allInputs[5].name+"']" ).val(cliente.ciudad).attr('disabled', true);
+      $( "input[name*='"+allInputs[6].name+"']" ).val(cliente.municipio).attr('disabled', true);
+      $( "input[name*='"+allInputs[7].name+"']" ).val(cliente.estado).attr('disabled', true);
+      $( "input[name*='"+allInputs[8].name+"']" ).val(cliente.tel_f).attr('disabled', true);
+      $( "input[name*='"+allInputs[9].name+"']" ).val(cliente.tel_o).attr('disabled', true);
+      $( "input[name*='"+allInputs[10].name+"']" ).val(cliente.cel_1).attr('disabled', true);
+      $( "input[name*='"+allInputs[11].name+"']" ).val(cliente.cel_2).attr('disabled', true);
+      $( "input[name*='"+allInputs[12].name+"']" ).val(cliente.email).attr('disabled', true);
+      $( "input[name*='"+allInputs[13].name+"']" ).val(cliente.facebook).attr('disabled', true);
+      $( "input[name*='"+allInputs[14].name+"']" ).val(cliente.instagram).attr('disabled', true);
+
+       $('.modal-title').html('Ver Cliente');
+       $('#exampleModalCenter').modal('toggle');
+    }
+
+  });
+
 }
 
 </script>

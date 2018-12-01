@@ -36,16 +36,52 @@ class Cliente
 		}
 	}
 
-	public function Listar()
+	public function Listar_normal()
 	{
+
 		try
 		{
 			$result = array();
 
-			$stm = $this->pdo->prepare("SELECT * FROM clientes");
+		
+
+			$stm = $this->pdo->prepare("SELECT * FROM clientes ");
 			$stm->execute();
 
 			return $stm->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+
+	public function Listar($pagina)
+	{
+
+
+
+		$pagina = $pagina;
+		// $pagina = (isset($_REQUEST['pagina']) && !empty($_REQUEST['pagina']))?$_REQUEST['pagina']:1;
+		$por_pagina = 20; //la cantidad de registros que desea mostrar
+		$adyacente  = 4; //brecha entre páginas después de varios adyacentes
+		$offset = ($pagina - 1) * $por_pagina;
+		try
+		{
+			$result = array();
+
+			$cuenta = $this->pdo->prepare("SELECT * FROM clientes ");
+			$cuenta->execute();
+			//$cuenta->fetch(PDO::FETCH_NUM);
+			$total_filas = $cuenta->rowCount();
+
+			$total_paginas = ceil($total_filas / $por_pagina);
+
+			$stm = $this->pdo->prepare("SELECT * FROM clientes  LIMIT $offset,$por_pagina");
+			$stm->execute();
+
+			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas < 1 ? 1 : $total_paginas ];
 		}
 		catch(Exception $e)
 		{
@@ -58,7 +94,7 @@ class Cliente
 		try 
 		{
 			$stm = $this->pdo
-			          ->prepare("SELECT * FROM clientes WHERE id = ?");
+			          ->prepare("SELECT * FROM clientes WHERE id_cliente = ?");
 			          
 
 			$stm->execute(array($id));

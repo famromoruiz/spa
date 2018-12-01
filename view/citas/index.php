@@ -25,7 +25,7 @@ use \route\Route;
     <div class="form-group">
       <label for="cliente">Cliente:</label>
  <select id="cliente" class="form-control js-example-basic-single" name="cliente">
-  <?php foreach($this->modelCliente->Listar() as $c) {?>
+  <?php foreach($this->modelCliente->Listar_normal() as $c) {?>
   <option value="<?= $c->id_cliente?>"><?php echo $c->nombre.' '.$c->a_paterno.' '.$c->a_materno?></option>
 <?php } ?>
 </select>

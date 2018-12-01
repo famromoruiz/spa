@@ -9,6 +9,7 @@ require __DIR__ . '/../model/database.php';
 
 require __DIR__ . '/../vendor/widgets/route/route.php';
 require __DIR__ . '/../vendor/widgets/roles/roles.php';
+require __DIR__ . '/../vendor/widgets/gridview/gridview.php';
 
 
 session_start();

@@ -137,6 +137,18 @@ class AjaxController{
       }
     }
 
+     public function Vercliente(){
+      if ($_POST) {
+
+        $id = $_POST['id'];
+
+       $cliente =  $this->modelCliente->Obtener($id);
+       
+       echo json_encode($cliente);
+
+      }
+    }
+
    
 
   
