@@ -1,7 +1,7 @@
 <?php
 use \route\Route;
 ?>
-<div class="container">
+<div class="container-fluid">
 
   <div class="row">
 
@@ -28,7 +28,7 @@ use \route\Route;
 
   <div class="row">
 
-    <div class="col-md-8">
+    <div class="col-md-6">
 
       <div class="row">
 
@@ -37,7 +37,7 @@ use \route\Route;
             <div class="card">
 
               <div class="card-header bg-seremas text-white font-weight-bold d-flex justify-content-between align-items-center">
-               Cuenta general por cobrar  <span id="items">Total 0</span>
+               Tiket <span id="items">Productos / Servicios Total 0</span>
              </div>
 
              <div class=" productos">
@@ -101,9 +101,77 @@ use \route\Route;
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <div class="row">
         <div class="col-md-12">
+          <div class="card ">
+            <div class="card-header bg-seremas text-white text-center font-weight-bold">
+              Agregar Articulo
+            </div>
+            <hr>
+            <div class="articulos">
+            <ul class="nav nav-pills  nav-justified" id="pills-tab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="pills-productos-tab" data-toggle="pill" href="#pills-productos" role="tab" aria-controls="pills-productos" aria-selected="true">Productos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-servicios-tab" data-toggle="pill" href="#pills-servicios" role="tab" aria-controls="pills-servicios" aria-selected="false">Servicios</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-paquetes-tab" data-toggle="pill" href="#pills-paquetes" role="tab" aria-controls="pills-paquetes" aria-selected="false">Paqutes</a>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-productos" role="tabpanel" aria-labelledby="pills-productos-tab">
+  <br>
+   <div class="input-group ">
+
+        <datalist id="busqueda">
+          
+        </datalist>
+
+        <input id="buscar" list="busqueda" type="search" class="form-control" placeholder="Productos"  aria-label="productos" aria-describedby="button-addon2" onkeyup="buscar(this.value);">
+
+          <div class="input-group-append">
+            <button onclick="agregar_p()" class="btn btn-outline-seremas" type="button" id="button-addon2"><i class="fa fa-plus" aria-hidden="true"></i></button>
+          </div>
+
+     </div></div>
+  <div class="tab-pane fade" id="pills-servicios" role="tabpanel" aria-labelledby="pills-servicios-tab">
+    <br>
+    <div class="form-row">
+    <div class="col">
+    <label for="zona">Zona</label>
+    <select class="form-control zonas" style="width: 100%" id="zona">
+      <option></option>
+      <?php foreach ($dataproviderZonas as $zona) {?>
+        <option value="<?= $zona->id_zona ?>"><?= $zona->nombre ?></option>
+      <?php } ?>
+    </select>
+  </div>
+  <div class="col">
+    <label for="servicio">Servicio</label>
+    <select class="form-control" id="servicio">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div>
+</div>
+<br>
+<button type="button" class="btn btn-seremas btn-sm">Agregar</button>
+  </div>
+  <div class="tab-pane fade" id="pills-paquetes" role="tabpanel" aria-labelledby="pills-paquetes-tab">...</div>
+</div>
+</div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+         <div class="col-md-12">
           <div class="card ">
   <div class="card-header bg-seremas text-white text-center font-weight-bold">
     TOTAL
@@ -180,7 +248,19 @@ use \route\Route;
 
 
 $(document).ready(function(){
-  $(".pagos_2").html('Total '+$(".items_2 li").length); 
+  $(".pagos_2").html('Total '+$(".items_2 li").length);
+
+  $('.zonas').select2({
+       width: 'resolve',
+       placeholder: 'Seleccione...',
+        selectOnClose: true,
+        theme: "bootstrap4"
+   
+    }).addClass("zonas");
+});
+
+$('.zonas').on('select2:select', function (e) {
+  console.log(e.params.data.id);
 });
 
 function habilitar_boton_confirmar(){
@@ -341,6 +421,10 @@ function agregar_citas_pago(id ,nombre , costo){
   $(function(){
   $('.productos').slimScroll({
     height: '240px'
+  }); 
+
+  $('.articulos').slimScroll({
+    height: '200px'
   });
 
   $('.servicios').slimScroll({

@@ -1,44 +1,74 @@
 {
-  "name": "@ttskch/select2-bootstrap4-theme",
-  "version": "1.0.4",
-  "description": "Select2 v4 theme for Bootstrap4",
-  "main": "",
-  "style": "select2-bootstrap4.css",
-  "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "build:prod": "NODE_ENV=production webpack --config webpack.config.js",
-    "build:both": "npm run build && npm run build:prod",
-    "watch": "npm run build -- --watch"
+  "name": "select2",
+  "description": "Select2 is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results.",
+  "homepage": "https://select2.org",
+  "author": {
+    "name": "Kevin Brown",
+    "url": "https://github.com/kevin-brown"
   },
+  "contributors": [
+    {
+      "name": "Igor Vaynberg",
+      "url": "https://github.com/ivaynberg"
+    },
+    {
+      "name": "Alex Weissman",
+      "url": "https://github.com/alexweissman"
+    }
+  ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/ttskch/select2-bootstrap4-theme.git"
+    "url": "git://github.com/select2/select2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/select2/select2/issues"
   },
   "keywords": [
-    "select2",
-    "theme",
-    "bootstrap",
-    "bootstrap4",
-    "css",
-    "scss"
+    "select",
+    "autocomplete",
+    "typeahead",
+    "dropdown",
+    "multiselect",
+    "tag",
+    "tagging"
   ],
-  "author": "ttskch",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ttskch/select2-bootstrap4-theme/issues"
+  "main": "dist/js/select2.js",
+  "style": "dist/css/select2.css",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "version": "4.0.6-rc.1",
+  "jspm": {
+    "main": "js/select2",
+    "directories": {
+      "lib": "dist"
+    }
   },
-  "homepage": "https://github.com/ttskch/select2-bootstrap4-theme#readme",
   "devDependencies": {
-    "autoprefixer": "^8.0.0",
-    "bootstrap": "^4.0.0",
-    "css-loader": "^0.28.9",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "node-sass": "^4.7.2",
-    "postcss": "^6.0.17",
-    "postcss-loader": "^2.1.0",
-    "precss": "^3.1.0",
-    "sass-loader": "^6.0.6",
-    "style-loader": "^0.20.1",
-    "webpack": "^3.11.0"
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-connect": "^0.9.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-nodeunit": "~0.3.3",
+    "grunt-contrib-qunit": "~0.4.0",
+    "grunt-contrib-requirejs": "^0.4.4",
+    "grunt-contrib-symlink": "^0.3.0",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.0",
+    "grunt-gh-pages": "^0.9.1",
+    "grunt-jekyll": "^0.4.2",
+    "grunt-sass": "^1.0.0",
+    "grunt-saucelabs": "^9.0.0",
+    "node-sass": "^4.5.3",
+    "request": "<=2.81.0",
+    "shrinkwrap": "^0.4.0"
+  },
+  "dependencies": {
+    "almond": "~0.3.1",
+    "jquery-mousewheel": "~3.1.13"
   }
 }

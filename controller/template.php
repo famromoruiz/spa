@@ -56,8 +56,10 @@ class Template
 	<script src='<?=HOME?>node_modules/bootbox/bootbox.min.js'></script>
 	
 
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+	<link href="<?=HOME?>vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
+	<link href="<?=HOME?>node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+<script src="<?=HOME?>vendor/select2/dist/js/select2.min.js"></script>
+
 	<style>
 		/* Show it is fixed to the top */
 html{

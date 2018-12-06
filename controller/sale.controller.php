@@ -3,6 +3,7 @@ use \roles\Roles;
 require __DIR__ . '/../model/productos.php';
 require __DIR__ . '/../model/cita.php';
 require __DIR__ . '/../model/servicio.php';
+require __DIR__ . '/../model/zonas.php';
 
 
 class SaleController{
@@ -14,11 +15,12 @@ class SaleController{
       Roles::Acceso($_SESSION['rol']);
       $this->modelProductos = new Productos();
       $this->modelCita = new Cita();
-      //$this->modelCita = new Servicio();
+      $this->modelServicio = new Servicio();
+      $this->modelZonas = new Zona();
     }
     
     public function Index(){
-       // require_once 'view/layauts/header.php';
+       $dataproviderZonas = $this->modelZonas->Listar(); 
         require __DIR__ .'/../view/sales/index.php';
        // require_once 'view/layauts/footer.php';
     }
