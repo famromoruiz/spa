@@ -1,5 +1,6 @@
 <?php
-class Masajista
+//require __DIR__ . '/../model/usuario.php';
+class Masajista //extends Usuario
 {
 	private $pdo;
 
@@ -76,55 +77,55 @@ public $direccion;
 		}
 	}
 
-	public function Actualizar($data)
-	{
-		try 
-		{
-			$sql = "UPDATE clientes SET 
-						Nombre          = ?, 
-						Apellido        = ?,
-                        Correo        = ?,
-						Sexo            = ?, 
-						FechaNacimiento = ?
-				    WHERE id = ?";
+	// public function Actualizar($data)
+	// {
+	// 	try 
+	// 	{
+	// 		$sql = "UPDATE clientes SET 
+	// 					Nombre          = ?, 
+	// 					Apellido        = ?,
+ //                        Correo        = ?,
+	// 					Sexo            = ?, 
+	// 					FechaNacimiento = ?
+	// 			    WHERE id = ?";
 
-			$this->pdo->prepare($sql)
-			     ->execute(
-				    array(
-                        $data->Nombre, 
-                        $data->Correo,
-                        $data->Apellido,
-                        $data->Sexo,
-                        $data->FechaNacimiento,
-                        $data->id
-					)
-				);
-		} catch (Exception $e) 
-		{
-			die($e->getMessage());
-		}
-	}
+	// 		$this->pdo->prepare($sql)
+	// 		     ->execute(
+	// 			    array(
+ //                        $data->Nombre, 
+ //                        $data->Correo,
+ //                        $data->Apellido,
+ //                        $data->Sexo,
+ //                        $data->FechaNacimiento,
+ //                        $data->id
+	// 				)
+	// 			);
+	// 	} catch (Exception $e) 
+	// 	{
+	// 		die($e->getMessage());
+	// 	}
+	// }
 
-	public function Registrar(Cita $data)
-	{
-		try 
-		{
-		$sql = "INSERT INTO citas (inicio, fin, id_cliente, id_habitacion, id_masajista) 
-		        VALUES (?, ?, ?, ?, ?)";
+	// public function Registrar(Cita $data)
+	// {
+	// 	try 
+	// 	{
+	// 	$sql = "INSERT INTO citas (inicio, fin, id_cliente, id_habitacion, id_masajista) 
+	// 	        VALUES (?, ?, ?, ?, ?)";
 
-		$this->pdo->prepare($sql)
-		     ->execute(
-				array(
-                    $data->inicio,
-                    $data->fin, 
-                    $data->id_cliente, 
-                    $data->id_habitacion,
-                    $data->id_masajista
-                )
-			);
-		} catch (Exception $e) 
-		{
-			die($e->getMessage());
-		}
-	}
+	// 	$this->pdo->prepare($sql)
+	// 	     ->execute(
+	// 			array(
+ //                    $data->inicio,
+ //                    $data->fin, 
+ //                    $data->id_cliente, 
+ //                    $data->id_habitacion,
+ //                    $data->id_masajista
+ //                )
+	// 		);
+	// 	} catch (Exception $e) 
+	// 	{
+	// 		die($e->getMessage());
+	// 	}
+	// }
 }

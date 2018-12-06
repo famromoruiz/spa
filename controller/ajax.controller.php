@@ -60,13 +60,29 @@ class AjaxController{
 
           
          
-          $citas[] = array("id"=>1, "title"=>$r->nombre,'start'=>$r->inicio,'end'=>$r->fin, "description"=>$servicios,"color"=>$color, "allDay"=>false);
+          $citas[] = array("id"=>$r->id_masajista,"resourceId"=>$r->id_masajista, "title"=>$r->nombre,'start'=>$r->inicio,'end'=>$r->fin, "description"=>$servicios,"color"=>$color, "allDay"=>false);
         
        }
 
        $citas= json_encode($citas,JSON_PRETTY_PRINT);
 
         echo $citas;
+    }
+
+
+     public function Masajistas(){
+        //header('Content-Type: application/json');
+      $masajistas=array();
+
+       foreach ($this->modelMasajista->Listar() as $r) {
+
+          $citas[] = array("id"=>$r->id_personal,"title"=>strtoupper($r->nombre));
+        
+       }
+
+       $masajistas= json_encode($citas,JSON_PRETTY_PRINT);
+
+        echo $masajistas;
     }
 
     public function Ventas(){
@@ -156,10 +172,5 @@ class AjaxController{
     public function Error(){
       require __DIR__ .'/../view/layauts/error.php';
     }
-    
-   
-    
-  
-    
-    
+       
 }

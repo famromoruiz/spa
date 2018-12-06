@@ -18,11 +18,7 @@ use \route\Route;
       <div class="col-md-12">
         
     <form  id="form">
-    <div class="form-group">
-      <label for="fecha">Fecha</label>
-      <input type='text' class="form-control" id='datetimepicker1' name="fecha" />
-    </div>
-    <div class="form-group">
+     <div class="form-group">
       <label for="cliente">Cliente:</label>
  <select id="cliente" class="form-control js-example-basic-single" name="cliente">
   <?php foreach($this->modelCliente->Listar_normal() as $c) {?>
@@ -33,6 +29,12 @@ use \route\Route;
   Agregar
 </button>
     </div>
+
+    <div class="form-group">
+      <label for="fecha">Fecha</label>
+      <input type='text' class="form-control" id='datetimepicker1' name="fecha" />
+    </div>
+   
      <div class="form-group">
       <label for="Habitacion">Habitacion</label>
       <select id="habitacion" class="form-control js-example-basic-single" name="habitacion">
@@ -42,7 +44,7 @@ use \route\Route;
 </select>
     </div>
     <div class="form-group">
-      <label for="Masajista">Masajista</label>
+      <label for="Masajista">Terapeuta</label>
       <select id="masajista" class="form-control js-example-basic-single" name="masajista">
     <?php foreach($this->modelMasajista->Listar() as $m) {?>
   <option value="<?= $m->id_personal?>"><?= $m->nombre ?></option>
@@ -76,15 +78,22 @@ use \route\Route;
     Calendario
   </div>
   <div class="card-body">
-
-    
-
     <div class="row">
       <div class="col-md-12">
-      <div *ngIf="calendarOptions">
-      <div id="calendar"></div>
-</div>
-</div>
+        <div id="calendar"></div>
+      </div>
+    </div>
+    <did class="row">
+      <div class="col-md-12  align-items-center">
+        <span class="badge badge-seremas">Agendado</span>
+        <span class="badge badge-success">Confirmado</span>
+        <span class="badge badge-danger">Iniciado</span>
+        <span class="badge badge-warning">Terminado</span>
+        <span class="badge badge-secondary">Cobrado</span>
+        
+       
+      </div>
+    </did>
   </div>
 </div>
   </div>
@@ -164,19 +173,19 @@ use \route\Route;
                 <h3>Contacto</h3>
                  <div class="form-group">
                     <label class="control-label">Telefono</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Telefono"  name="telefono" />
+                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono"  name="telefono" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Telefono oficina</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Telefono oficina" name="telefono_oficina" />
+                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono oficina" name="telefono_oficina" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Celular 1</label>
-                    <input maxlength="200" type="text" required="required" class="form-control" placeholder="Celular 1" name="cel_1" />
+                    <input maxlength="10" type="text" required="required" class="form-control" placeholder="Celular 1" name="cel_1" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Celular 2</label>
-                    <input maxlength="200" type="text" r class="form-control" placeholder="Celular 2" name="cel_2" />
+                    <input maxlength="10" type="text" r class="form-control" placeholder="Celular 2" name="cel_2" />
                 </div>
                 
             </div>
@@ -441,20 +450,51 @@ function agregarCita(){
 
 
     $('#calendar').fullCalendar({
+
+       schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+
+       refetchResourcesOnNavigate: true,
+
+       defaultView: 'agendaDay',
      
       locale: 'es',
      aspectRatio: 2,
+     groupByResource: true,
 
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'month,basicWeek,basicDay,agendaWeek'
+        right: 'basicDay,agendaWeek'
       },
 
      // defaultDate: '2018-03-12',
       navLinks: true, // can click day/week names to navigate views
       editable: true,
       eventLimit: true, // allow "more" link when too many events
+       views: {
+        agendaTwoDay: {
+          type: 'agenda',
+          //duration: { days: 2 },
+
+          // views that are more than a day will NOT do this behavior by default
+          // so, we need to explicitly enable it
+          groupByResource: true
+
+          //// uncomment this line to group by day FIRST with resources underneath
+          //groupByDateAndResource: true
+        }
+      },
+  //     resources: [
+  //   { id: "1", title: 'Masajista 1' },
+  //   { id: "2", title: 'Masajista 2' },
+  //   { id: "3", title: 'Masajista 3' }
+    
+  // ],
+
+   resources: {
+    url: '<?= Route::Ruta(['ajax' , 'masajistas']) ?>',
+    eventColor: '#D0F5A9',
+   },
         eventSources: [
 
     // your event source
@@ -462,7 +502,10 @@ function agregarCita(){
       url: '<?= Route::Ruta(['ajax' , 'citas']) ?>', // use the `url` property
       //color: '#563d7c',    // an option!
       textColor: 'white',  // an option!
+     
     },
+
+
     
 
     // any other sources...
@@ -470,11 +513,13 @@ function agregarCita(){
 
 
   ],
-    resources: [
-    { id: '1', title: 'Masajista 1' },
-    { id: '2', title: 'Masajista 2' }
+
+
     
-  ],
+
+  resourceRender: function(resourceObj, labelTds, bodyTds) {
+  labelTds.css('background', '#D0F5A9');
+},
 
   
 

@@ -21,7 +21,7 @@
                 
 
                    ?>
-            <li id="<?='masajes_l'.$id?>" class="list-group-item d-flex justify-content-between align-items-center "><?= $hora.':00' ?>   <?= strtoupper($c->nombre) ?>   <span><button type="button" class="btn btn-seremas btn-sm" onclick="agregar_citas_pago();"><i class="fa fa-play" aria-hidden="true"></i></button>  <button type="button" class="btn btn-danger btn-sm" onclick="agregar_citas_pago();"><i class="fa fa-stop" aria-hidden="true"></i></button></span></li>
+            <li id="<?='masajes_l'.$id?>" class="list-group-item d-flex justify-content-between align-items-center "><?= $hora.':00' ?>   <?= strtoupper($c->nombre) ?>   <span><button type="button" class="btn btn-success btn-sm" onclick="agregar_citas_pago();"><i class="fa fa-play" aria-hidden="true"></i> Iniciar</button>  <button type="button" class="btn btn-danger btn-sm" onclick="agregar_citas_pago();"><i class="fa fa-stop" aria-hidden="true"></i> Terminar</button></span></li>
       <?php } ?>
   </ul>
 </div>

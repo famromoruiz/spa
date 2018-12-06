@@ -10,17 +10,26 @@ require __DIR__ . '/../model/database.php';
 require __DIR__ . '/../vendor/widgets/route/route.php';
 require __DIR__ . '/../vendor/widgets/roles/roles.php';
 require __DIR__ . '/../vendor/widgets/gridview/gridview.php';
+require __DIR__ . '/../vendor/autoload.php';
+
 
 
 session_start();
 
 if (empty($_SESSION)) {
+
     $controller = 'site';
     require __DIR__ . "/../controller/$controller.controller.php";
     $controller = ucwords($controller) . 'Controller';
     $controller = new $controller;
 
-    $controller->Login(); 
+     if (isset($_REQUEST['r']) && $_REQUEST['r'] == 'site/reset') {
+        $controller->Reset();
+    }else{
+        $controller->Login(); 
+    }
+
+   
 }else{
 
     $controller = 'site';

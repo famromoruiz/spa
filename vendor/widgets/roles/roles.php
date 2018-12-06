@@ -38,7 +38,7 @@ class Roles{
     			
     			break;
     		case 20:
-    			if ($_REQUEST['r'] == 'sale' or $_REQUEST['r'] == 'citas'  or $_REQUEST['r'] == 'citas/agregar' or $_REQUEST['r'] == 'citas/error' ) {
+    			if ($_REQUEST['r'] == 'sale' or $_REQUEST['r'] == 'citas'  or $_REQUEST['r'] == 'citas/agregar' or $_REQUEST['r'] == 'citas/ver' or $_REQUEST['r'] == 'citas/editar' or $_REQUEST['r'] == 'citas/eliminar' or $_REQUEST['r'] == 'citas/error' ) {
     				
     			}else{
     				 header("location: ?r=site/error");

@@ -1,32 +1,16 @@
-<?php 
-/**
- * summary
- */
-
-
-
+<!DOCTYPE html>
+<html lang="es">
+<?php
 $template = new Template();
-
-
 
 class Template
 {
     /**
      * summary
      */
-//public $route;
-
-   
-
     public function __construct()
     {
-
-    	
-
- ?>
-
-<!DOCTYPE html>
-<html lang="es">
+?>
 <head>
 
 	<title>SERE+</title>
@@ -50,10 +34,12 @@ class Template
 
 	<script type="text/javascript" src="<?=HOME?>vendor/qtip/qtip.min.js"></script>
 
-	<link href='<?=HOME?>vendor/fullcalendar/fullcalendar.min.css' rel='stylesheet' />
-	<link href='<?=HOME?>vendor/fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-	<script src='<?=HOME?>vendor/fullcalendar/lib/moment.min.js'></script>
-	<script src='<?=HOME?>vendor/fullcalendar/fullcalendar.min.js'></script>
+	<link href='<?=HOME?>vendor/fullcalendar-scheduler/lib/fullcalendar.min.css' rel='stylesheet' />
+	<link href='<?=HOME?>vendor/fullcalendar-scheduler/scheduler.min.css' rel='stylesheet' />
+	<link href='<?=HOME?>vendor/fullcalendar-scheduler/lib/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+	<script src='<?=HOME?>vendor/fullcalendar-scheduler/lib/moment.min.js'></script>
+	<script src='<?=HOME?>vendor/fullcalendar-scheduler/lib/fullcalendar.min.js'></script>
+	<script src='<?=HOME?>vendor/fullcalendar-scheduler/scheduler.min.js'></script>
 	<script src='<?=HOME?>vendor/fullcalendar/locale/es.js'></script>
 	<script src='<?=HOME?>vendor/slimScroll/jquery.slimscroll.min.js'></script>
 
@@ -67,6 +53,8 @@ class Template
       <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js" type="text/javascript"></script>
 	<link href='<?=HOME?>vendor/Date_Time/build/css/bootstrap-datetimepicker.min.css' rel='stylesheet' />
 	<script src='<?=HOME?>vendor/Date_Time/build/js/bootstrap-datetimepicker.min.js'></script>
+	<script src='<?=HOME?>node_modules/bootbox/bootbox.min.js'></script>
+	
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -86,30 +74,17 @@ body {
 
 <body>
 <header>
-	<?php 
-	
-		require __DIR__ .'/../view/layauts/header.php';
-	?>	
+<?php require __DIR__ .'/../view/layauts/header.php';?>	
 </header>
-
-
 
 <main role="main" class="">
 
-
-<?php
-    }
-
-   public function __destruct()
-   {
-?>
+<?php } public function __destruct() {?>
 
 </main>
 
 <footer>
-	<?php 
-	require __DIR__ .'/../view/layauts/footer.php';
-	?>
+<?php require __DIR__ .'/../view/layauts/footer.php';?>
 </footer>
 <script>
 	$(document).ready(function(){
@@ -144,9 +119,4 @@ body {
 </body>
 <script src='<?=HOME?>vendor/fonts/app/app.min.js'></script>
 </html>
-
-<?php
-
-   }
-}
-?>
+<?php } }?>

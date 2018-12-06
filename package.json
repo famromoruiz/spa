@@ -1,0 +1,27 @@
+{
+  "name": "spa",
+  "version": "1.0.0",
+  "description": "spa seremas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/famromoruiz/spa.git"
+  },
+  "keywords": [
+    "spa"
+  ],
+  "author": "Alejandro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/famromoruiz/spa/issues"
+  },
+  "homepage": "https://github.com/famromoruiz/spa#readme",
+  "dependencies": {
+    "bootbox": "^4.4.0",
+    "datatables.net-bs4": "^1.10.19",
+    "datatables.net-responsive-bs4": "^2.2.3"
+  }
+}

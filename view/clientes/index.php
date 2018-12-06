@@ -35,7 +35,8 @@ $model = $this->modelCliente->listar($pagina);
       [
         'etiquetas' => array('nombre','Apellido paterno','Apellido materno','Celular','Email'),
         'atributos' => array('nombre','a_paterno','a_materno','cel_1','email'),
-        'paginas' => $model['paginas']
+        'paginas' => $model['paginas'],
+        'id' => $model['id']
       ]); ?>
 
  </div>
@@ -92,23 +93,23 @@ $model = $this->modelCliente->listar($pagina);
                 <h3>Dirección</h3>
                 <div class="form-group">
                     <label class="control-label">Calle</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="calle" name="calle" />
+                    <input maxlength="80" type="text"  class="form-control" placeholder="calle" name="calle" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Fraccionamiento</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Fraccionamiento" name="fraccionamiento" />
+                    <input maxlength="80" type="text"  class="form-control" placeholder="Fraccionamiento" name="fraccionamiento" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Ciudad</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Ciudad" name="ciudad" />
+                    <input maxlength="70" type="text"  class="form-control" placeholder="Ciudad" name="ciudad" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Municipio</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Municipio" name="municipio" />
+                    <input maxlength="50" type="text"  class="form-control" placeholder="Municipio" name="municipio" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Estado</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Estado" name="estado" />
+                    <input maxlength="50" type="text"  class="form-control" placeholder="Estado" name="estado" />
                 </div>
                 
             </div>
@@ -120,19 +121,19 @@ $model = $this->modelCliente->listar($pagina);
                 <h3>Contacto</h3>
                  <div class="form-group">
                     <label class="control-label">Telefono</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Telefono"  name="telefono" />
+                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono"  name="telefono" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Telefono oficina</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Telefono oficina" name="telefono_oficina" />
+                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono oficina" name="telefono_oficina" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Celular 1</label>
-                    <input maxlength="200" type="text" required="required" class="form-control" placeholder="Celular 1" name="cel_1" />
+                    <input maxlength="10" type="text" required="required" class="form-control" placeholder="Celular 1" name="cel_1" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Celular 2</label>
-                    <input maxlength="200" type="text" r class="form-control" placeholder="Celular 2" name="cel_2" />
+                    <input maxlength="10" type="text" r class="form-control" placeholder="Celular 2" name="cel_2" />
                 </div>
                 
             </div>
@@ -144,15 +145,15 @@ $model = $this->modelCliente->listar($pagina);
                 <h3>Social</h3>
                  <div class="form-group ">
                     <label class="control-label">Email</label>
-                    <input maxlength="200" type="text" required="required" class="form-control" placeholder="Email" name="email" />
+                    <input maxlength="150" type="text" required="required" class="form-control" placeholder="Email" name="email" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Facebook</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Facebook" name="facebook" />
+                    <input maxlength="150" type="text"  class="form-control" placeholder="Facebook" name="facebook" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Instagram</label>
-                    <input maxlength="200" type="text"  class="form-control" placeholder="Instagram" name="instagram" />
+                    <input maxlength="150" type="text"  class="form-control" placeholder="Instagram" name="instagram" />
                 </div>
                
                 
@@ -194,6 +195,42 @@ $model = $this->modelCliente->listar($pagina);
 
 
 <script>
+
+
+  $('.eliminar').on('click',function(){
+    var eliminar = this.id;
+    bootbox.confirm({
+    title: " ",
+    message: "Estas a punto de eliminar este elemento! Quires hacerlo?",
+    buttons: {
+        confirm: {
+            label: '<i class="fa fa-check"></i> Si',
+            className: 'btn-seremas'
+        },
+        cancel: {
+            label: '<i class="fa fa-times"></i> No',
+            className: 'btn-danger'
+        }
+    },
+    callback: function (result) {
+        
+        if (result == true) {
+          $.ajax({
+            url:   eliminar,
+            type:  'get',
+            beforeSend: function () {
+              // accion antes de envio
+            },
+            success:  function (response) {
+              //location.reload();
+            }
+
+          });
+        }
+    }
+});
+  });
+  
 
 function actualiza_tabla(pagina) {
 
@@ -327,7 +364,7 @@ function guardar(){
       // accion antes de envio
     },
     success:  function (response) {
-     // location.reload();
+      location.reload();
     }
 
   });

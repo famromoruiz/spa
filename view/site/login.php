@@ -55,9 +55,11 @@ html {
    
 
   <body class="text-center">
-  	<div class="container">
-  		<hr>
-  		<div class="row justify-content-center align-items-center">
+    <?php echo isset($alerta) ? $alerta : ''; ?>
+    <div class="container">
+      <hr>
+      <div class="row justify-content-center align-items-center">
+
 
   			<form class="form-signin" method="post" >
       <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
@@ -74,6 +76,7 @@ html {
         </label>
       </div>
       <button class="btn btn-lg btn-seremas btn-block" type="submit">Entrar</button>
+      <a class="text-white" href="?r=site/reset">Olvide mi contraseña</a>
       <p class="mt-5 mb-3 ">&copy; 2018-2020</p>
     </form>
   			

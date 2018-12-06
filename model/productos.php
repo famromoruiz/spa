@@ -47,7 +47,7 @@ public $precio_publico;
 
 		$pagina = $pagina;
 		// $pagina = (isset($_REQUEST['pagina']) && !empty($_REQUEST['pagina']))?$_REQUEST['pagina']:1;
-		$por_pagina = 2; //la cantidad de registros que desea mostrar
+		$por_pagina = 20; //la cantidad de registros que desea mostrar
 		$adyacente  = 4; //brecha entre páginas después de varios adyacentes
 		$offset = ($pagina - 1) * $por_pagina;
 		try
@@ -64,7 +64,7 @@ public $precio_publico;
 			$stm = $this->pdo->prepare("SELECT * FROM productos  LIMIT $offset,$por_pagina");
 			$stm->execute();
 
-			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas < 1 ? 1 : $total_paginas ];
+			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas < 1 ? 1 : $total_paginas , 'id' => 'id_producto'];
 		}
 		catch(Exception $e)
 		{
@@ -109,11 +109,41 @@ public $precio_publico;
 		try 
 		{
 			$stm = $this->pdo
-			          ->prepare("SELECT * FROM alumnos WHERE id = ?");
+			          ->prepare("SELECT * FROM productos WHERE id_producto = ?");
 			          
 
 			$stm->execute(array($id));
 			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function Actualizar($data)
+	{
+
+		try 
+		{
+			$sql = "UPDATE productos SET 
+						 upc = ?,
+						 nombre = ?,
+						 descripcion = ?,
+						 precio = ?,
+						 precio_publico = ?
+				    WHERE id_producto = ?";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+                         $data->upc,
+						 $data->nombre,
+						 $data->descripcion,
+						 $data->precio,
+						 $data->precio_publico,
+						 $data->id_producto
+					)
+				);
 		} catch (Exception $e) 
 		{
 			die($e->getMessage());
@@ -125,7 +155,7 @@ public $precio_publico;
 		try 
 		{
 			$stm = $this->pdo
-			            ->prepare("DELETE FROM alumnos WHERE id = ?");			          
+			            ->prepare("DELETE FROM productos WHERE id_producto = ?");			          
 
 			$stm->execute(array($id));
 		} catch (Exception $e) 
@@ -134,51 +164,29 @@ public $precio_publico;
 		}
 	}
 
-	public function Actualizar($data)
+
+
+	public function Registrar(Productos $data)
 	{
 		try 
 		{
-			$sql = "UPDATE alumnos SET 
-						Nombre          = ?, 
-						Apellido        = ?,
-                        Correo        = ?,
-						Sexo            = ?, 
-						FechaNacimiento = ?
-				    WHERE id = ?";
-
-			$this->pdo->prepare($sql)
-			     ->execute(
-				    array(
-                        $data->Nombre, 
-                        $data->Correo,
-                        $data->Apellido,
-                        $data->Sexo,
-                        $data->FechaNacimiento,
-                        $data->id
-					)
-				);
-		} catch (Exception $e) 
-		{
-			die($e->getMessage());
-		}
-	}
-
-	public function Registrar(Alumno $data)
-	{
-		try 
-		{
-		$sql = "INSERT INTO alumnos (Nombre,Correo,Apellido,Sexo,FechaNacimiento,FechaRegistro) 
-		        VALUES (?, ?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO productos (
+				upc,
+				nombre,
+				descripcion,
+				precio,
+				precio_publico
+		) 
+		        VALUES (?, ?, ?, ?, ?)";
 
 		$this->pdo->prepare($sql)
 		     ->execute(
 				array(
-                    $data->Nombre,
-                    $data->Correo, 
-                    $data->Apellido, 
-                    $data->Sexo,
-                    $data->FechaNacimiento,
-                    date('Y-m-d')
+                    $data->upc,
+                    $data->nombre, 
+                    $data->descripcion, 
+                    $data->precio,
+                    $data->precio_publico
                 )
 			);
 		} catch (Exception $e) 

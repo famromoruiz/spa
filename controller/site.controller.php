@@ -36,10 +36,16 @@ class SiteController{
                     $usuario = $this->model->Obtener($usuario , $shaclave);
 
                     //var_dump($usuario);exit;
-                        if($usuario->nikname) {
+                    if ($usuario == false) {
+                      $alerta = '<div class="alert alert-danger" role="alert">
+  Usuario o Contraseña no validos =(
+</div>';
+                       require __DIR__ .'/../view/site/login.php';
+                    }else{
+                       if($usuario->nikname) {
                             session_start();
-                            $_SESSION['nombre'] = $usuario->nikname;
-                            $_SESSION['rol'] = $usuario->rol;
+                          $s_nombre =  $_SESSION['nombre'] = $usuario->nikname;
+                           $s_rol = $_SESSION['rol'] = $usuario->rol;
 
                             
 
@@ -49,6 +55,8 @@ class SiteController{
                             {
                                 require __DIR__ .'/../view/site/login.php';
                             }
+                    }
+                       
                         }
                     }
                     else
@@ -56,6 +64,78 @@ class SiteController{
                             require __DIR__ .'/../view/site/login.php';
                         }
                     }
+
+    public function Reset(){
+
+      if (isset($_GET['token'])) {
+
+        require __DIR__ .'/../view/site/password.php';
+
+        $token = $_GET['token'];
+        $usuario = $this->model->Obtener_token($token);
+
+        if ($_POST) {
+
+          $nuevo_password = $_POST['password'];
+
+          $this->model->Actualizar_password(['usuario' => $usuario->nikname , 'password' => $nuevo_password]);
+
+          header('Location: ?r=site');
+          
+        }
+       // var_dump($usuario); exit;
+      }else{
+        if ($_POST) {
+
+        $cuenta = 10;
+
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $cuentacaracteres = strlen($caracteres);
+
+        $string = '';
+
+        for ($i = 0; $i < $cuenta; $i++) {
+        $string .= $caracteres[rand(0, $cuentacaracteres - 1)];
+      }
+
+        $string = sha1($string);
+
+        $email = $_POST['email'];
+
+         $usuario = $this->model->Obtener_mail($email);
+          $this->model->Token(['token' => $string ,'email' => $email]);
+
+        // crear transportador
+        $transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'TLS'))
+          ->setUsername('famromoruiz@gmail.com')
+          ->setPassword('12al26vi01')
+        ;
+
+        // Crea el Mailer usando el transporte creado
+        $mailer = new Swift_Mailer($transport);
+
+        // Crear mensaje
+        $message = (new Swift_Message('Restaura tu contraseña'))
+          ->setFrom(['sistema@seremas.com' => 'Sistema'])
+          ->setTo([ $email => $usuario->nikname ])
+          ->setBody('Estimado '.$usuario->nikname.' se inicio el proceso de recuperacion de contraseña si no fuiste tu omite este mensaje, si deseas recuperar tu contraseña sigue el siguiente enlace: http://localhost/base/base_mvc/web/index.php?r=site/reset&token='.$string)
+          ;
+
+        // Enviar mensaje
+        $result = $mailer->send($message);
+
+        //var_dump($string);
+        
+      }
+
+       require __DIR__ .'/../view/site/reset.php';
+      }
+
+      
+
+    }
+
+  
 
     public function Salir(){
         

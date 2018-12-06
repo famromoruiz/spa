@@ -27,6 +27,10 @@ class CitasController{
     }
     
     public function Index(){
+
+     // $model = new Masajista();
+
+      //var_dump($model);exit;
        // require_once 'view/layauts/header.php';
         require __DIR__ .'/../view/citas/index.php';
        // require_once 'view/layauts/footer.php';

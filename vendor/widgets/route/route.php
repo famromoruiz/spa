@@ -1,5 +1,4 @@
 <?php
-
 namespace route;
 
 class Route{
@@ -16,8 +15,8 @@ class Route{
     }
 
      static function Active($menu){
-      $active = $_REQUEST['r'] == $menu ? 'active': ''; 
+      $active = $_REQUEST['r'] == $menu ? 'active': 'test'; 
         return $active;       
     }
-
 }
+?>

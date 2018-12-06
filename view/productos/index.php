@@ -13,9 +13,9 @@ $model = $this->modelProductos->Tabla($pagina);
 <div class="row">
   <div class="col-md-12">
     <!-- Button trigger modal -->
-<button type="button" class="btn btn-seremas float-right" data-toggle="modal" data-target="#exampleModalCenter">
+<a href="?r=productos/agregar" class="btn btn-seremas float-right" >
   Agregar
-</button>
+</a>
   </div>
 </div>
 <br>
@@ -32,9 +32,10 @@ $model = $this->modelProductos->Tabla($pagina);
 
     <?= Gridview::Gridview($model['lista'],
       [
-        'etiquetas' => array('upc','nombre','descripcion','precio','precio_publico'),
+        'etiquetas' => array('upc','nombre','descripcion','precio','precio publico'),
         'atributos' => array('upc','nombre','descripcion','precio','precio_publico'),
-        'paginas' => $model['paginas']
+        'paginas' => $model['paginas'],
+        'id' => $model['id']
       ]); ?>
 
  </div>
@@ -47,6 +48,40 @@ $model = $this->modelProductos->Tabla($pagina);
 
 </div>
 <script>
+  $('.eliminar').on('click',function(){
+    var eliminar = this.id;
+    bootbox.confirm({
+    title: " ",
+    message: "Estas a punto de eliminar este elemento! Quires hacerlo?",
+    buttons: {
+        confirm: {
+            label: '<i class="fa fa-check"></i> Si',
+            className: 'btn-seremas'
+        },
+        cancel: {
+            label: '<i class="fa fa-times"></i> No',
+            className: 'btn-danger'
+        }
+    },
+    callback: function (result) {
+        
+        if (result == true) {
+          $.ajax({
+            url:   eliminar,
+            type:  'get',
+            beforeSend: function () {
+              // accion antes de envio
+            },
+            success:  function (response) {
+              location.reload();
+            }
+
+          });
+        }
+    }
+});
+  });
+  
 	function actualiza_tabla(pagina) {
 
 if ($('.page-item').hasClass('active')) {

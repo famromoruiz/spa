@@ -8,6 +8,8 @@ class Usuario
     public $password;
     public $rol;
     public $nombre;
+    public $token;
+    public $email;
    
 
 	public function __CONSTRUCT()
@@ -49,6 +51,93 @@ class Usuario
 
 			$stm->execute(array($nik , $pass));
 			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function Obtener_mail($email)
+	{
+		try 
+		{
+			$stm = $this->pdo
+			          ->prepare("SELECT * FROM usuarios WHERE email = ? ");
+			          
+
+			$stm->execute(array($email));
+			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function Obtener_token($token)
+	{
+		try 
+		{
+			$stm = $this->pdo
+			          ->prepare("SELECT * FROM usuarios WHERE token = ? ");
+			          
+
+			$stm->execute(array($token));
+			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function Token($data)
+	{
+
+
+			$token = $data['token'];
+            $email = $data['email'];
+
+		try 
+		{
+			$sql = "UPDATE usuarios SET 
+						token = ?
+				    WHERE email = ?";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+                        $token,
+                        $email
+					)
+				);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function Actualizar_password($data)
+	{
+
+
+			$password = sha1($data['password']);
+			$token = "";
+            $usuario = $data['usuario'];
+
+		try 
+		{
+			$sql = "UPDATE usuarios SET 
+						password = ?,
+						token = ?
+				    WHERE nikname = ?";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+                        $password,
+                        $token,
+                        $usuario
+					)
+				);
 		} catch (Exception $e) 
 		{
 			die($e->getMessage());
