@@ -32,7 +32,13 @@ $model = $this->modelProductos->Tabla($pagina);
 
     <?= Gridview::Gridview($model['lista'],
       [
-        'etiquetas' => array('upc','nombre','descripcion','precio','precio publico'),
+        'etiquetas' => [
+          'upc' => ['nombre' => 'upc'],
+          'nombre' => ['nombre' => 'nombre'],
+          'descripcion' => ['nombre' => 'descripcion'],
+          'precio' => ['nombre' => 'precio'],
+          'precio publico' => ['nombre' => 'precio publico']
+        ],
         'atributos' => array('upc','nombre','descripcion','precio','precio_publico'),
         'paginas' => $model['paginas'],
         'id' => $model['id']

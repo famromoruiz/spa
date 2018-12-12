@@ -40,27 +40,50 @@ class Gridview{
     <tr>';
 
     foreach ($configuracion['etiquetas'] as $key => $val) {
-      $tabla .='<th scope="col">'.ucwords(strtolower($val)).'</th>';
+      $css_col = isset($val['css']) ? $val['css'] : '';
+      $tabla .='<th class="'.$css_col.'" scope="col">'.ucwords(strtolower($val['nombre'])).'</th>';
     }
 
-    $tabla .='<th class="text-center" scope="col">Acciones</th>';
+    $tabla .='<th class="text-center" scope="col"></th>';
       
     $tabla .='</tr>
   </thead>
   <tbody>';
+
+$t = 0;
    
    foreach ($model as $value) {
+
+    $t++;
 
     $tabla .= '<tr>';
 
     foreach ($configuracion['atributos'] as $key => $val) {
 
        $datos = $val == 'email' ? strtolower($value->$val) : ucwords(strtolower($value->$val));
-       $tabla .= '<td>'.$datos.'</td>';
+       $css = isset($configuracion['css'][$val]) ? $configuracion['css'][$val] : '' ;
+       $tabla .= '<td class="'.$css.'">'.$datos.'</td>';
 
     }
 
-    $tabla .= '<td class="d-flex justify-content-between align-items-center"><a href="?r='.$ver.$value->$id.'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="?r='.$editar.$value->$id.'"><i class="fa fa-pencil" aria-hidden="true"></i></a> <a id="?r='.$eliminar.$value->$id.'" class="eliminar" href="#"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+    $tabla .= '<td class="text-center ">
+
+         <div class="dropdown mr-1">
+    <button type="button" class="btn btn-seremas dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+      Acciones
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">';
+    $tabla .= $_REQUEST['r'] == 'almacen' ? '' : '<a href="?r='.$ver.$value->$id.'" class="dropdown-item"><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>';
+    $tabla .= '<a href="?r='.$editar.$value->$id.'" class="dropdown-item"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>';
+
+    $tabla .= '<a href="?r='.$eliminar.$value->$id.'" class="dropdown-item"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>';
+      
+   $tabla.=' </div>
+  </div>
+   </td> ';
+
+
+    
 
     $tabla .='</tr>';
     

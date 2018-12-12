@@ -26,11 +26,18 @@ $model = $this->modelAlmacen->listar($pagina);
 
 				    <?= Gridview::Gridview($model['lista'],
 				      [
-				        'etiquetas' => array('Producto','Proveedor','cantidad'),
+				        'etiquetas' => [
+                  'producto' => ['nombre' => 'producto'],
+                  'proveedor' => ['nombre' => 'proveedor'],
+                  'Cantidad' => ['nombre' => 'cantidad', 'css' => 'text-center']
+                ],
 				        'atributos' => array('prod','prove','cantidad'),
+                'css' =>['cantidad' => 'text-center'],
 				        'paginas' => $model['paginas'],
 				        'id' => $model['id']
 				      ]); ?>
+
+
 
 	 			</div>
 		</div>

@@ -33,7 +33,13 @@ $model = $this->modelCliente->listar($pagina);
 
     <?= Gridview::Gridview($model['lista'],
       [
-        'etiquetas' => array('nombre','Apellido paterno','Apellido materno','Celular','Email'),
+        'etiquetas' => [
+          'nombre' =>['nombre' =>  'nombre'],
+          'Apellido paterno' =>['nombre' => 'Apellido paterno' ],
+          'Apellido materno' =>['nombre' => 'Apellido materno' ],
+          'Celular' =>['nombre' => 'Celular' ],
+          'Email' =>['nombre' => 'Email' ]
+        ],
         'atributos' => array('nombre','a_paterno','a_materno','cel_1','email'),
         'paginas' => $model['paginas'],
         'id' => $model['id']
