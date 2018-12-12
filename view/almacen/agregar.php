@@ -56,8 +56,6 @@ use \route\Route;
 
 	$(document).ready(function(){
 
-		alert('hola');
-
 		$.ajax({
 
     data:  {id : 1},
