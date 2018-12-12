@@ -1,6 +1,7 @@
 <?php
 use \roles\Roles;
 require __DIR__ . '/../model/cliente.php';
+require __DIR__ . '/../model/ticket.php';
 
 class ClientesController{
     
@@ -9,6 +10,7 @@ class ClientesController{
     public function __CONSTRUCT(){
       Roles::Acceso($_SESSION['rol']);
       $this->modelCliente = new Cliente();
+      $this->modelTicket = new Ticket();
     }
     
     public function Index(){
@@ -20,6 +22,7 @@ class ClientesController{
       $id = $_GET['id'];
 
       $model = $this->modelCliente->Obtener($id);
+      $model_ticket = $this->modelTicket->Listar($id);
 
       require __DIR__ .'/../view/clientes/ver.php';
 

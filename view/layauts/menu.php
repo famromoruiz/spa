@@ -15,7 +15,7 @@
 
 
 <li class="nav-item <?= Route::Active('almacen') ?>">
-	<a class="nav-link" href="<?= Route::Ruta(['#']) ?>">Almacen</a>
+	<a class="nav-link" href="<?= Route::Ruta(['almacen']) ?>">Almacen</a>
 </li>
 
 

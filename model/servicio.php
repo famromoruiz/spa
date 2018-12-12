@@ -63,6 +63,22 @@ public $notas;
 		}
 	}
 
+	public function Obtener_por_zona($id)
+	{
+		try 
+		{
+			$stm = $this->pdo
+			          ->prepare("SELECT * FROM servicios WHERE id_zona = ?");
+			          
+
+			$stm->execute(array($id));
+			return $stm->fetchAll(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function Eliminar($id)
 	{
 		try 

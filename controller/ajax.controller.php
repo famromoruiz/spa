@@ -165,6 +165,93 @@ class AjaxController{
       }
     }
 
+    public function Listar_servicios_punto_venta(){
+      if ($_POST) {
+        $id = $_POST['id'];
+        $servicios = $this->modelServicio->Obtener_por_zona($id);
+        $serv_data = [];
+        foreach ($servicios as $servicio) {
+          $serv_data[] = array('id' => $servicio->id_servicio , 'text' => $servicio->tratamiento );
+        }
+        echo json_encode($serv_data);
+      }
+    }
+
+    public function Listar_citas_por_cobrar(){
+      if ($_POST) {
+         $r="";
+        $id =0;  foreach ($this->modelCita->Listarcobro($_POST['id']) as $c) { 
+
+                    $id++;
+
+
+                  $fecha = $c->inicio;
+                  $fecha = explode(' ', $fecha);
+                  $fecha = explode('-', $fecha[0]);
+                  $fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+
+                  $servicios = $this->modelCita->Listarserv($c->id_cita);
+
+                  $n =count($servicios);
+
+                  $tipo =$c->tipo_cliente;
+
+                  $costo = 0.00;
+
+                  for ($i = 0; $i < $n ; $i++) {
+                    $costo = $servicios[$i]->$tipo + $costo;
+                  }
+                  
+          $r.=' <li id="masajes_l'.$id.'" class="list-group-item d-flex justify-content-between align-items-center "> '.$fecha.' '.strtoupper($c->nombre).' '.'$'.number_format($costo,2).' <span><button type="button" class="btn btn-seremas btn-sm" onclick="agregar_citas_pago(\'masajes_l'.$id.'\',\''.strtoupper($c->nombre).'\',\''.number_format($costo,2).'\',\''.$fecha.'\',\''.$c->id_cita.'\');">Añadir</button></span></li>';
+       }
+
+       echo $r;
+      }
+     
+    }
+
+    public function Obtener_servicio(){
+      if ($_POST) {
+        $id = $_POST['id'];
+        $servicio = $this->modelServicio->Obtener($id);
+        echo json_encode($servicio);
+      }
+    }
+
+
+    public function Descontar_almacen(){
+
+      if ($_POST) {
+        $productos = $_POST['test'];
+
+        var_dump($productos[0]['upc']);exit;
+      }
+
+      
+
+      echo 'ok';
+    }
+
+    public function Tiket(){
+
+      sleep(10);
+
+      echo 'ok';
+    }
+
+
+     public function Listar_productos_almacen(){
+      if ($_POST) {
+        
+        $productos = $this->modelProductos->Listar();
+        $productos_l = [];
+        foreach ($productos as $producto) {
+          $productos_l[] = array('id' => $producto->id_producto , 'text' => $producto->nombre );
+        }
+        echo json_encode($productos_l);
+      }
+    }
+
    
 
   

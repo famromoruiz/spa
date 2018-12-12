@@ -45,14 +45,14 @@ class Cita
 		}
 	}
 
-	public function Listarcobro()
+	public function Listarcobro($id)
 	{
 		try
 		{
 			$result = array();
 
-			$stm = $this->pdo->prepare("SELECT cl.tipo_cliente, ci.status, ci.id_cita , CONCAT(cl.nombre,' ',cl.a_paterno,' ',cl.a_materno) as nombre, cl.cel_1, ci.inicio, ci.fin, hb.nombre as habitacion, pr.nombre as masajista  FROM citas ci JOIN clientes cl on ci.id_cliente = cl.id_cliente join habitaciones hb on ci.id_habitacion = hb.id_habitacion join personal pr on ci.id_masajista = pr.id_personal join servicios_cita svc on ci.id_cita = svc.id_cita join servicios sr on svc.id_servicio = sr.id_servicio join zonas zn on sr.id_zona = zn.id_zona where ci.status = 4 GROUP by ci.id_cita");
-			$stm->execute();
+			$stm = $this->pdo->prepare("SELECT cl.tipo_cliente, ci.status, ci.id_cita , CONCAT(cl.nombre,' ',cl.a_paterno,' ',cl.a_materno) as nombre, cl.cel_1, ci.inicio, ci.fin, hb.nombre as habitacion, pr.nombre as masajista  FROM citas ci JOIN clientes cl on ci.id_cliente = cl.id_cliente join habitaciones hb on ci.id_habitacion = hb.id_habitacion join personal pr on ci.id_masajista = pr.id_personal join servicios_cita svc on ci.id_cita = svc.id_cita join servicios sr on svc.id_servicio = sr.id_servicio join zonas zn on sr.id_zona = zn.id_zona where ci.status = 4 and cl.id_cliente = ? GROUP by ci.id_cita ");
+			$stm->execute(array($id));
 
 			return $stm->fetchAll(PDO::FETCH_OBJ);
 		}

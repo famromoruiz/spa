@@ -4,6 +4,7 @@ require __DIR__ . '/../model/productos.php';
 require __DIR__ . '/../model/cita.php';
 require __DIR__ . '/../model/servicio.php';
 require __DIR__ . '/../model/zonas.php';
+require __DIR__ . '/../model/cliente.php';
 
 
 class SaleController{
@@ -17,6 +18,7 @@ class SaleController{
       $this->modelCita = new Cita();
       $this->modelServicio = new Servicio();
       $this->modelZonas = new Zona();
+      $this->modelCliente = new Cliente();
     }
     
     public function Index(){

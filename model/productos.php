@@ -77,7 +77,7 @@ public $precio_publico;
 		{
 			$result = array();
 
-			$stm = $this->pdo->prepare("SELECT * FROM `productos` WHERE  CONCAT(upc, nombre , descripcion)  like '%".$b."%'");
+			$stm = $this->pdo->prepare("SELECT * FROM  productos pr JOIN almacen al ON pr.id_producto = al.id_producto  WHERE  CONCAT(pr.upc, pr.nombre , pr.descripcion)  like '%".$b."%' AND al.cantidad > 0");
 			$stm->execute();
 
 			return $stm->fetchAll(PDO::FETCH_OBJ);
@@ -93,7 +93,7 @@ public $precio_publico;
 		{
 			$result = array();
 
-			$stm = $this->pdo->prepare("SELECT * FROM productos WHERE upc = '".$b."' ");
+			$stm = $this->pdo->prepare("SELECT * FROM productos pr JOIN almacen al ON pr.id_producto = al.id_producto WHERE upc = '".$b."' AND al.cantidad > 0 ");
 			$stm->execute();
 
 			return $stm->fetchAll(PDO::FETCH_OBJ);
