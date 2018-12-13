@@ -64,69 +64,6 @@ class Template
 	<link href="<?=HOME?>node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
 <script src="<?=HOME?>vendor/select2/dist/js/select2.min.js"></script>
 
-	<style>
-		/* Show it is fixed to the top */
-
-	
-
-
-body {
-	height: 100vh;
-  padding-top: 4.5rem;
-  background-color: #f6f5f3;
- 
-}
-
-.navbar{
-	background-color: #ffffff !important;
-	border-bottom: 10px;
-	border-color: #2f0f2aff !important;
-}
-
-#menu.nav-item{
-	margin-left: 5px;
-	
-}
-
-.nav-item:hover{
-	/*background-color: #acc630ff;*/
-	background-color: #2f0f2aff;
-	border-radius: 1px;
-	
-}
-
-
-
-#menu.nav-link{
-	color: #2f0f2aff !important;
-	font-weight: bold;
-	
-}
-
-#menu.nav-link:hover{
-	color: #acc630ff !important;
-	
-}
-
-#menu .active{
-	background-color: #acc630ff;
-	border-radius: 1px;
-	color: #ffffff !important;
-	
-}
-
-#menu.active a{
-	color: #ffffff !important;
-	
-}
-
-.navbar-toggler{
-	background-color:#acc630ff !important;
-}
-
-
-
-	</style>
 </head>
 
 <body>
