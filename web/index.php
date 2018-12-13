@@ -85,5 +85,3 @@ if(!isset($_REQUEST['r']) || $_REQUEST['r'] == '' ){
 } 
 
 }
-
-?>

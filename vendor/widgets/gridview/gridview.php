@@ -60,7 +60,7 @@ $t = 0;
 
     foreach ($configuracion['atributos'] as $key => $val) {
 
-       $datos = $val == 'email' ? strtolower($value->$val) : ucwords(strtolower($value->$val));
+       $datos = $val == 'email' ?'<a class="text-seremas" href="mailto:'.strtolower($value->$val).'">'.strtolower($value->$val).'</a>' : ucwords(strtolower($value->$val));
        $css = isset($configuracion['css'][$val]) ? $configuracion['css'][$val] : '' ;
        $tabla .= '<td class="'.$css.'">'.$datos.'</td>';
 

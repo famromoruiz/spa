@@ -64,7 +64,7 @@ class Cliente
 
 		$pagina = $pagina;
 		
-		$por_pagina = 20; //la cantidad de registros que desea mostrar
+		$por_pagina = 10; //la cantidad de registros que desea mostrar
 		$adyacente  = 4; //brecha entre páginas después de varios adyacentes
 		$offset = ($pagina - 1) * $por_pagina;
 		try

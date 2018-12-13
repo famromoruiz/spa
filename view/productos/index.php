@@ -27,7 +27,7 @@ $model = $this->modelProductos->Tabla($pagina);
     Productos
   </div>
 
-  <div class="table-responsive datos">
+  <div class="table-responsive datos ">
 
 
     <?= Gridview::Gridview($model['lista'],
@@ -36,10 +36,11 @@ $model = $this->modelProductos->Tabla($pagina);
           'upc' => ['nombre' => 'upc'],
           'nombre' => ['nombre' => 'nombre'],
           'descripcion' => ['nombre' => 'descripcion'],
-          'precio' => ['nombre' => 'precio'],
-          'precio publico' => ['nombre' => 'precio publico']
+          'precio' => ['nombre' => 'precio', 'css' => 'text-right'],
+          'precio publico' => ['nombre' => 'precio publico' , 'css' => 'text-right']
         ],
         'atributos' => array('upc','nombre','descripcion','precio','precio_publico'),
+        'css' =>['precio' => 'text-right font-weight-bold' ,'precio_publico' => 'text-right font-weight-bold'],
         'paginas' => $model['paginas'],
         'id' => $model['id']
       ]); ?>
