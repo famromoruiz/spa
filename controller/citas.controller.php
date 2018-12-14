@@ -6,6 +6,7 @@ require __DIR__ . '/../model/habitacion.php';
 require __DIR__ . '/../model/masajista.php';
 require __DIR__ . '/../model/servicio.php';
 require __DIR__ . '/../model/serviciosCita.php';
+require __DIR__ . '/../model/usuario.php';
 
 class CitasController{
     
@@ -14,6 +15,7 @@ class CitasController{
    private $modelHabitacion;
    private $modelServicio;
    private $modelServiciosCita;
+   private $modelUsuario;
     
     public function __CONSTRUCT(){
 
@@ -24,6 +26,7 @@ class CitasController{
        $this->modelMasajista = new Masajista();
        $this->modelServicio = new Servicio();
        $this->modelServiciosCita = new ServiciosCita();
+       $this->modelUsuario = new usuario();
     }
     
     public function Index(){
@@ -57,13 +60,19 @@ class CitasController{
 
        $cuenta = count($n_serv);
 
-      for ($i = 0; $i < $cuenta ; $i++) {
-      
-        $śervicios_t = $this->modelServicio->Obtener($n_serv[0]); 
+     
+
+        foreach ($n_serv as $r) {
+           $śervicios_t = $this->modelServicio->Obtener($r); 
 
          $minutos_añadir = $śervicios_t->tiempo + $minutos_añadir;
+        }
       
-      }
+       
+      
+      
+
+      
 
 
 

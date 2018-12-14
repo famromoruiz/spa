@@ -24,7 +24,7 @@ class Usuario
 		}
 	}
 
-	public function Listar()
+	public function Listar_normal()
 	{
 		try
 		{
@@ -34,6 +34,59 @@ class Usuario
 			$stm->execute();
 
 			return $stm->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+
+		public function Listar_rol_masajista()
+	{
+		try
+		{
+			$result = array();
+
+			$stm = $this->pdo->prepare("SELECT * FROM usuarios where rol = 30");
+			$stm->execute();
+
+			return $stm->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+
+	public function Listar($pagina)
+	{
+
+
+
+		$pagina = $pagina;
+		
+		$por_pagina = 20; //la cantidad de registros que desea mostrar
+		$adyacente  = 4; //brecha entre páginas después de varios adyacentes
+		$offset = ($pagina - 1) * $por_pagina;
+		try
+		{
+			$result = array();
+
+			$cuenta = $this->pdo->prepare("SELECT * FROM usuarios ");
+			$cuenta->execute();
+			
+			$total_filas = $cuenta->rowCount();
+
+			$total_paginas = ceil($total_filas / $por_pagina);
+
+			$total_paginas = $total_paginas < 1 ? 1 : $total_paginas;
+
+			$stm = $this->pdo->prepare("SELECT * FROM usuarios  LIMIT $offset,$por_pagina");
+			$stm->execute();
+
+			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas, 'id' => 'id_usuario' ];
 		}
 		catch(Exception $e)
 		{
@@ -187,22 +240,22 @@ class Usuario
 		}
 	}
 
-	public function Registrar(Alumno $data)
+	public function Registrar(Usuario $data)
 	{
 		try 
 		{
-		$sql = "INSERT INTO usuarios (Nombre,Correo,Apellido,Sexo,FechaNacimiento,FechaRegistro) 
+		$sql = "INSERT INTO usuarios (nikname,password,rol,nombre,token,email) 
 		        VALUES (?, ?, ?, ?, ?, ?)";
 
 		$this->pdo->prepare($sql)
 		     ->execute(
 				array(
-                    $data->Nombre,
-                    $data->Correo, 
-                    $data->Apellido, 
-                    $data->Sexo,
-                    $data->FechaNacimiento,
-                    date('Y-m-d')
+                    $data->nikname,
+			        $data->password,
+			        $data->rol,
+			        $data->nombre,
+			        $data->token,
+			        $data->email
                 )
 			);
 		} catch (Exception $e) 

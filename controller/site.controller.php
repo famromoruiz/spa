@@ -47,6 +47,8 @@ class SiteController{
                           $s_nombre =  $_SESSION['nombre'] = $usuario->nikname;
                            $s_rol = $_SESSION['rol'] = $usuario->rol;
 
+                           $_SESSION['id_usuario'] = $usuario->id_usuario;
+
                             
 
                            header(Roles::Rol($usuario->rol));

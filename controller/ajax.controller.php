@@ -6,6 +6,7 @@ require __DIR__ . '/../model/habitacion.php';
 require __DIR__ . '/../model/masajista.php';
 require __DIR__ . '/../model/servicio.php';
 require __DIR__ . '/../model/serviciosCita.php';
+require __DIR__ . '/../model/usuario.php';
 
 class AjaxController{
     
@@ -14,6 +15,7 @@ class AjaxController{
    private $modelHabitacion;
    private $modelServicio;
    private $modelServiciosCita;
+   private $modelUsuario;
     
     public function __CONSTRUCT(){
       $this->modelProductos = new Productos();
@@ -23,6 +25,7 @@ class AjaxController{
        $this->modelMasajista = new Masajista();
        $this->modelServicio = new Servicio();
        $this->modelServiciosCita = new ServiciosCita();
+       $this->modelUsuario = new usuario();
     }
     
     public function Citas(){
@@ -60,7 +63,7 @@ class AjaxController{
 
           
          
-          $citas[] = array("id"=>$r->id_masajista,"resourceId"=>$r->id_masajista, "title"=>$r->nombre,'start'=>$r->inicio,'end'=>$r->fin, "description"=>$servicios,"color"=>$color, "allDay"=>false);
+          $citas[] = array("id"=>$r->id_masajista,"resourceId"=>$r->id_masajista, "title"=>$r->nombre,'start'=>$r->inicio,'end'=>$r->fin, "description"=>$servicios,"id_cita"=>$r->id_cita,"estado"=>$r->status,"color"=>$color, "allDay"=>false);
         
        }
 
@@ -69,14 +72,51 @@ class AjaxController{
         echo $citas;
     }
 
+    public function Verificar_cita(){
+      
+        if ($_POST) {
+
+          $obj = (object) [
+            'id' => intval($_POST['id']),
+            'estado' => intval($_POST['estado']),
+          ];
+
+          $datos=$this->modelCita->Comprobar($obj);
+          $datos = count($datos);
+
+          $r = $datos > 0 ? 'acces' : 'deny';
+
+            echo $r;
+        }
+    }
+
+
+    public function Confirmar_cita(){
+      
+        if ($_POST) {
+
+         $obj = (object) [
+            'id' => intval($_POST['id']),
+            'estado' => 2,
+          ];
+
+          $datos=$this->modelCita->Confirmar($obj);
+          
+
+          $r = 'ok';
+
+            echo $r;
+        }
+    }
+
 
      public function Masajistas(){
         //header('Content-Type: application/json');
       $masajistas=array();
 
-       foreach ($this->modelMasajista->Listar() as $r) {
+       foreach ($this->modelUsuario->Listar_rol_masajista() as $r) {
 
-          $citas[] = array("id"=>$r->id_personal,"title"=>strtoupper($r->nombre));
+          $citas[] = array("id"=>$r->id_usuario,"title"=>strtoupper($r->nikname));
         
        }
 

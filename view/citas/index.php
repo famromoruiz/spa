@@ -46,8 +46,8 @@ use \route\Route;
     <div class="form-group">
       <label for="Masajista">Terapeuta</label>
       <select id="masajista" class="form-control js-example-basic-single" name="masajista">
-    <?php foreach($this->modelMasajista->Listar() as $m) {?>
-  <option value="<?= $m->id_personal?>"><?= $m->nombre ?></option>
+    <?php foreach($this->modelUsuario->Listar_rol_masajista() as $m) {?>
+  <option value="<?= $m->id_usuario?>"><?= $m->nikname ?></option>
 <?php } ?>
 </select>
     </div>
@@ -74,12 +74,12 @@ use \route\Route;
   </div>
   <div class="col-md-8">
     <div class="card">
-  <div class="card-header bg-seremas text-white">
+  <div class="card-header bg-seremas text-white infocita">
     Calendario
   </div>
   <div class="card-body">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12 ">
         <div id="calendar"></div>
       </div>
     </div>
@@ -239,6 +239,27 @@ use \route\Route;
         <button type="button" class="btn btn-seremas  guardar " onclick="guardar();">Guardar</button>
         
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modaleventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modaleventosTitulo">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body modaleventosBody">
+        ...
+      </div>
+      <div class="modal-footer footer_cita">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-seremas confirmar_cita">Confirmar Cita</button>
       </div>
     </div>
   </div>
@@ -425,6 +446,7 @@ function agregarCita(){
 
                         calendar.fullCalendar('refetchEvents');
 
+                         
 
                 }
 
@@ -467,9 +489,17 @@ function agregarCita(){
         right: 'basicDay,agendaWeek'
       },
 
+      businessHours: {
+  // days of week. an array of zero-based day of week integers (0=Sunday)
+  dow: [ 1, 2, 3, 4 ,5 ,6], // Monday - Thursday
+
+  start: '09:00', // a start time (10am in this example)
+  end: '19:00', // an end time (6pm in this example)
+},
+
      // defaultDate: '2018-03-12',
       navLinks: true, // can click day/week names to navigate views
-      editable: true,
+      editable: false,
       eventLimit: true, // allow "more" link when too many events
        views: {
         agendaTwoDay: {
@@ -526,33 +556,84 @@ function agregarCita(){
 
    eventClick: function(calEvent, jsEvent, view) {
 
-   
+   console.log(calEvent);
 
-    abrirModal(calEvent.title);
+    abrirModal(calEvent.title, calEvent.description, calEvent.id_cita, calEvent.estado);
 
-  },
-
-
-   eventRender: function(event, element) {
-
-    var titulo = event.title;
-    var descripcion = event.description;
-
-    element.qtip({
-      content: { title: titulo , text: descripcion },
-      style: {
-        classes: 'qtip-bootstrap',
-         
-    }
-    });
   }
+
+
+  //  eventRender: function(event, element) {
+
+  //   console.log(element);
+
+  //   var titulo = event.title;
+  //   var descripcion = event.description;
+
+  //   element.qtip({
+  //     content: { title: titulo , text: descripcion },
+  //     style: {
+  //       classes: 'qtip-bootstrap',
+         
+  //   },
+  //    position: {
+  //       my: 'top left',  // Position my top left...
+  //      // at the bottom right of...
+  //       target: $('.infocita')
+  //   }
+  //   });
+  // }
 
     });
 
   });
 
- function abrirModal(titulo){
-  alert(titulo);
+ function abrirModal(titulo , description, id, estado){
+  //alert(titulo);
+
+  $.ajax({
+
+    data:  {id : id , estado: estado},
+    url:   '<?= Route::Ruta(['ajax' , 'Verificar_cita']) ?>',
+    type:  'post',
+    beforeSend: function () {
+      // accion antes de envio
+    },
+    success:  function (response) {
+      if (response == 'acces') {
+        $('.confirmar_cita').removeClass('disabled');
+        $('.confirmar_cita').removeAttr('disabled', 'true');
+        $('.confirmar_cita').attr('onclick', 'confirmar_cita('+id+')');
+        
+      }else{
+        $('.confirmar_cita').addClass('disabled');
+        $('.confirmar_cita').attr('disabled', 'true');
+      }
+    }
+
+  });
+
+ $('#modaleventosTitulo').html(titulo);
+ $('.modaleventosBody').html(description);
+ $('#modaleventos').modal('toggle');
+
+ }
+
+ function confirmar_cita(id){
+  $.ajax({
+
+    data:  {id : id},
+    url:   '<?= Route::Ruta(['ajax' , 'Confirmar_cita']) ?>',
+    type:  'post',
+    beforeSend: function () {
+      // accion antes de envio
+    },
+    success:  function (response) {
+       $('#calendar').fullCalendar('refetchEvents');
+      $('#modaleventos').modal('toggle');
+    }
+
+  });
  }
 
 </script>

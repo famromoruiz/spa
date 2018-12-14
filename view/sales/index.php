@@ -118,7 +118,7 @@ use \route\Route;
   <div class="tab-pane fade show active" id="pills-productos" role="tabpanel" aria-labelledby="pills-productos-tab">
   <br>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-12">
        <div class="input-group ">
 
         <datalist id="busqueda">
@@ -132,7 +132,8 @@ use \route\Route;
 
      </div>
     </div>
-    <div class="col-md-6">
+   
+    <div class="col-md-6 col-sm-12">
              <div class="input-group ">
 
 
@@ -302,6 +303,13 @@ request.onsuccess = function(event) {
   db = request.result;
 };
 
+$('#buscar').on('keyup input', function(){
+  buscar($('#buscar').val());
+});
+
+
+
+
 
 function cliente(id){
   client_id = id;
@@ -462,6 +470,8 @@ if ( b === '') {
 
                 },
                 success:  function (response) {
+
+                  
 
                   $('#busqueda').html('');
                

@@ -1,14 +1,51 @@
 body {
   height: 100vh;
   padding-top: 4.5rem;
-  background-color: #f6f5f3;
+  /*background-color: #f6f5f3;*/
+
+  background: url(../../assets/img/text.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
  
+}
+
+@media only screen and (max-width:500px) {
+   body {
+  height: 100vh;
+  padding-top: 8rem;
+  /*background-color: #f6f5f3;*/
+
+  background: url(../../assets/img/text.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+ 
+}
+}
+
+@media only screen and (max-width:900px) {
+   body {
+  height: 100vh;
+  padding-top: 5rem;
+  /*background-color: #f6f5f3;*/
+
+  background: url(../../assets/img/text.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+ 
+}
 }
 
 .navbar{
   background-color: #ffffff !important;
   border-bottom: 10px;
   border-color: #2f0f2aff !important;
+  text-transform: uppercase;
 }
 
 #menu .nav-item{
@@ -18,7 +55,7 @@ body {
 
 #menu .nav-item:hover{
   /*background-color: #acc630ff;*/
-  background-color: #2f0f2aff;
+  background-color: rgba(176, 201, 53, 255);
   border-radius: 1px;
   
 }
@@ -26,19 +63,20 @@ body {
 
 
 #menu .nav-link{
-  color: #2f0f2aff !important;
+  /*color: #2f0f2aff !important;*/
+  color: rgba(57, 16, 56, 255);
   font-weight: bold;
   
 }
 
 #menu .nav-link:hover{
-  color: #acc630ff !important;
+  color: #ffffff !important;
   
 }
 
 #menu .active{
-  background-color: #acc630ff;
-  border-radius: 1px;
+  background-color: rgba(176, 201, 53, 255);
+  border-radius: 5px;
   color: #ffffff !important;
   
 }
@@ -49,7 +87,7 @@ body {
 }
 
 .navbar-toggler{
-  background-color:#acc630ff !important;
+  background-color: rgba(176, 201, 53, 255) !important;
 }
 
 .btn-circle {
@@ -72,7 +110,7 @@ body {
 }
 
 .btn-circle.btn-xl {
-    background-color: #2f0f2aff !important;
+    background-color: rgba(57, 16, 56, 255) !important;
     width: 5em;
     height: 5em;
     padding: 10px 16px;
@@ -83,7 +121,7 @@ body {
 }
 
 .btn-circle.btn-xl p {
-    position: inherit;;
+    position: inherit;
 }
 
 
@@ -92,8 +130,12 @@ body {
     font-size: 25px;
 }
 
+.btn-circle.btn-xl:hover   {
+    border-color: rgba(176, 201, 53, 255);
+   border-width: 20px;
+}
 .btn-circle.btn-xl:hover i  {
-    color: #acc630ff;
+    color: rgba(176, 201, 53, 255);
     -webkit-animation-name: boom;
     animation-name: boom;
     -webkit-animation-duration: 0.7s;
@@ -158,6 +200,40 @@ body {
     }
 }
 
+@media only screen and (max-width:900px) {
+   .btn-circle.btn-xl {
+    background-color: rgba(57, 16, 56, 255) !important;
+    width: 10em;
+    height: 10em;
+    padding: 10px 16px;
+    font-size: 18px;
+    text-align: center;
+    /*line-height: 1.33;*/
+    border-radius: 100%;
+}
+
+.btn-circle.btn-xl span {
+    font-size: 15px;
+}
+}
+
+@media only screen and (max-width:500px) {
+   .btn-circle.btn-xl {
+    background-color: rgba(57, 16, 56, 255) !important;
+    width: 10em;
+    height: 10em;
+    padding: 10px 16px;
+    font-size: 18px;
+    text-align: center;
+    /*line-height: 1.33;*/
+    border-radius: 100%;
+}
+
+.btn-circle.btn-xl span {
+    font-size: 15px;
+}
+}
+
 
 
 .animated {
@@ -217,19 +293,20 @@ body {
 }
 
 .notfound .notfound-404 h1 {
-    font-size: 186px;
+    font-size: 140px;
     font-weight: 900;
     text-transform: uppercase
 }
 
 .texto {
     position: absolute;
-    left: 25%
+    left: 25%;
+    top: 80%;
 }
 
 .notfound h2 {
     font-size: 26px;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .notfound p {
@@ -248,6 +325,33 @@ body {
     .notfound .notfound-404 h1 {
         font-size: 120px
     }
+
+     .texto {
+    position: absolute;
+    left: 25%;
+    top: 95%;
+}
+}
+
+@media only screen and (max-width:500px) {
+    .notfound .notfound-404 {
+        height: 150px;
+        line-height: 110px
+    }
+    .notfound .notfound-404 h1 {
+        font-size: 70px
+    }
+
+    .notfound h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+    .texto {
+    position: absolute;
+    left: 10%;
+    top: 60%;
+}
 }
 
 .row-grid+.row-grid {

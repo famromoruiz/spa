@@ -4,13 +4,13 @@ use \gridview\Gridview;
 
 $pagina = (isset($_REQUEST['pagina']) && !empty($_REQUEST['pagina']))?$_REQUEST['pagina']:1;
 
-$model = $this->modelAlmacen->listar($pagina);
+$model = $this->modelUsuarios->listar($pagina);
 ?>
 <div class="container-fluid">
 	<div class="row">
   <div class="col-md-12">
     <!-- Button trigger modal -->
-<a href="?r=almacen/agregar" class="btn btn-seremas float-right" >
+<a href="?r=usuarios/agregar" class="btn btn-seremas float-right" >
   Agregar
 </a>
   </div>
@@ -19,20 +19,20 @@ $model = $this->modelAlmacen->listar($pagina);
 	<div class="row">
 		<div class="col-md-12">
 		<div class="card">
-		  <div class="card-header">
-		    Almacen
+		  <div class="card-header bg-seremas text-white">
+		    Usuarios
 		  </div>
 	  			<div class="table-responsive datos">
 
 				    <?= Gridview::Gridview($model['lista'],
 				      [
 				        'etiquetas' => [
-                  'producto' => ['nombre' => 'producto'],
-                  'proveedor' => ['nombre' => 'proveedor'],
-                  'Cantidad' => ['nombre' => 'cantidad', 'css' => 'text-center']
+                  'nombre' => ['nombre' => 'nombre'],
+                  'email' => ['nombre' => 'email'],
+                  'rol' => ['nombre' => 'rol', 'css' => 'text-center']
                 ],
-				        'atributos' => array('prod','prove','cantidad'),
-                'css' =>['cantidad' => 'text-center'],
+				        'atributos' => array('nombre','email','rol'),
+                'css' =>['rol' => 'text-center'],
 				        'paginas' => $model['paginas'],
 				        'id' => $model['id']
 				      ]); ?>
@@ -80,7 +80,7 @@ $model = $this->modelAlmacen->listar($pagina);
 });
   });
 
-    function actualiza_tabla(pagina) {
+      function actualiza_tabla(pagina) {
 
 if ($('.page-item').hasClass('active')) {
 

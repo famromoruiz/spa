@@ -51,6 +51,8 @@ class Gridview{
   <tbody>';
 
 $t = 0;
+
+
    
    foreach ($model as $value) {
 
@@ -60,7 +62,28 @@ $t = 0;
 
     foreach ($configuracion['atributos'] as $key => $val) {
 
-       $datos = $val == 'email' ?'<a class="text-seremas" href="mailto:'.strtolower($value->$val).'">'.strtolower($value->$val).'</a>' : ucwords(strtolower($value->$val));
+
+      if ($val == 'rol') {
+
+        switch ($value->$val) {
+          case 10:
+            $datos = strtoupper('admin');
+            break;
+            case 20:
+            $datos = strtoupper('cajero');
+            break;
+            case 30:
+            $datos = strtoupper('terapeuta');
+            break;
+        }
+
+       
+        
+      }else{
+        $datos = $val == 'email' ?'<a class="text-seremas" href="mailto:'.strtolower($value->$val).'">'.strtolower($value->$val).'</a>' : ucwords(strtolower($value->$val));
+      }
+
+       
        $css = isset($configuracion['css'][$val]) ? $configuracion['css'][$val] : '' ;
        $tabla .= '<td class="'.$css.'">'.$datos.'</td>';
 

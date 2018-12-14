@@ -1,4 +1,4 @@
-<div class="container" ">
+<div class="container-fluid">
 	
 <div class="row " >
 	<div class="col-md-12">
@@ -7,22 +7,24 @@
     Hola <?= $_SESSION['nombre'] ?> <span id="liveclock"></span>
   </div>
   		<ul class="list-group list-group-flush">
-    	 <?php $id =0;  foreach ($this->modelCita->Obtener(1) as $c) { 
+    	 <?php $id =0;  foreach ($this->modelCita->Obtener($_SESSION['id_usuario']) as $c) { 
 
                     $id++;
 
 
                   $fecha = $c->inicio;
                   $fecha = explode(' ', $fecha);
+                  $fech = $fecha[0];
                   $hora = $fecha[1];
                   $fecha = explode('-', $fecha[0]);
                   $fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+                  $hoy = date("Y-m-d");
 
-                
-
+                if ($fech == $hoy) {
+                  
                    ?>
             <li id="<?='masajes_l'.$id?>" class="list-group-item d-flex justify-content-between align-items-center "><?= $hora.':00' ?>   <?= strtoupper($c->nombre) ?>   <span><button type="button" class="btn btn-success btn-sm" onclick="agregar_citas_pago();"><i class="fa fa-play" aria-hidden="true"></i> Iniciar</button>  <button type="button" class="btn btn-danger btn-sm" onclick="agregar_citas_pago();"><i class="fa fa-stop" aria-hidden="true"></i> Terminar</button></span></li>
-      <?php } ?>
+      <?php } }?>
   </ul>
 </div>
 </div>

@@ -18,6 +18,10 @@
 	<a class="nav-link" href="<?= Route::Ruta(['almacen']) ?>">Almacen</a>
 </li>
 
+<li class="nav-item <?= Route::Active('usuarios') ?>">
+	<a class="nav-link" href="<?= Route::Ruta(['usuarios']) ?>">Usuarios</a>
+</li>
+
 
 		
 		<?php	break; ?>
