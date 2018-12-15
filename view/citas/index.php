@@ -38,7 +38,7 @@ use \route\Route;
      <div class="form-group">
       <label for="Habitacion">Habitacion</label>
       <select id="habitacion" class="form-control js-example-basic-single" name="habitacion">
-       <?php foreach($this->modelHabitacion->Listar() as $h) {?>
+       <?php foreach($this->modelHabitacion->Listar_normal() as $h) {?>
   <option value="<?= $h->id_habitacion?>"><?= $h->nombre ?></option>
 <?php } ?>
 </select>

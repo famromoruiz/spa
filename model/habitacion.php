@@ -20,7 +20,7 @@ class Habitacion
 		}
 	}
 
-	public function Listar()
+	public function Listar_normal()
 	{
 		try
 		{
@@ -36,6 +36,40 @@ class Habitacion
 			die($e->getMessage());
 		}
 	}
+
+  public function Listar($pagina)
+  {
+
+
+
+    $pagina = $pagina;
+    
+    $por_pagina = 20; //la cantidad de registros que desea mostrar
+    $adyacente  = 4; //brecha entre páginas después de varios adyacentes
+    $offset = ($pagina - 1) * $por_pagina;
+    try
+    {
+      $result = array();
+
+      $cuenta = $this->pdo->prepare("SELECT * FROM habitaciones ");
+      $cuenta->execute();
+      
+      $total_filas = $cuenta->rowCount();
+
+      $total_paginas = ceil($total_filas / $por_pagina);
+
+      $total_paginas = $total_paginas < 1 ? 1 : $total_paginas;
+
+      $stm = $this->pdo->prepare("SELECT * FROM habitaciones  LIMIT $offset,$por_pagina");
+      $stm->execute();
+
+      return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas, 'id' => 'id_habitacion' ];
+    }
+    catch(Exception $e)
+    {
+      die($e->getMessage());
+    }
+  }
 
 	public function Obtener($id)
 	{

@@ -471,6 +471,7 @@ if ( b === '') {
                 },
                 success:  function (response) {
 
+                 
                   
 
                   $('#busqueda').html('');
