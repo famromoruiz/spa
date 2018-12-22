@@ -1,5 +1,7 @@
 <?php
 use \route\Route;
+
+//var_dump($_SERVER['HTTP_HOST']);
 ?>
 
 <div class="container-fluid">
@@ -20,7 +22,7 @@ use \route\Route;
     <form  id="form">
      <div class="form-group">
       <label for="cliente">Cliente:</label>
- <select id="cliente" class="form-control js-example-basic-single" name="cliente">
+ <select id="cliente" class="form-control js-example-basic-single" style="width: 100%" name="cliente">
   <?php foreach($this->modelCliente->Listar_normal() as $c) {?>
   <option value="<?= $c->id_cliente?>"><?php echo $c->nombre.' '.$c->a_paterno.' '.$c->a_materno?></option>
 <?php } ?>
@@ -37,7 +39,7 @@ use \route\Route;
    
      <div class="form-group">
       <label for="Habitacion">Habitacion</label>
-      <select id="habitacion" class="form-control js-example-basic-single" name="habitacion">
+      <select id="habitacion" class="form-control js-example-basic-single" style="width: 100%" name="habitacion">
        <?php foreach($this->modelHabitacion->Listar_normal() as $h) {?>
   <option value="<?= $h->id_habitacion?>"><?= $h->nombre ?></option>
 <?php } ?>
@@ -45,7 +47,7 @@ use \route\Route;
     </div>
     <div class="form-group">
       <label for="Masajista">Terapeuta</label>
-      <select id="masajista" class="form-control js-example-basic-single" name="masajista">
+      <select id="masajista" class="form-control js-example-basic-single" style="width: 100%" name="masajista">
     <?php foreach($this->modelUsuario->Listar_rol_masajista() as $m) {?>
   <option value="<?= $m->id_usuario?>"><?= $m->nikname ?></option>
 <?php } ?>
@@ -53,7 +55,7 @@ use \route\Route;
     </div>
     <div class="form-group">
       <label for="servicios">Servicios</label>
-      <select id="servicios" class="form-control js-example-basic-multiple" name="servicios[]" multiple="multiple">
+      <select id="servicios" class="form-control js-example-basic-multiple" style="width: 100%" name="servicios[]" multiple="multiple">
       <?php foreach($this->modelServicio->Listar() as $s) {?>
   <option value="<?= $s->id_servicio?>"><?= $s->tratamiento ?></option>
 <?php } ?>
@@ -86,7 +88,7 @@ use \route\Route;
     <did class="row">
       <div class="col-md-12  align-items-center">
         <span class="badge badge-seremas">Agendado</span>
-        <span class="badge badge-success">Confirmado</span>
+        <span class="badge badge-info">Confirmado</span>
         <span class="badge badge-danger">Iniciado</span>
         <span class="badge badge-warning">Terminado</span>
         <span class="badge badge-secondary">Cobrado</span>
@@ -462,10 +464,13 @@ function agregarCita(){
 
     $('.js-example-basic-multiple').select2({
       placeholder: "Selecione...",
+      theme: "bootstrap4"
     
     });
     $('.js-example-basic-single').select2({
       placeholder: "Selecione...",
+      width: 'resolve',
+        theme: "bootstrap4"
    
     });
 

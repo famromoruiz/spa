@@ -43,7 +43,7 @@ class SiteController{
                        require __DIR__ .'/../view/site/login.php';
                     }else{
                        if($usuario->nikname) {
-                            session_start();
+                           // session_start();
                           $s_nombre =  $_SESSION['nombre'] = $usuario->nikname;
                            $s_rol = $_SESSION['rol'] = $usuario->rol;
 

@@ -36,7 +36,7 @@ class AlmacenController{
 
         $registrar = $this->modelAlmacen->Registrar($almacen);
 
-        var_dump($registrar);exit;
+        //var_dump($registrar);exit;
         
         
            //require __DIR__ .'/../view/almacen/index.php';

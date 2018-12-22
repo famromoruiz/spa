@@ -3,7 +3,7 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					Agregar Producto
+					Agregar Habitacion
 				</div>
 				<div class="card-body">
 
@@ -11,13 +11,7 @@
 					
 					<div class="row">
 						<div class="col-md-6">
-							<p>
-								<div class="form-group">
-									<label class="control-label">UPC:</label>
-                    				<input maxlength="100" type="text" required="required" class="form-control" placeholder="UPC" name="upc" value="<?= $model->upc ?>"/>
-                    				
-                    			</div>
-                    		</p>
+							
                     		<p>
 								<div class="form-group">
 									<label class="control-label">Nombre:</label>
@@ -32,22 +26,8 @@
 							</p>
 						</div>
 						<div class="col-md-6">
-							<p>
-								<div class="form-group row">
-									<div class="col-3">
-									<label class="control-label">Precio:</label>
-                    				<input maxlength="10" type="text" required="required" class="form-control" placeholder="precio" name="precio" value="<?= $model->precio ?>"/>
-                    				</div>
-                    			</div>
-							</p>
-							<p>
-								<div class="form-group row">
-									<div class="col-3">
-									<label class="control-label">Precio Publico:</label>
-                    				<input maxlength="10" type="text" required="required" class="form-control" placeholder="precio_publico" name="precio_publico" value="<?= $model->precio_publico ?>"/>
-                    				</div>
-                    			</div>
-							</p>
+							
+							
 							
 						</div>
 					</div>

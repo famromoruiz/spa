@@ -5,6 +5,7 @@ class Productos
     
 	
 public $id_producto;
+public $id_proveedor;
 public $upc;
 public $nombre;
 public $descripcion;
@@ -47,7 +48,7 @@ public $precio_publico;
 
 		$pagina = $pagina;
 		// $pagina = (isset($_REQUEST['pagina']) && !empty($_REQUEST['pagina']))?$_REQUEST['pagina']:1;
-		$por_pagina = 20; //la cantidad de registros que desea mostrar
+		$por_pagina = 10; //la cantidad de registros que desea mostrar
 		$adyacente  = 4; //brecha entre páginas después de varios adyacentes
 		$offset = ($pagina - 1) * $por_pagina;
 		try
@@ -61,7 +62,7 @@ public $precio_publico;
 
 			$total_paginas = ceil($total_filas / $por_pagina);
 
-			$stm = $this->pdo->prepare("SELECT * FROM productos  LIMIT $offset,$por_pagina");
+			$stm = $this->pdo->prepare("SELECT * FROM productos ");
 			$stm->execute();
 
 			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas < 1 ? 1 : $total_paginas , 'id' => 'id_producto'];
@@ -109,7 +110,7 @@ public $precio_publico;
 		try 
 		{
 			$stm = $this->pdo
-			          ->prepare("SELECT * FROM productos WHERE id_producto = ?");
+			          ->prepare("SELECT pr.id_producto, pr.id_proveedor, pr.upc, pr.nombre, pr.descripcion, pr.precio,pr.precio_publico, pro.nombre as provee FROM productos pr JOIN prove pro ON pr.id_proveedor = pro.id_proveedor where pr.id_producto = ?");
 			          
 
 			$stm->execute(array($id));
@@ -126,6 +127,7 @@ public $precio_publico;
 		try 
 		{
 			$sql = "UPDATE productos SET 
+						 id_proveedor = ?,
 						 upc = ?,
 						 nombre = ?,
 						 descripcion = ?,
@@ -136,6 +138,7 @@ public $precio_publico;
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
+                         $data->id_proveedor,
                          $data->upc,
 						 $data->nombre,
 						 $data->descripcion,
@@ -171,17 +174,19 @@ public $precio_publico;
 		try 
 		{
 		$sql = "INSERT INTO productos (
+				id_proveedor,
 				upc,
 				nombre,
 				descripcion,
 				precio,
 				precio_publico
 		) 
-		        VALUES (?, ?, ?, ?, ?)";
+		        VALUES (?, ?, ?, ?, ?,?)";
 
 		$this->pdo->prepare($sql)
 		     ->execute(
 				array(
+                    $data->id_proveedor,
                     $data->upc,
                     $data->nombre, 
                     $data->descripcion, 

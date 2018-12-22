@@ -67,7 +67,7 @@ class Usuario
 
 		$pagina = $pagina;
 		
-		$por_pagina = 20; //la cantidad de registros que desea mostrar
+		$por_pagina = 10; //la cantidad de registros que desea mostrar
 		$adyacente  = 4; //brecha entre páginas después de varios adyacentes
 		$offset = ($pagina - 1) * $por_pagina;
 		try
@@ -83,7 +83,7 @@ class Usuario
 
 			$total_paginas = $total_paginas < 1 ? 1 : $total_paginas;
 
-			$stm = $this->pdo->prepare("SELECT * FROM usuarios  LIMIT $offset,$por_pagina");
+			$stm = $this->pdo->prepare("SELECT * FROM usuarios ");
 			$stm->execute();
 
 			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas, 'id' => 'id_usuario' ];

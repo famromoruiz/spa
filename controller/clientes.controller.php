@@ -70,7 +70,7 @@ class ClientesController{
 
       $model = $this->modelCliente->Eliminar($id);
 
-      require __DIR__ .'/../view/clientes/ver.php';
+      header('Location: ?r=clientes');
 
     }
 

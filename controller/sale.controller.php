@@ -5,6 +5,7 @@ require __DIR__ . '/../model/cita.php';
 require __DIR__ . '/../model/servicio.php';
 require __DIR__ . '/../model/zonas.php';
 require __DIR__ . '/../model/cliente.php';
+require __DIR__ . '/../model/promociones.php';
 
 
 class SaleController{
@@ -19,10 +20,12 @@ class SaleController{
       $this->modelServicio = new Servicio();
       $this->modelZonas = new Zona();
       $this->modelCliente = new Cliente();
+      $this->modelPromociones = new Promociones();
     }
     
     public function Index(){
-       $dataproviderZonas = $this->modelZonas->Listar(); 
+       $dataproviderZonas = $this->modelZonas->Listar();
+       $dataproviderPromos = $this->modelPromociones->Listar_normal();
         require __DIR__ .'/../view/sales/index.php';
        // require_once 'view/layauts/footer.php';
     }

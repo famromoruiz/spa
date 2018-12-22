@@ -110,9 +110,9 @@ use \route\Route;
   <li class="nav-item">
     <a class="nav-link" id="pills-servicios-tab" data-toggle="pill" href="#pills-servicios" role="tab" aria-controls="pills-servicios" aria-selected="false">Servicios</a>
   </li>
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link" id="pills-paquetes-tab" data-toggle="pill" href="#pills-paquetes" role="tab" aria-controls="pills-paquetes" aria-selected="false">Paqutes</a>
-  </li>
+  </li> -->
 </ul>
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="pills-productos" role="tabpanel" aria-labelledby="pills-productos-tab">
@@ -170,7 +170,7 @@ use \route\Route;
 <br>
 <button type="button" class="btn btn-seremas btn-sm" onclick="agregar_servicio();">Agregar</button>
   </div>
-  <div class="tab-pane fade" id="pills-paquetes" role="tabpanel" aria-labelledby="pills-paquetes-tab">...</div>
+  <!-- <div class="tab-pane fade" id="pills-paquetes" role="tabpanel" aria-labelledby="pills-paquetes-tab">...</div> -->
 </div>
 </div>
           </div>
@@ -190,7 +190,7 @@ use \route\Route;
     
 </div>
 <div class="card-footer text-muted">
-    <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-outline-seremas  btn-block">PAGAR</button>
+    <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-outline-seremas pagar btn-block">PAGAR</button>
   </div>
 </div>
         </div>
@@ -206,7 +206,7 @@ use \route\Route;
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -217,6 +217,14 @@ use \route\Route;
         <div class="row">
           <div class="col-md-12 text-center">
         <h1  class="font-weight-bold"><i class="fa fa-dollar text-seremas" aria-hidden="true"></i><span id="pesos_2" class="pesos">0.00</span></h1>
+        <p><label for="promo">Promo</label>
+    <select class="form-control promo" style="width: 50%" id="promo">
+      <option value=""></option>
+      <?php foreach ($dataproviderPromos as $promo) {?>
+        <option value="<?= $promo->descuento ?>"><?= $promo->descripcion ?></option>
+      <?php } ?>
+      
+    </select></p>
             
           </div>
         </div>
@@ -234,10 +242,10 @@ use \route\Route;
               <label class="custom-control-label" for="customRadioInline2">Tarjeta credito / debito</label>
             </div>
 
-            <div class="custom-control custom-radio custom-control-inline">
+            <!-- <div class="custom-control custom-radio custom-control-inline">
               <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input credito">
               <label class="custom-control-label" for="customRadioInline3">Credito</label>
-            </div>
+            </div> -->
 
           </div>
         </div>
@@ -344,6 +352,14 @@ $(document).ready(function(){
    
     }).addClass("cliente");
 
+   $('#promo').select2({
+       width: 'resolve',
+       placeholder: 'Seleccione Promo...',
+      
+        theme: "bootstrap4"
+   
+    }).addClass("promo");
+
 
 
   $(".pagos_2").html('Total '+$(".items_2 li").length);
@@ -374,6 +390,32 @@ $('#client').on('select2:select', function (e) {
   
 });
 
+$('.promo').on('select2:select', function (e) {
+     var descuento = '.'+parseInt(e.params.data.id);
+
+     let cantidad = parseFloat($('#pesos_2').html()).toFixed(2);
+
+     let promo = parseFloat(cantidad-cantidad*descuento).toFixed(2);
+
+     $('#pesos_2').html(promo);
+
+     
+});
+
+
+
+$('.cancelar').on('click',function(){
+  $('#promo').val('').trigger('change');
+});
+
+
+$('.pagar').on('click',function(){
+
+  window.print();
+
+  $('#pesos_2').html($('.pesos').html());
+  
+});
 
 $('.zonas').on('select2:select', function (e) {
   
@@ -731,10 +773,31 @@ function confirmar(){
 
   request.onsuccess = function(event) {
 
-   var test = request.result;
+   var productos = request.result;
 
        
- $.post("<?= Route::Ruta(['ajax' , 'Descontar_almacen']) ?>",{test}, function(json, textStatus) {
+ $.post("<?= Route::Ruta(['ajax' , 'Descontar_almacen']) ?>",{productos}, function(json, textStatus) {
+      
+  }).then( function(response){
+   // console.log(response);
+  });
+
+
+};
+
+
+var transaction_c = db.transaction(["citas"],"readwrite");
+var store_c = transaction_c.objectStore("citas");
+
+var request_c = store_c.getAll();
+
+request_c.onsuccess = function(event) {
+
+   var citas_pv = request_c.result[0];
+
+
+       
+ $.post("<?= Route::Ruta(['ajax' , 'Cobrar_cita']) ?>",{citas_pv}, function(json, textStatus) {
       
   }).then( function(response){
     console.log(response);
@@ -743,35 +806,20 @@ function confirmar(){
 
 };
 
-
-
-
-
-//   store_p.getAllItems(function (items) {
-
-//     var len = items.length;
-
-//     for (var i = 0; i < len; i += 1) {
-
-//         console.log(items[i]);
-
-//     }
-
-// });
-
-
-
-  
-
- 
-
-
  
   var descripcion = $('#pagos').html();
-  var monto = parseFloat($('#pesos').html());
+  var monto = parseFloat($('#pesos_2').html()).toFixed(2);
   var metodo = metodo_pago;
 
-  //console.log(client_id , descripcion, monto , metodo);
+ 
+
+   $.post("<?= Route::Ruta(['ajax' , 'Tiket']) ?>",{id_cliente: client_id , descripcion: descripcion , monto: monto}, function(json, textStatus) {
+      
+  }).then( function(response){
+    console.log(response);
+  });
+
+  console.log(client_id , descripcion, monto , metodo);
   switch(metodo_pago) {
   case "efectivo":
 

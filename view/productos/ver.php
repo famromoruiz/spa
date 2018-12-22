@@ -11,6 +11,7 @@
 						<div class="col-md-6">
 							<p>UPC: <?= $model->upc ?></p>
 							<p>Descripcion: <?= $model->descripcion ?></p>
+							<p>Proveedor: <?= $model->provee ?></p>
 						</div>
 						<div class="col-md-6">
 							<p>Precio: <?=  '$'. $model->precio ?></p>

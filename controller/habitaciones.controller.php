@@ -22,25 +22,23 @@
         }
 
           public function Agregar(){
-      $model = new Productos;
+      $model = new Habitacion;
         if ($_POST) {
 
-        $producto = new Productos;
-        $producto->upc = $_POST['upc'];
-        $producto->nombre = $_POST['nombre'];
-        $producto->descripcion = $_POST['descripcion'];
-        $producto->precio = $_POST['precio'];
-        $producto->precio_publico = $_POST['precio_publico'];
+        $habitacion = new Habitacion;
+        $habitacion->nombre = $_POST['nombre'];
+        $habitacion->descripcion = $_POST['descripcion'];
+        
 
-        $this->modelProductos->Registrar($producto);
+        $this->modelHabitaciones->Registrar($habitacion);
         
         
-           require __DIR__ .'/../view/productos/index.php';
+           require __DIR__ .'/../view/habitaciones/index.php';
 
 
       }else{
         
-        require __DIR__ .'/../view/productos/agregar.php';
+        require __DIR__ .'/../view/habitaciones/agregar.php';
       }
        // require_once 'view/layauts/footer.php';
     }
@@ -49,9 +47,9 @@
 
       $id = $_GET['id'];
 
-      $model = $this->modelProductos->Obtener($id);
+      $model = $this->modelHabitaciones->Obtener($id);
 
-      require __DIR__ .'/../view/productos/ver.php';
+      require __DIR__ .'/../view/habitaciones/ver.php';
 
     }
 
@@ -59,7 +57,7 @@
         $id = isset($_GET['id']) ? $_GET['id'] : '';
 
        
-          $model = $this->modelProductos->Obtener($id);
+          $model = $this->modelHabitaciones->Obtener($id);
         
 
       
@@ -67,23 +65,30 @@
 
       if ($_POST) {
 
-        $producto = new Productos;
-        $producto->id_producto = $_POST['id_producto'];
-        $producto->upc = $_POST['upc'];
-        $producto->nombre = $_POST['nombre'];
-        $producto->descripcion = $_POST['descripcion'];
-        $producto->precio = $_POST['precio'];
-        $producto->precio_publico = $_POST['precio_publico'];
+        $habitacion = new Habitacion;
+        $habitacion->id_habitacion = $_POST['id_habitacion'];
+        $habitacion->nombre = $_POST['nombre'];
+        $habitacion->descripcion = $_POST['descripcion'];
 
-        $this->modelProductos->Actualizar($producto);
-        $model = $this->modelProductos->Obtener($producto->id_producto);
+        $this->modelHabitaciones->Actualizar($habitacion);
+        $model = $this->modelHabitaciones->Obtener($habitacion->id_habitacion);
         
 
 
 
       }
 
-      require __DIR__ .'/../view/productos/editar.php';
+      require __DIR__ .'/../view/habitaciones/editar.php';
+    }
+
+     public function Eliminar(){
+
+      $id = $_GET['id'];
+
+      $model = $this->modelHabitaciones->Eliminar($id);
+
+      require __DIR__ .'/../view/habitaciones/index.php';
+
     }
 
          public function Error(){

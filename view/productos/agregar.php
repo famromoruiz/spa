@@ -48,6 +48,18 @@
                     				</div>
                     			</div>
 							</p>
+							<p>
+								<div class="form-group row">
+									<div class="col-3">
+									<label for="proveedor">Proveedor</label>
+									      <select id="proveedor" class="form-control provee" style="width: 100%" name="proveedor">
+									       <?php foreach($dataProviderproveedor as $pr) {?>
+									  <option value="<?= $pr->id_proveedor?>"><?= $pr->nombre ?></option>
+									<?php } ?>
+									</select>
+                    				</div>
+                    			</div>
+							</p>
 							
 						</div>
 					</div>

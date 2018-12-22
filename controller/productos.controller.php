@@ -7,6 +7,7 @@ require __DIR__ . '/../model/masajista.php';
 require __DIR__ . '/../model/servicio.php';
 require __DIR__ . '/../model/serviciosCita.php';
 require __DIR__ . '/../model/productos.php';
+require __DIR__ . '/../model/proveedor.php';
 
 class ProductosController{
     
@@ -26,6 +27,7 @@ class ProductosController{
        $this->modelServicio = new Servicio();
        $this->modelServiciosCita = new ServiciosCita();
        $this->modelProductos = new Productos();
+       $this->modelProveedor = new Proveedor();
     }
     
     public function Index(){
@@ -36,9 +38,11 @@ class ProductosController{
 
      public function Agregar(){
       $model = new Productos;
+      $dataProviderproveedor = $this->modelProveedor->Listar();
         if ($_POST) {
 
         $producto = new Productos;
+        $producto->id_proveedor = $_POST['proveedor'];
         $producto->upc = $_POST['upc'];
         $producto->nombre = $_POST['nombre'];
         $producto->descripcion = $_POST['descripcion'];
@@ -62,7 +66,9 @@ class ProductosController{
 
       $id = $_GET['id'];
 
-      $model = $this->modelProductos->Obtener($id);
+
+
+     $model = $this->modelProductos->Obtener($id);
 
       require __DIR__ .'/../view/productos/ver.php';
 
@@ -73,6 +79,7 @@ class ProductosController{
 
        
           $model = $this->modelProductos->Obtener($id);
+          $dataProviderproveedor = $this->modelProveedor->Listar();
         
 
       
@@ -82,6 +89,7 @@ class ProductosController{
 
         $producto = new Productos;
         $producto->id_producto = $_POST['id_producto'];
+        $producto->id_proveedor = $_POST['proveedor'];
         $producto->upc = $_POST['upc'];
         $producto->nombre = $_POST['nombre'];
         $producto->descripcion = $_POST['descripcion'];
@@ -105,7 +113,7 @@ class ProductosController{
 
       $model = $this->modelProductos->Eliminar($id);
 
-      require __DIR__ .'/../view/productos/ver.php';
+      header('Location: ?r=productos');
 
     }
 

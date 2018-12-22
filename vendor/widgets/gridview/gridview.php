@@ -20,21 +20,14 @@ class Gridview{
       $editar = $_REQUEST['r'].'/editar&id=';
       $eliminar = $_REQUEST['r'].'/eliminar&id=';
 
-      $tabla = ' <table class="table table-hover ">
-                  <caption> <span> <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-end ">';
+      $tabla = ' <table class="table table-hover catalogos">
+                  ';
 
       $flag = 0 ;
 
-      for ($i = 0; $i < $configuracion['paginas'] ; $i++) {
-        $flag++;
-        $tabla.= '<li class="page-item"><a class="page-link text-seremas"  onclick="actualiza_tabla('.$flag.');" ">'.$flag.'</a></li>';
-      }
+      
     
-      $tabla .= '</ul>
-              </nav> 
-            </span>
-          </caption>
+      $tabla .= '
 
   <thead class="thead">
     <tr>';

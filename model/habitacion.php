@@ -44,7 +44,7 @@ class Habitacion
 
     $pagina = $pagina;
     
-    $por_pagina = 20; //la cantidad de registros que desea mostrar
+    $por_pagina = 10; //la cantidad de registros que desea mostrar
     $adyacente  = 4; //brecha entre páginas después de varios adyacentes
     $offset = ($pagina - 1) * $por_pagina;
     try
@@ -60,7 +60,7 @@ class Habitacion
 
       $total_paginas = $total_paginas < 1 ? 1 : $total_paginas;
 
-      $stm = $this->pdo->prepare("SELECT * FROM habitaciones  LIMIT $offset,$por_pagina");
+      $stm = $this->pdo->prepare("SELECT * FROM habitaciones");
       $stm->execute();
 
       return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas, 'id' => 'id_habitacion' ];
@@ -76,7 +76,7 @@ class Habitacion
 		try 
 		{
 			$stm = $this->pdo
-			          ->prepare("SELECT * FROM clientes WHERE id = ?");
+			          ->prepare("SELECT * FROM habitaciones WHERE id_habitacion = ?");
 			          
 
 			$stm->execute(array($id));
@@ -92,7 +92,7 @@ class Habitacion
 		try 
 		{
 			$stm = $this->pdo
-			            ->prepare("DELETE FROM clientes WHERE id = ?");			          
+			            ->prepare("DELETE FROM habitaciones WHERE id_habitacion = ?");			          
 
 			$stm->execute(array($id));
 		} catch (Exception $e) 
@@ -105,23 +105,17 @@ class Habitacion
 	{
 		try 
 		{
-			$sql = "UPDATE clientes SET 
-						Nombre          = ?, 
-						Apellido        = ?,
-                        Correo        = ?,
-						Sexo            = ?, 
-						FechaNacimiento = ?
-				    WHERE id = ?";
+			$sql = "UPDATE habitaciones SET 
+						nombre          = ?, 
+						descripcion        = ?
+				    WHERE id_habitacion = ?";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-                        $data->Nombre, 
-                        $data->Correo,
-                        $data->Apellido,
-                        $data->Sexo,
-                        $data->FechaNacimiento,
-                        $data->id
+                        $data->nombre, 
+                        $data->descripcion,
+                        $data->id_habitacion
 					)
 				);
 		} catch (Exception $e) 
@@ -130,21 +124,18 @@ class Habitacion
 		}
 	}
 
-	public function Registrar(Cita $data)
+	public function Registrar($data)
 	{
 		try 
 		{
-		$sql = "INSERT INTO citas (inicio, fin, id_cliente, id_habitacion, id_masajista) 
-		        VALUES (?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO habitaciones (nombre, descripcion) 
+		        VALUES (?, ?)";
 
 		$this->pdo->prepare($sql)
 		     ->execute(
 				array(
-                    $data->inicio,
-                    $data->fin, 
-                    $data->id_cliente, 
-                    $data->id_habitacion,
-                    $data->id_masajista
+                    $data->nombre,
+                    $data->descripcion
                 )
 			);
 		} catch (Exception $e) 

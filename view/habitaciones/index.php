@@ -13,7 +13,7 @@ $model = $this->modelHabitaciones->Listar($pagina);
 <div class="row">
   <div class="col-md-12">
     <!-- Button trigger modal -->
-<a href="?r=productos/agregar" class="btn btn-seremas float-right" >
+<a href="?r=habitaciones/agregar" class="btn btn-seremas float-right" >
   Agregar
 </a>
   </div>

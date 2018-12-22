@@ -9,12 +9,11 @@
 					
 					<div class="row">
 						<div class="col-md-6">
-							<p>UPC: <?= $model->upc ?></p>
+							<p>Habitacion: <?= $model->nombre ?></p>
 							<p>Descripcion: <?= $model->descripcion ?></p>
 						</div>
 						<div class="col-md-6">
-							<p>Precio: <?=  '$'. $model->precio ?></p>
-							<p>Precio publico: <?= '$'.  $model->precio_publico ?></p>
+							
 							
 						</div>
 					</div>

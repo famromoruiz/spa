@@ -8,7 +8,7 @@ $model = $this->modelCliente->listar($pagina);
 
 //var_dump($model);exit;
 ?>
-<div class="container-fluid">
+<div class="container-fluid animated fadeIn">
 <div id="alert-success" class="alert alert-success " style="display:none;" role="alert">
   Cliente añadido corectamente!
 </div>
@@ -201,6 +201,8 @@ $model = $this->modelCliente->listar($pagina);
 
 
 <script>
+
+  
 
 
   $('.eliminar').on('click',function(){

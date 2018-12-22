@@ -1,3 +1,6 @@
+<?php
+use \route\Route;
+?>
 <div class="container-fluid">
 	
 <div class="row " >
@@ -23,7 +26,7 @@
                 if ($fech == $hoy) {
                   
                    ?>
-            <li id="<?='masajes_l'.$id?>" class="list-group-item d-flex justify-content-between align-items-center "><?= $hora.':00' ?>   <?= strtoupper($c->nombre) ?>   <span><button type="button" class="btn btn-success btn-sm" onclick="agregar_citas_pago();"><i class="fa fa-play" aria-hidden="true"></i> Iniciar</button>  <button type="button" class="btn btn-danger btn-sm" onclick="agregar_citas_pago();"><i class="fa fa-stop" aria-hidden="true"></i> Terminar</button></span></li>
+            <li id="<?='masajes_l'.$id?>" class="list-group-item d-flex justify-content-between align-items-center "><?= $hora.':00' ?>   <?= strtoupper($c->nombre) ?>   <span><button type="button" class="btn btn-success btn-sm" onclick="iniciar_cita(<?= $c->id_cita ?>,<?='masajes_l'.$id?>);"><i class="fa fa-play" aria-hidden="true"></i> Iniciar</button>  <button type="button" class="btn btn-danger btn-sm" disabled="" onclick="terminar_cita(<?= $c->id_cita ?>, <?='masajes_l'.$id?>);"><i class="fa fa-stop" aria-hidden="true"></i> Terminar</button></span></li>
       <?php } }?>
   </ul>
 </div>
@@ -64,4 +67,40 @@
 
         window.onload=show5
          //-->
+
+     </script>
+
+     <script>
+       function iniciar_cita(id , id_li){
+          $.ajax({
+
+              data:  {id : id},
+              url:   '<?= Route::Ruta(['ajax' , 'Iniciar_cita']) ?>',
+              type:  'post',
+              beforeSend: function () {
+                // accion antes de envio
+              },
+              success:  function (response) {
+                $('#'+id_li.id).find('.btn-danger').removeAttr('disabled');
+                $('#'+id_li.id).find('.btn-success').attr('disabled','true');
+              }
+
+            });
+         }
+
+         function terminar_cita(id , id_li){
+          $.ajax({
+
+              data:  {id : id},
+              url:   '<?= Route::Ruta(['ajax' , 'Terminar_cita']) ?>',
+              type:  'post',
+              beforeSend: function () {
+                // accion antes de envio
+              },
+              success:  function (response) {
+                 $('#'+id_li.id).find('.btn-danger').attr('disabled','true');
+              }
+
+            });
+         }
      </script>

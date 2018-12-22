@@ -65,7 +65,7 @@ class Almacen
 
 			$total_paginas = $total_paginas < 1 ? 1 : $total_paginas;
 
-			$stm = $this->pdo->prepare("SELECT al.id_almacen ,pr.nombre as prod , pro.nombre as prove, cantidad FROM almacen al join productos pr on al.id_producto = pr.id_producto join prove pro on pro.id_proveedor = pr.id_proveedor  LIMIT $offset,$por_pagina");
+			$stm = $this->pdo->prepare("SELECT al.id_almacen ,pr.nombre as prod , pro.nombre as prove, cantidad FROM almacen al join productos pr on al.id_producto = pr.id_producto join prove pro on pro.id_proveedor = pr.id_proveedor ");
 			$stm->execute();
 
 			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas, 'id' => 'id_almacen' ];
@@ -99,6 +99,22 @@ class Almacen
 		{
 			$stm = $this->pdo
 			          ->prepare("SELECT * FROM almacen WHERE id_producto = ?");
+			          
+
+			$stm->execute(array($id));
+			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function Obtener_cantidad($id)
+	{
+		try 
+		{
+			$stm = $this->pdo
+			          ->prepare("SELECT al.cantidad FROM almacen al join productos pr on al.id_producto = pr.id_producto WHERE pr.upc = ?");
 			          
 
 			$stm->execute(array($id));
@@ -153,16 +169,13 @@ class Almacen
 
 		try 
 		{
-			$sql = "UPDATE almacen SET 
-						
-						 instagram = ?
-				    WHERE id_cliente = ?";
+			$sql = "UPDATE almacen al JOIN productos pr on al.id_producto = pr.id_producto  SET al.cantidad = ? WHERE pr.upc = ?";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
                          $data->cantidad,
-						 $data->id_producto
+						 $data->upc
 					)
 				);
 		} catch (Exception $e) 

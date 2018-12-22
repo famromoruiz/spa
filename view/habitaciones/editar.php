@@ -11,17 +11,12 @@
 					
 					<div class="row">
 						<div class="col-md-6">
-							<p>
-								<div class="form-group">
-									<label class="control-label">UPC:</label>
-                    				<input maxlength="100" type="text" required="required" class="form-control" placeholder="UPC" name="upc" value="<?= $model->upc ?>"/>
-                    				<input maxlength="100" type="text" hidden="" required="required" class="form-control" placeholder="id" name="id_producto" value="<?= $model->id_producto ?>"/>
-                    			</div>
-                    		</p>
+							
                     		<p>
 								<div class="form-group">
 									<label class="control-label">Nombre:</label>
                     				<input maxlength="100" type="text" required="required" class="form-control" placeholder="nombre" name="nombre" value="<?= $model->nombre ?>"/>
+                    				<input maxlength="100" type="text" hidden="" required="required" class="form-control" placeholder="id" name="id_habitacion" value="<?= $model->id_habitacion ?>"/>
                     			</div>
                     		</p>
 							<p>
@@ -32,22 +27,8 @@
 							</p>
 						</div>
 						<div class="col-md-6">
-							<p>
-								<div class="form-group row">
-									<div class="col-3">
-									<label class="control-label">Precio:</label>
-                    				<input maxlength="10" type="text" required="required" class="form-control" placeholder="precio" name="precio" value="<?= $model->precio ?>"/>
-                    				</div>
-                    			</div>
-							</p>
-							<p>
-								<div class="form-group row">
-									<div class="col-3">
-									<label class="control-label">Precio Publico:</label>
-                    				<input maxlength="10" type="text" required="required" class="form-control" placeholder="precio_publico" name="precio_publico" value="<?= $model->precio_publico ?>"/>
-                    				</div>
-                    			</div>
-							</p>
+							
+							
 							
 						</div>
 					</div>

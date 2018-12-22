@@ -1,4 +1,5 @@
 <?php
+use Spipu\Html2Pdf\Html2Pdf;
 require __DIR__ . '/../model/productos.php';
 require __DIR__ . '/../model/cliente.php';
 require __DIR__ . '/../model/cita.php';
@@ -7,6 +8,8 @@ require __DIR__ . '/../model/masajista.php';
 require __DIR__ . '/../model/servicio.php';
 require __DIR__ . '/../model/serviciosCita.php';
 require __DIR__ . '/../model/usuario.php';
+require __DIR__ . '/../model/almacen.php';
+require __DIR__ . '/../model/ticket.php';
 
 class AjaxController{
     
@@ -16,6 +19,8 @@ class AjaxController{
    private $modelServicio;
    private $modelServiciosCita;
    private $modelUsuario;
+   private $modelAlmacen;
+   private $modelTicket;
     
     public function __CONSTRUCT(){
       $this->modelProductos = new Productos();
@@ -26,6 +31,8 @@ class AjaxController{
        $this->modelServicio = new Servicio();
        $this->modelServiciosCita = new ServiciosCita();
        $this->modelUsuario = new usuario();
+       $this->modelAlmacen = new Almacen();
+       $this->modelTicket = new Ticket();
     }
     
     public function Citas(){
@@ -98,6 +105,62 @@ class AjaxController{
          $obj = (object) [
             'id' => intval($_POST['id']),
             'estado' => 2,
+          ];
+
+          $datos=$this->modelCita->Confirmar($obj);
+          
+
+          $r = 'ok';
+
+            echo $r;
+        }
+    }
+
+      public function Iniciar_cita(){
+      
+        if ($_POST) {
+
+         $obj = (object) [
+            'id' => intval($_POST['id']),
+            'estado' => 3,
+          ];
+
+          $datos=$this->modelCita->Confirmar($obj);
+          
+
+          $r = 'ok';
+
+            echo $r;
+        }
+    }
+
+     public function Terminar_cita(){
+      
+        if ($_POST) {
+
+         $obj = (object) [
+            'id' => intval($_POST['id']),
+            'estado' => 4,
+          ];
+
+          $datos=$this->modelCita->Confirmar($obj);
+          
+
+          $r = 'ok';
+
+            echo $r;
+        }
+    }
+
+    public function Cobrar_cita(){
+      
+        if ($_POST) {
+
+         // var_dump($_POST['citas_pv']['id_cita']);exit;
+
+         $obj = (object) [
+            'id' => intval($_POST['citas_pv']['id_cita']),
+            'estado' => 5,
           ];
 
           $datos=$this->modelCita->Confirmar($obj);
@@ -262,9 +325,16 @@ class AjaxController{
     public function Descontar_almacen(){
 
       if ($_POST) {
-        $productos = $_POST['test'];
+        $productos = $_POST['productos'];
 
-        var_dump($productos[0]['upc']);exit;
+      foreach ($productos as $producto) {
+        $cantidad = $this->modelAlmacen->Obtener_cantidad($producto['upc']);
+        $cantidad = intval($cantidad->cantidad) - intval($producto['cantidad']);
+        $prod = (object) array('cantidad' => $cantidad , 'upc' => $producto['upc']);
+        $this->modelAlmacen->Actualizar($prod);
+      }
+
+       echo 'ok';
       }
 
       
@@ -274,9 +344,43 @@ class AjaxController{
 
     public function Tiket(){
 
-      sleep(10);
 
-      echo 'ok';
+      if ($_POST) {
+
+        $ticket = (Object) array(
+          'cliente' => $_POST['id_cliente'],
+          'descripcion' => trim($_POST['descripcion']),
+          'monto' => $_POST['monto']
+
+        );
+
+                      // Create an instance of the class:
+        $mpdf = new \Mpdf\Mpdf();
+
+        // Write some HTML code:
+        $mpdf->WriteHTML('<table class="table">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Descripcion</th>
+      <th scope="col" class="text-center">Cantidad</th>
+      <th scope="col" class="text-center">Precio</th>
+      
+    </tr>
+  </thead>
+  <tbody class="prod" id="pagos">
+    '.$ticket->descripcion.'
+  </tbody>
+</table>');
+
+        // Output a PDF file directly to the browser
+        $mpdf->Output('docs/tickets/filename.pdf','F');
+
+        $this->modelTicket->Registrar($ticket);
+
+        var_dump($ticket);exit;
+        
+      }
     }
 
 

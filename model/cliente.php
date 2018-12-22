@@ -80,7 +80,7 @@ class Cliente
 
 			$total_paginas = $total_paginas < 1 ? 1 : $total_paginas;
 
-			$stm = $this->pdo->prepare("SELECT * FROM clientes  LIMIT $offset,$por_pagina");
+			$stm = $this->pdo->prepare("SELECT * FROM clientes");
 			$stm->execute();
 
 			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas, 'id' => 'id_cliente' ];

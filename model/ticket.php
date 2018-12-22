@@ -117,21 +117,19 @@
       }
     }
 
-    public function Registrar(Cita $data)
+    public function Registrar($data)
     {
       try 
       {
-      $sql = "INSERT INTO citas (inicio, fin, id_cliente, id_habitacion, id_masajista) 
-              VALUES (?, ?, ?, ?, ?)";
+      $sql = "INSERT INTO ticket (id_cliente, descripcion, monto) 
+              VALUES (?, ?, ?)";
 
       $this->pdo->prepare($sql)
            ->execute(
           array(
-                      $data->inicio,
-                      $data->fin, 
-                      $data->id_cliente, 
-                      $data->id_habitacion,
-                      $data->id_masajista
+                      $data->cliente,
+                      $data->descripcion, 
+                      $data->monto
                   )
         );
       } catch (Exception $e) 

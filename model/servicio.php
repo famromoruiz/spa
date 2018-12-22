@@ -47,12 +47,46 @@ public $notas;
 		}
 	}
 
+	 public function Listar_modelo()
+  {
+
+
+
+    $pagina = 0;
+    
+    $por_pagina = 10; //la cantidad de registros que desea mostrar
+    $adyacente  = 4; //brecha entre páginas después de varios adyacentes
+    $offset = ($pagina - 1) * $por_pagina;
+    try
+    {
+      $result = array();
+
+      $cuenta = $this->pdo->prepare("SELECT * FROM servicios ");
+      $cuenta->execute();
+      
+      $total_filas = $cuenta->rowCount();
+
+      $total_paginas = ceil($total_filas / $por_pagina);
+
+      $total_paginas = $total_paginas < 1 ? 1 : $total_paginas;
+
+      $stm = $this->pdo->prepare("SELECT * FROM servicios join zonas on servicios.id_zona = zonas.Id_zona");
+      $stm->execute();
+
+      return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas, 'id' => 'id_servicio' ];
+    }
+    catch(Exception $e)
+    {
+      die($e->getMessage());
+    }
+  }
+
 	public function Obtener($id)
 	{
 		try 
 		{
 			$stm = $this->pdo
-			          ->prepare("SELECT * FROM servicios WHERE id_servicio = ?");
+			          ->prepare("SELECT * FROM servicios join zonas on servicios.id_zona = zonas.id_zona WHERE id_servicio = ?");
 			          
 
 			$stm->execute(array($id));
@@ -84,7 +118,7 @@ public $notas;
 		try 
 		{
 			$stm = $this->pdo
-			            ->prepare("DELETE FROM clientes WHERE id = ?");			          
+			            ->prepare("DELETE FROM servicios WHERE id_servicio = ?");			          
 
 			$stm->execute(array($id));
 		} catch (Exception $e) 
@@ -97,23 +131,21 @@ public $notas;
 	{
 		try 
 		{
-			$sql = "UPDATE clientes SET 
-						Nombre          = ?, 
-						Apellido        = ?,
-                        Correo        = ?,
-						Sexo            = ?, 
-						FechaNacimiento = ?
-				    WHERE id = ?";
+			$sql = "UPDATE servicios SET 
+						id_zona = ?,
+						tratamiento =?,
+						regular =?,
+						tiempo = ?
+				    WHERE id_servicio = ?";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-                        $data->Nombre, 
-                        $data->Correo,
-                        $data->Apellido,
-                        $data->Sexo,
-                        $data->FechaNacimiento,
-                        $data->id
+                        $data->id_zona, 
+                        $data->tratamiento,
+                        $data->regular,
+                        $data->tiempo,
+                        $data->id_servicio
 					)
 				);
 		} catch (Exception $e) 
@@ -122,21 +154,20 @@ public $notas;
 		}
 	}
 
-	public function Registrar(Cita $data)
+	public function Registrar($data)
 	{
 		try 
 		{
-		$sql = "INSERT INTO citas (inicio, fin, id_cliente, id_habitacion, id_masajista) 
-		        VALUES (?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO servicios (id_zona, tratamiento, regular, tiempo) 
+		        VALUES (?,?,?,?)";
 
 		$this->pdo->prepare($sql)
 		     ->execute(
 				array(
-                    $data->inicio,
-                    $data->fin, 
-                    $data->id_cliente, 
-                    $data->id_habitacion,
-                    $data->id_masajista
+                    	$data->id_zona, 
+                        $data->tratamiento,
+                        $data->regular,
+                        $data->tiempo
                 )
 			);
 		} catch (Exception $e) 
