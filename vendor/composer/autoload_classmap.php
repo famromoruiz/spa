@@ -6,13 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'FB' => $vendorDir . '/firephp/firephp-core/lib/FirePHPCore/fb.php',
     'FPDF_TPL' => $vendorDir . '/setasign/fpdi/fpdf_tpl.php',
     'FPDI' => $vendorDir . '/setasign/fpdi/fpdi.php',
     'FilterASCII85' => $vendorDir . '/setasign/fpdi/filters/FilterASCII85.php',
     'FilterASCIIHexDecode' => $vendorDir . '/setasign/fpdi/filters/FilterASCIIHexDecode.php',
     'FilterLZW' => $vendorDir . '/setasign/fpdi/filters/FilterLZW.php',
-    'FirePHP' => $vendorDir . '/firephp/firephp-core/lib/FirePHPCore/FirePHP.class.php',
     'fpdi_pdf_parser' => $vendorDir . '/setasign/fpdi/fpdi_pdf_parser.php',
     'pdf_context' => $vendorDir . '/setasign/fpdi/pdf_context.php',
 );

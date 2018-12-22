@@ -1,7 +1,6 @@
 {
     "require": {
         "swiftmailer/swiftmailer": "^6.0",
-        "firephp/firephp-core": "dev-master",
         "mpdf/mpdf": "^7.1"
     }
 }

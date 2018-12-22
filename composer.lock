@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bfaf989297371c0000c8902bff138bc6",
+    "content-hash": "c18410571c264b30ae0911a9bdcf3afd",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -116,45 +116,6 @@
                 "validator"
             ],
             "time": "2018-12-04T22:38:24+00:00"
-        },
-        {
-            "name": "firephp/firephp-core",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/firephp/firephp-core.git",
-                "reference": "ea6a06a0429022da64c5fcc6a0ac35d344159573"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/firephp/firephp-core/zipball/ea6a06a0429022da64c5fcc6a0ac35d344159573",
-                "reference": "ea6a06a0429022da64c5fcc6a0ac35d344159573",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "lib/FirePHPCore/FirePHP.class.php",
-                    "lib/FirePHPCore/fb.php"
-                ],
-                "files": [
-                    "lib/FirePHPCore/fb.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christoph Dorn",
-                    "email": "christoph@christophdorn.com",
-                    "homepage": "http://christophdorn.com"
-                }
-            ],
-            "description": "Minimal library for sending PHP variables to browsers.",
-            "homepage": "https://github.com/firephp/firephp-core",
-            "time": "2017-11-14T03:50:53+00:00"
         },
         {
             "name": "mpdf/mpdf",
@@ -476,9 +437,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "firephp/firephp-core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
