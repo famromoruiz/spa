@@ -384,13 +384,34 @@ $('#datetimepicker1').datetimepicker({
    format: 'DD/MM/YYYY HH:mm'
 });
 
+
+// function agregarCita(){
+//   let servicios = $('#servicios').select2('data');
+//   let id_serv = [];
+
+//   $.each(servicios,function(index, val) {
+//     id_serv.push(val.id);
+//   });
+
+
+
+//   }
+
 function agregarCita(){
+  let servicios = $('#servicios').select2('data');
+  let id_serv = [];
+
+  $.each(servicios,function(index, val) {
+    id_serv.push(val.id);
+  });
+
+
   var parametros = {
     fecha : $('#datetimepicker1').val(),
     cliente : $('#cliente').val(),
     habitacion : $('#habitacion').val(),
     masajista : $('#masajista').val(),
-    servicios : $('#servicios').val(),
+    servicios : id_serv,
 
   };
 
@@ -453,8 +474,6 @@ function agregarCita(){
                 }
 
         });
-
-  console.log(parametros);
 }
             
 

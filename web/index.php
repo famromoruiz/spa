@@ -35,7 +35,7 @@ if (empty($_SESSION)) {
    
 }else{
 
-    $controller = 'site';
+    $controller = 'dashboard';
 
 // Todo esta lógica hara el papel de un FrontController
 if(!isset($_REQUEST['r']) || $_REQUEST['r'] == '' ){

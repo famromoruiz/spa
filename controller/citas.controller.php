@@ -58,15 +58,19 @@ class CitasController{
 
        $n_serv = $_POST['servicios'];
 
+
+
        $cuenta = count($n_serv);
 
      
 
-        foreach ($n_serv as $r) {
+        foreach ($_POST['servicios'] as $r) {
            $śervicios_t = $this->modelServicio->Obtener($r); 
 
          $minutos_añadir = $śervicios_t->tiempo + $minutos_añadir;
         }
+
+        
       
        
       
@@ -111,7 +115,7 @@ class CitasController{
        foreach ($_POST['servicios'] as $s) {
          $serv = new serviciosCita;
           $serv->id_cita = $id;
-          $serv->id_servicio = $s[0];
+          $serv->id_servicio = $s;
 
           $this->modelServiciosCita->Registrar($serv);
        }

@@ -24,7 +24,7 @@ class SaleController{
     }
     
     public function Index(){
-       $dataproviderZonas = $this->modelZonas->Listar();
+       $dataproviderZonas = $this->modelZonas->Listar_normal();
        $dataproviderPromos = $this->modelPromociones->Listar_normal();
         require __DIR__ .'/../view/sales/index.php';
        // require_once 'view/layauts/footer.php';

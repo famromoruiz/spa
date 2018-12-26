@@ -272,11 +272,17 @@ class AjaxController{
       if ($_POST) {
         $id = $_POST['id'];
         $servicios = $this->modelServicio->Obtener_por_zona($id);
-        $serv_data = [];
+        //$serv_data = [];
+        // foreach ($servicios as $servicio) {
+        //   $serv_data[] = array('id' => $servicio->id_servicio , 'text' => $servicio->tratamiento );
+        // }
+        // echo json_encode($serv_data);
+
+        $serv = '';
         foreach ($servicios as $servicio) {
-          $serv_data[] = array('id' => $servicio->id_servicio , 'text' => $servicio->tratamiento );
-        }
-        echo json_encode($serv_data);
+          $serv.= '<option value="'.$servicio->id_servicio.'">'.$servicio->tratamiento.'</option>';  
+                  }
+        echo $serv;
       }
     }
 
@@ -347,9 +353,16 @@ class AjaxController{
 
       if ($_POST) {
 
+        $cuenta_tr = count($_POST['descripcion']);
+        $tr = '';
+
+        for ($i = 0; $i < $cuenta_tr ; $i++) {
+          $tr .= '<tr><td class="cantidad">'.$_POST['descripcion'][$i]['cantidad'].'</td><td class="producto">'.$_POST['descripcion'][$i]['descripcion'].'</td><td class="precio">'.$_POST['descripcion'][$i]['precio'].'</td></tr>';
+        }
+
         $ticket = (Object) array(
           'cliente' => $_POST['id_cliente'],
-          'descripcion' => trim($_POST['descripcion']),
+          'descripcion' => trim($tr),
           'monto' => $_POST['monto']
 
         );

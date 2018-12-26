@@ -14,7 +14,7 @@ class Roles{
 
     	switch ($rol) {
     		case 10:
-    			$redirige ="location: ?r=site";
+    			$redirige ="location: ?r=dashboard";
     			break;
     		case 20:
     			$redirige ="location: ?r=site";

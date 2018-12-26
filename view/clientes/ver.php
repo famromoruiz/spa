@@ -82,11 +82,9 @@
         <table class="table">
   <thead>
     <tr>
-      <th scope="col"></th>
-      <th scope="col">Descripcion</th>
       <th scope="col" class="text-center">Cantidad</th>
+      <th scope="col">Descripcion</th>
       <th scope="col" class="text-center">Precio</th>
-      
     </tr>
   </thead>
   <tbody class="prod" id="pagos">

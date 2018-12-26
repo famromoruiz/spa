@@ -264,6 +264,49 @@ use \route\Route;
   </div>
 </div>
 
+
+
+  <div class="ticket d-none" id="tck">
+    <img class="img_tck" src="../assets/img/logo.gif" alt="Logotipo">
+    <p class="centrado">SERE +
+      <br>neoterapia estetica
+      <br>5 de mayo #1006
+      <br>23/08/2017 08:22 a.m.</p>
+    <table class="tabla_tck">
+      <thead>
+        <tr>
+          <th class="cantidad">CANT</th>
+          <th class="producto">PRODUCTO</th>
+          <th class="precio">$$</th>
+        </tr>
+      </thead>
+      <tbody id="body_tck">
+       <!--  <tr>
+          <td class="cantidad">1.00</td>
+          <td class="producto">CHEETOS VERDES 80 G</td>
+          <td class="precio">$8.50</td>
+        </tr>
+        <tr>
+          <td class="cantidad">2.00</td>
+          <td class="producto">KINDER DELICE</td>
+          <td class="precio">$10.00</td>
+        </tr>
+        <tr>
+          <td class="cantidad">1.00</td>
+          <td class="producto">COCA COLA 600 ML</td>
+          <td class="precio">$10.00</td>
+        </tr>
+        <tr>
+          <td class="cantidad"></td>
+          <td class="producto">TOTAL</td>
+          <td class="precio">$28.50</td>
+        </tr> -->
+      </tbody>
+    </table>
+    <p class="centrado">¡GRACIAS POR SU COMPRA!
+      <br>seremas.com</p>
+  </div>
+
 <script>
 
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
@@ -406,18 +449,21 @@ $('.promo').on('select2:select', function (e) {
 
 $('.cancelar').on('click',function(){
   $('#promo').val('').trigger('change');
+  $('#body_tck').html("");
 });
 
 
 $('.pagar').on('click',function(){
 
-  window.print();
+ // window.print();
 
   $('#pesos_2').html($('.pesos').html());
   
 });
 
 $('.zonas').on('select2:select', function (e) {
+
+   $('#servicio').val('').trigger('change');
   
   var id = e.params.data.id;
   $.ajax({
@@ -430,16 +476,28 @@ $('.zonas').on('select2:select', function (e) {
       // accion antes de envio
     },
     success:  function (response) {
+ $('#servicio').val('').trigger('change');
+
+      // var servicios = [];
      
-      var servicios = JSON.parse(response);
-      if (servicios.length == 0) {
-        servicios = [];
-      }
+      //  servicios = JSON.parse(response);
+
+      var servicios = response;
+
+       $('#servicio').html(servicios);
+
+//       var data = $.map(servicios, function (obj) {
+//   obj.id = obj.id || obj.pk; // replace pk with your identifier
+
+//   return obj;
+// });
+     // var servicios = response;
+      // if (servicios.length == 0) {
+      //   servicios = [];
+      // }
+      console.log(servicios);
        $('.servicio').select2({
-       width: 'resolve',
-       data:servicios,
-       placeholder: 'Seleccione...',
-        selectOnClose: true,
+      
         theme: "bootstrap4"
    
     }).addClass("servicio");
@@ -651,6 +709,12 @@ request.onsuccess = function(e) {
 
 function agregar_servicio(){
 
+  
+
+  var datos_zonas = $('#zona').select2('data');
+
+  console.log();
+
   var id =$('#servicio').val();
 
   $.ajax({
@@ -667,7 +731,7 @@ function agregar_servicio(){
 
       var id = $("#pagos tr").length + 1;
       var precio = parseFloat(servicio.regular);
-      var p = $('#zona').text()+' '+servicio.tratamiento;
+      var p = datos_zonas[0].text+' '+servicio.tratamiento;
       var cantidad = 1;
 
        $('#pagos').append('<tr onclick="remover_fila(this)" id="fila_'+id+'" class="fila"><th class="text-center" scope="row"><span class="text-danger"> <i class="fa fa-times" aria-hidden="true"></i></span></th><td>'+p+'</td><td class="text-center">'+cantidad+'</td><td class="text-right costo">$'+precio.toFixed(2)+'</td></tr>');
@@ -717,6 +781,8 @@ function remover_fila(test){
 
 
 function agregar_citas_pago(id ,nombre , costo, fecha, id_cita){
+
+
 
   var transaction = db.transaction(["citas"],"readwrite");
   var store = transaction.objectStore("citas");
@@ -808,18 +874,90 @@ request_c.onsuccess = function(event) {
 
  
   var descripcion = $('#pagos').html();
+  var tck = $.parseHTML(descripcion);
+  var art = [];
+  for (var i = 0; i < tck.length -1; i++) {
+    let desc = tck[i].nextSibling.children[1].firstChild;
+    let cant = tck[i].nextSibling.children[2].firstChild;
+    let prec = tck[i].nextSibling.children[3].firstChild;
+    art.push({"descripcion" : desc.data , "cantidad" : cant.data, "precio" : prec.data });
+  }
+
+   for (var i = 0; i < art.length; i++) {
+     $('#body_tck').append(`<tr>
+          <td class="cantidad">`+art[i].cantidad+`</td>
+          <td class="producto">`+art[i].descripcion+`</td>
+          <td class="precio">`+art[i].precio+`</td>
+        </tr>`);
+   }
+   
+    var imprimir=document.getElementById("tck");
+   newWin= window.open("");
+   newWin.document.write(`<style>
+    
+*{
+  font-size: 8px;
+  font-family: 'Times New Roman';
+}
+ 
+td,
+th,
+tr,
+table {
+  border-top: 1px solid black;
+  border-collapse: collapse;
+}
+ 
+td.producto,
+th.producto {
+  width: 80px;
+  max-width: 80px;
+}
+ 
+td.cantidad,
+th.cantidad {
+  width: 40px;
+  max-width: 40px;
+  word-break: break-all;
+}
+ 
+td.precio,
+th.precio {
+  width: 40px;
+  max-width: 40px;
+  word-break: break-all;
+}
+ 
+.centrado {
+  text-align: center;
+  align-content: center;
+}
+ 
+.ticket {
+  width: 155px;
+  max-width: 155px;
+}
+ 
+img {
+  max-width: inherit;
+  width: inherit;
+}
+</style>`);
+   newWin.document.write(imprimir.outerHTML);
+   newWin.print();
+   newWin.close();
+
   var monto = parseFloat($('#pesos_2').html()).toFixed(2);
   var metodo = metodo_pago;
 
  
 
-   $.post("<?= Route::Ruta(['ajax' , 'Tiket']) ?>",{id_cliente: client_id , descripcion: descripcion , monto: monto}, function(json, textStatus) {
+   $.post("<?= Route::Ruta(['ajax' , 'Tiket']) ?>",{id_cliente: client_id , descripcion: art , monto: monto}, function(json, textStatus) {
       
   }).then( function(response){
-    console.log(response);
+    //console.log(response);
   });
 
-  console.log(client_id , descripcion, monto , metodo);
   switch(metodo_pago) {
   case "efectivo":
 
@@ -846,6 +984,7 @@ $('.confirmar').attr('onclick', 'nueva_venta();').html('Nueva Venta');
 }
 
 function nueva_venta(){
+  $('#body_tck').html("");
   location.reload();
 }
 
