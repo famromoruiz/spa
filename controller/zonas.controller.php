@@ -56,7 +56,7 @@
         $this->modelZonas->Actualizar($zona);
         $model = $this->modelZonas->Obtener($zona->id_zona);
         
-
+           header('Location: ?r=zonas');
 
 
       }

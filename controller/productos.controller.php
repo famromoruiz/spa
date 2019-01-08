@@ -100,7 +100,7 @@ class ProductosController{
         $model = $this->modelProductos->Obtener($producto->id_producto);
         
 
-
+        header('Location: ?r=productos');
 
       }
 

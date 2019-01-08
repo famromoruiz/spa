@@ -62,7 +62,7 @@
         $this->modelServicios->Actualizar($servicio);
         $model = $this->modelServicios->Obtener($servicio->id_servicio);
         
-
+        header('Location: ?r=servicios');
 
 
       }

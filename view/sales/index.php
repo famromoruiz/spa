@@ -345,6 +345,8 @@ var db;
 var request = indexedDB.open("spa");
 
 var client_id;
+var packs;
+var rebaja_pack = 1;
 
 request.onerror = function(event) {
   alert("¿Por qué no permitiste que mi aplicación web use IndexedDB?");
@@ -375,7 +377,15 @@ function cliente(id){
     },
     success:  function (response) {
 
-      $('.items_2').html(response);
+      //$('.items_2').html(response); return;
+
+      var l_c_p_c = JSON.parse(response);
+
+      packs = l_c_p_c.servicios;
+
+      console.log(packs);
+
+      $('.items_2').html(l_c_p_c.boton);
     }
 
   });
@@ -782,6 +792,7 @@ function remover_fila(test){
 
 function agregar_citas_pago(id ,nombre , costo, fecha, id_cita){
 
+  rebaja_pack = 0;
 
 
   var transaction = db.transaction(["citas"],"readwrite");
@@ -829,6 +840,24 @@ function agregar_citas_pago(id ,nombre , costo, fecha, id_cita){
 
 
 function confirmar(){
+
+  if (rebaja_pack == 0) {
+    $.ajax({
+
+    data:  { paquetes : packs},
+    url:   "<?= Route::Ruta(['ajax' , 'Rebaja_pack']) ?>",
+    type:  'post',
+    beforeSend: function () {
+      // accion antes de envio
+    },
+    success:  function (response) {
+      console.log(response);
+    }
+
+  });
+  }
+
+  //return;
 
   var transaction_p = db.transaction(["productos"],"readwrite");
   var store_p = transaction_p.objectStore("productos");

@@ -14,7 +14,7 @@
                 
                 <div class="form-group ">
                     <label class="control-label">Nombre</label>
-                    <input  maxlength="100" type="text" required="required" class="form-control" placeholder="Nombre" name="nombre" value="<?= $model->nombre ?>" />
+                    <input  maxlength="100" type="text"  class="form-control" placeholder="Nombre" name="nombre" value="<?= $model->nombre ?>" />
                     <input  maxlength="100" type="text"  hidden="" class="form-control"  name="id_cliente" value="<?= $model->id_cliente ?>" />
                     <div class="invalid-feedback">
                             Looks good!
@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Apellido Paterno</label>
-                    <input maxlength="100" type="text" required="required" class="form-control" placeholder="Apelldo Paterno" name="a_paterno" value="<?= $model->a_paterno ?>"/>
+                    <input maxlength="100" type="text"  class="form-control" placeholder="Apelldo Paterno" name="a_paterno" value="<?= $model->a_paterno ?>"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Apellido Materno</label>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Celular 1</label>
-                    <input maxlength="200" type="text" required="required" class="form-control" placeholder="Celular 1" name="cel_1" value="<?= $model->cel_1 ?>"/>
+                    <input maxlength="200" type="text"  class="form-control" placeholder="Celular 1" name="cel_1" value="<?= $model->cel_1 ?>"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Celular 2</label>
@@ -92,7 +92,7 @@
                 <h3>Social</h3>
                  <div class="form-group ">
                     <label class="control-label">Email</label>
-                    <input maxlength="200" type="text" required="required" class="form-control" placeholder="Email" name="email" value="<?= $model->email ?>"/>
+                    <input maxlength="200" type="text"  class="form-control" placeholder="Email" name="email" value="<?= $model->email ?>"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Facebook</label>

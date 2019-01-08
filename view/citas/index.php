@@ -23,6 +23,7 @@ use \route\Route;
      <div class="form-group">
       <label for="cliente">Cliente:</label>
  <select id="cliente" class="form-control js-example-basic-single" style="width: 100%" name="cliente">
+  <option></option>
   <?php foreach($this->modelCliente->Listar_normal() as $c) {?>
   <option value="<?= $c->id_cliente?>"><?php echo $c->nombre.' '.$c->a_paterno.' '.$c->a_materno?></option>
 <?php } ?>
@@ -38,8 +39,9 @@ use \route\Route;
     </div>
    
      <div class="form-group">
-      <label for="Habitacion">Habitacion</label>
+      <label for="Habitacion">Habitación</label>
       <select id="habitacion" class="form-control js-example-basic-single" style="width: 100%" name="habitacion">
+        <option></option>
        <?php foreach($this->modelHabitacion->Listar_normal() as $h) {?>
   <option value="<?= $h->id_habitacion?>"><?= $h->nombre ?></option>
 <?php } ?>
@@ -48,6 +50,7 @@ use \route\Route;
     <div class="form-group">
       <label for="Masajista">Terapeuta</label>
       <select id="masajista" class="form-control js-example-basic-single" style="width: 100%" name="masajista">
+        <option></option>
     <?php foreach($this->modelUsuario->Listar_rol_masajista() as $m) {?>
   <option value="<?= $m->id_usuario?>"><?= $m->nikname ?></option>
 <?php } ?>
@@ -482,12 +485,12 @@ function agregarCita(){
   $(document).ready(function() {
 
     $('.js-example-basic-multiple').select2({
-      placeholder: "Selecione...",
+      placeholder: "Seleccione...",
       theme: "bootstrap4"
     
     });
     $('.js-example-basic-single').select2({
-      placeholder: "Selecione...",
+      placeholder: "Seleccione...",
       width: 'resolve',
         theme: "bootstrap4"
    
@@ -582,7 +585,7 @@ function agregarCita(){
 
    console.log(calEvent);
 
-    abrirModal(calEvent.title, calEvent.description, calEvent.id_cita, calEvent.estado);
+    abrirModal(calEvent.title, calEvent.description, calEvent.id_cita, calEvent.tel,calEvent.estado);
 
   }
 
@@ -612,7 +615,7 @@ function agregarCita(){
 
   });
 
- function abrirModal(titulo , description, id, estado){
+ function abrirModal(titulo , description, id, tel ,estado){
   //alert(titulo);
 
   $.ajax({
@@ -638,7 +641,7 @@ function agregarCita(){
   });
 
  $('#modaleventosTitulo').html(titulo);
- $('.modaleventosBody').html(description);
+ $('.modaleventosBody').html(tel+'<br>'+description);
  $('#modaleventos').modal('toggle');
 
  }

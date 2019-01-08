@@ -21,6 +21,57 @@ class UsuariosController{
       
     }
 
+    public function Ver(){
+
+      $id = $_GET['id'];
+
+      $model = $this->modelUsuarios->Obtener_id($id);
+
+     require __DIR__ .'/../view/usuarios/ver.php'; 
+    }
+
+    public function Editar(){
+        $id = isset($_GET['id']) ? $_GET['id'] : '';
+
+       
+          $model = $this->modelUsuarios->Obtener_id($id);
+        
+
+      
+
+
+      if ($_POST) {
+
+        if ($_POST['pass'] == '') {
+        
+        $usuario = new Usuario;
+        $usuario->nombre = $_POST['nombre'];
+        $usuario->nikname = $_POST['nik'];
+        $usuario->email = $_POST['email'];
+        $usuario->id_usuario = $id;
+
+        $this->modelUsuarios->Actualizar($usuario);
+
+        }else{
+        
+        $pass = sha1($_POST['pass']);
+        $usuario = new Usuario;
+        $usuario->nombre = $_POST['nombre'];
+        $usuario->nikname = $_POST['nik'];
+        $usuario->email = $_POST['email'];
+        $usuario->password = $pass;
+        $usuario->id_usuario = $id;
+
+        $this->modelUsuarios->Edita_pass($usuario);
+        }
+
+          header('Location: ?r=usuarios');
+
+      }
+
+      require __DIR__ .'/../view/usuarios/editar.php';
+    }
+
 
      public function Agregar(){
      
@@ -98,7 +149,7 @@ class UsuariosController{
 
       $id = $_GET['id'];
 
-      $model = $this->modelAlmacen->Eliminar($id);
+      $model = $this->modelUsuarios->Eliminar($id);
 
       require __DIR__ .'/../view/usuarios/index.php';
 

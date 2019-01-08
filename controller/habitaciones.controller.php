@@ -74,7 +74,7 @@
         $model = $this->modelHabitaciones->Obtener($habitacion->id_habitacion);
         
 
-
+          header('Location: ?r=habitaciones');
 
       }
 

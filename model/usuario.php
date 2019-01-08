@@ -110,6 +110,23 @@ class Usuario
 		}
 	}
 
+	public function Obtener_id($id)
+	{
+		try 
+		{
+			$stm = $this->pdo
+			          ->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
+			          
+
+			$stm->execute(array($id));
+			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+
 	public function Obtener_mail($email)
 	{
 		try 
@@ -202,7 +219,7 @@ class Usuario
 		try 
 		{
 			$stm = $this->pdo
-			            ->prepare("DELETE FROM usuarios WHERE id = ?");			          
+			            ->prepare("DELETE FROM usuarios WHERE id_usuario = ?");			          
 
 			$stm->execute(array($id));
 		} catch (Exception $e) 
@@ -216,22 +233,46 @@ class Usuario
 		try 
 		{
 			$sql = "UPDATE usuarios SET 
-						Nombre          = ?, 
-						Apellido        = ?,
-                        Correo        = ?,
-						Sexo            = ?, 
-						FechaNacimiento = ?
-				    WHERE id = ?";
+						nombre          = ?, 
+						nikname        = ?,
+                        email        = ?
+				    WHERE id_usuario = ?";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-                        $data->Nombre, 
-                        $data->Correo,
-                        $data->Apellido,
-                        $data->Sexo,
-                        $data->FechaNacimiento,
-                        $data->id
+                        $data->nombre, 
+                        $data->nikname,
+                        $data->email,
+                        $data->id_usuario
+					)
+				);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+
+	public function Edita_pass($data)
+	{
+		try 
+		{
+			$sql = "UPDATE usuarios SET 
+						nombre   = ?, 
+						nikname  = ?,
+                        email    = ?,
+                        password = ?
+				    WHERE id_usuario = ?";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+                        $data->nombre, 
+                        $data->nikname,
+                        $data->email,
+                        $data->password,
+                        $data->id_usuario
 					)
 				);
 		} catch (Exception $e) 

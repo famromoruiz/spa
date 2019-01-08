@@ -58,8 +58,10 @@ class ClientesController{
         
 
 
+      header('Location: ?r=clientes');
 
       }
+
 
       require __DIR__ .'/../view/clientes/editar.php';
     }

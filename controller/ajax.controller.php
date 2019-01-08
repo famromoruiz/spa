@@ -10,8 +10,10 @@ require __DIR__ . '/../model/serviciosCita.php';
 require __DIR__ . '/../model/usuario.php';
 require __DIR__ . '/../model/almacen.php';
 require __DIR__ . '/../model/ticket.php';
+require __DIR__ . '/../model/paquetes.php';
 
 class AjaxController{
+
     
    private $modelCliente;
    private $modelCita;
@@ -21,8 +23,10 @@ class AjaxController{
    private $modelUsuario;
    private $modelAlmacen;
    private $modelTicket;
+   private $modelPaquetes;
     
     public function __CONSTRUCT(){
+     
       $this->modelProductos = new Productos();
        $this->modelCliente = new Cliente();
        $this->modelCita = new Cita();
@@ -33,6 +37,7 @@ class AjaxController{
        $this->modelUsuario = new usuario();
        $this->modelAlmacen = new Almacen();
        $this->modelTicket = new Ticket();
+       $this->modelPaquetes = new Paquetes();
     }
     
     public function Citas(){
@@ -52,7 +57,7 @@ class AjaxController{
               break;case 3:
               $color = "#FF4000";
               break;case 4:
-              $color = "#FF0040";
+              $color = "#FFFF00";
               break;case 5:
               $color = "#D8D8D8";
               break;
@@ -70,7 +75,7 @@ class AjaxController{
 
           
          
-          $citas[] = array("id"=>$r->id_masajista,"resourceId"=>$r->id_masajista, "title"=>$r->nombre,'start'=>$r->inicio,'end'=>$r->fin, "description"=>$servicios,"id_cita"=>$r->id_cita,"estado"=>$r->status,"color"=>$color, "allDay"=>false);
+          $citas[] = array("id"=>$r->id_masajista,"resourceId"=>$r->id_masajista, "title"=>$r->nombre,'start'=>$r->inicio,'end'=>$r->fin, "description"=>$servicios,"id_cita"=>$r->id_cita,"tel"=>$r->tel,"estado"=>$r->status,"color"=>$color, "allDay"=>false);
         
        }
 
@@ -288,8 +293,18 @@ class AjaxController{
 
     public function Listar_citas_por_cobrar(){
       if ($_POST) {
+        $paquetes = $this->modelPaquetes->Obtener($_POST['id']);
+
+       
+
+        
+
+       // var_dump(count($paquetes));exit;
+
          $r="";
-        $id =0;  foreach ($this->modelCita->Listarcobro($_POST['id']) as $c) { 
+         $serv_pack = [];
+         $servic = 0;
+         $id =0;  foreach ($this->modelCita->Listarcobro($_POST['id']) as $c) { 
 
                     $id++;
 
@@ -301,22 +316,85 @@ class AjaxController{
 
                   $servicios = $this->modelCita->Listarserv($c->id_cita);
 
+
+
                   $n =count($servicios);
 
                   $tipo =$c->tipo_cliente;
 
+                  
+
                   $costo = 0.00;
 
+                  
+
                   for ($i = 0; $i < $n ; $i++) {
-                    $costo = $servicios[$i]->$tipo + $costo;
+                   // $serv_pack[] = $servicios[$i]->id_servicio;
+
+                    if (count($paquetes) > 0) {
+
+                      foreach ($paquetes as $p) {
+
+                      //var_dump($servicios[$i]->id_servicio);exit;
+
+                      if ($p->id_servicio == $servicios[$i]->id_servicio) {
+                        $serv_pack[] = $servicios[$i]->id_servicio;
+                       $servic = 0;
+                      }else{
+                        $serv_pack[] = 0;
+                        $servic = $servicios[$i]->$tipo;
+                      }
+                    }
+
+                     $costo = $servic + $costo;
+                      
+                    }else{
+                    
+                     $costo =  $servicios[$i]->$tipo + $costo;
+
+                    }
+                    // foreach ($paquetes as $p) {
+
+                    //   //var_dump($servicios[$i]->id_servicio);exit;
+
+                    //   if ($p->id_servicio == $servicios[$i]->id_servicio) {
+                    //     $serv_pack[] = $servicios[$i]->id_servicio;
+                    //    $servic = 0;
+                    //   }else{
+                    //     $serv_pack[] = 0;
+                    //     $servic = $servicios[$i]->$tipo;
+                    //   }
+                    // }
+
+                    
                   }
+
+                  // echo '<pre>';
+                  // var_dump($serv_pack);exit();
+
+                 // $serv_pack = trim(json_encode($serv_pack));
                   
           $r.=' <li id="masajes_l'.$id.'" class="list-group-item d-flex justify-content-between align-items-center "> '.$fecha.' '.strtoupper($c->nombre).' '.'$'.number_format($costo,2).' <span><button type="button" class="btn btn-seremas btn-sm" onclick="agregar_citas_pago(\'masajes_l'.$id.'\',\''.strtoupper($c->nombre).'\',\''.number_format($costo,2).'\',\''.$fecha.'\',\''.$c->id_cita.'\');">Añadir</button></span></li>';
        }
 
-       echo $r;
+       $respuesta = array("boton" => $r , "servicios" => $serv_pack);
+
+       echo json_encode($respuesta);
       }
      
+    }
+
+    public function Rebaja_pack(){
+      if ($_POST) {
+        foreach ($_POST['paquetes'] as $p) {
+          
+        $pack = $this->modelPaquetes->Obtener_1($p);
+        $pack_c = $pack->cantidad - 1;
+        $pk = (object) array('cantidad' => $pack_c , 'id_servicio' => $p);
+        $this->modelPaquetes->Resta_pack($pk);
+        }
+        var_dump($pk);exit;
+      }
     }
 
     public function Obtener_servicio(){
