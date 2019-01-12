@@ -3,30 +3,39 @@ use \route\Route;
 ?>
 <div class="container-fluid">
 
-  <div class="row b_cliente" >
+  <div class="row">
+    <div class="col-md-12">
+      <input id="ventas-paquetes" type="checkbox" checked="true" data-toggle="toggle" data-on="Venta normal" data-off="Venta paquete">
+    </div>
+  </div>
 
+  <div class="row b_cliente">
+    
     <div class="col-md-11">
-
+      
       <div class="input-group " >
 
+        <select name="cliente" id="client" style="width: 100%">
 
-       <select name="cliente" id="client" style="width: 100%">
-        <option></option>
+          <option></option>
+
           <?php foreach($this->modelCliente->Listar_normal() as $c) {?>
-  <option value="<?= $c->id_cliente?>"><?php echo $c->nombre.' '.$c->a_paterno.' '.$c->a_materno?></option>
-<?php } ?>
-       </select>
-        
+          <option value="<?= $c->id_cliente?>"><?php echo $c->nombre.' '.$c->a_paterno.' '.$c->a_materno?></option>
+          <?php } ?>
 
-          
+        </select>
+
+        
 
      </div>
 
+
+ 
+
   </div>
+
   <div class="col-md-1">
-    
-            <button id="agregar_cliente" onclick="cliente()" class="btn btn-outline-seremas btn-block" type="button" id="button-addon2"><i class="fa fa-user" aria-hidden="true"></i></button>
-          
+    <button id="agregar_cliente" onclick="cliente()" class="btn btn-outline-seremas btn-block" type="button" id="button-addon2"><i class="fa fa-user" aria-hidden="true"></i></button>      
   </div>
 </div>
 
@@ -393,10 +402,28 @@ function cliente(id){
   $('.ventas').removeClass('d-none');
   $('.b_cliente').addClass('d-none');
 }
+
+
+ $(function() {
+    $('#ventas-paquetes').change(function() {
+      let status = $(this).prop('checked');
+      localStorage.setItem("status-venta",status);
+      console.log(localStorage.getItem("status-venta"));
+    })
+  });
   
 
 
 $(document).ready(function(){
+
+   if (localStorage.getItem("status-venta") == "true") {
+
+    //alert('chek is true');
+          $('#ventas-paquetes').bootstrapToggle('on');
+        }else{
+          $('#ventas-paquetes').bootstrapToggle('off');
+           //alert(typeof(localStorage.getItem("status-venta")));
+        }
 
   $('#client').select2({
        width: 'resolve',
