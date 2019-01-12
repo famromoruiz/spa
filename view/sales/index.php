@@ -418,6 +418,8 @@ $(document).ready(function(){
 
    if (localStorage.getItem("status-venta") == "true") {
 
+    //hola
+
     //alert('chek is true');
           $('#ventas-paquetes').bootstrapToggle('on');
         }else{
