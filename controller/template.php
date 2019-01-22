@@ -64,9 +64,13 @@ class Template
 	<link href="<?=HOME?>node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
 	
 <script src="<?=HOME?>vendor/select2/dist/js/select2.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
  
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script> -->
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.4/b-html5-1.5.4/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.4/b-html5-1.5.4/datatables.min.js"></script>
 
 <script src='<?=HOME?>node_modules/chart.js/dist/Chart.js'></script>
 <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">  
@@ -79,6 +83,7 @@ class Template
 </header>
 
 <main role="main">
+
 
 <!-- <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -97,9 +102,14 @@ class Template
 </footer>
 </body>
 <script>
+	var servidor = '<?= SERV_IP?>';
 	$(document).ready( function () {
 		if ($('body').find('.catalogos')) {
 			 $('.catalogos').DataTable({
+			 	dom: 'Bfrtip',
+        buttons: [
+            'excel'
+        ],
        "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
             }

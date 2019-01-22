@@ -4,6 +4,7 @@ class Promociones
 	private $pdo;
     
     public $id_promocion;
+    public $codigo;
 	public $descripcion;
 	public $descuento;
 	public $inicia;
@@ -58,7 +59,7 @@ class Promociones
 		{
 			$result = array();
 
-			$cuenta = $this->pdo->prepare("SELECT * FROM almacen al join productos pr on al.id_producto = pr.id_producto join prove pro on pro.id_proveedor = pr.id_proveedor ");
+			$cuenta = $this->pdo->prepare("SELECT * FROM promociones where status = 0 ");
 			$cuenta->execute();
 			
 			$total_filas = $cuenta->rowCount();
@@ -67,10 +68,10 @@ class Promociones
 
 			$total_paginas = $total_paginas < 1 ? 1 : $total_paginas;
 
-			$stm = $this->pdo->prepare("SELECT al.id_almacen ,pr.nombre as prod , pro.nombre as prove, cantidad FROM almacen al join productos pr on al.id_producto = pr.id_producto join prove pro on pro.id_proveedor = pr.id_proveedor ");
+			$stm = $this->pdo->prepare("SELECT * FROM promociones where status = 0 ");
 			$stm->execute();
 
-			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas, 'id' => 'id_almacen' ];
+			return ['lista' =>$stm->fetchAll(PDO::FETCH_OBJ) , 'paginas' => $total_paginas, 'id' => 'id_promocion' ];
 		}
 		catch(Exception $e)
 		{
@@ -78,15 +79,15 @@ class Promociones
 		}
 	}
 
-	public function Obtener($id)
+	public function Obtener($codigo)
 	{
 		try 
 		{
 			$stm = $this->pdo
-			          ->prepare("SELECT * FROM almacen WHERE id_almacen = ?");
+			          ->prepare("SELECT * FROM promociones WHERE codigo = ? and status = 0");
 			          
 
-			$stm->execute(array($id));
+			$stm->execute(array($codigo));
 			return $stm->fetch(PDO::FETCH_OBJ);
 		} catch (Exception $e) 
 		{
@@ -100,7 +101,7 @@ class Promociones
 		try 
 		{
 			$stm = $this->pdo
-			          ->prepare("SELECT * FROM almacen WHERE id_producto = ?");
+			          ->prepare("SELECT * FROM promociones WHERE id_promocion = ?");
 			          
 
 			$stm->execute(array($id));
@@ -127,22 +128,26 @@ class Promociones
 		}
 	}
 
-	public function Registrar(Almacen $data)
+	public function Registrar($data)
 	{
 		try 
 		{
-		$sql = "INSERT INTO almacen (
-			id_producto,
-			cantidad,
-			min_stock) 
-		        VALUES (?,?,?)";
+		$sql = "INSERT INTO promociones (
+			codigo,
+			descripcion,
+			descuento,
+			inicia,
+			termina) 
+		        VALUES (?,?,?,?,?)";
 
 		$this->pdo->prepare($sql)
 		     ->execute(
 				array(
-                   	$data->id_producto,
-					$data->cantidad,
-					$data->min_stock,
+                   	$data->codigo,
+					$data->descripcion,
+					$data->descuento,
+					$data->inicia,
+					$data->termina
                 )
 			);
 		} catch (Exception $e) 
@@ -156,7 +161,7 @@ class Promociones
 		try 
 		{
 			$stm = $this->pdo
-			            ->prepare("DELETE FROM almacen WHERE id_almacen = ?");			          
+			            ->prepare("DELETE FROM promociones WHERE id_promocion = ?");			          
 
 			$stm->execute(array($id));
 		} catch (Exception $e) 
@@ -171,13 +176,16 @@ class Promociones
 
 		try 
 		{
-			$sql = "UPDATE almacen al JOIN productos pr on al.id_producto = pr.id_producto  SET al.cantidad = ? WHERE pr.upc = ?";
+			$sql = "UPDATE promociones  SET descripcion = ?, descuento = ?, inicia = ?, termina = ? WHERE id_promocion = ?";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-                         $data->cantidad,
-						 $data->upc
+					$data->descripcion,
+					$data->descuento,
+					$data->inicia,
+					$data->termina,
+					$data->id_promocion
 					)
 				);
 		} catch (Exception $e) 

@@ -41,6 +41,23 @@ public $precio_publico;
 		}
 	}
 
+	public function Listar_2()
+	{
+		try
+		{
+			$result = array();
+
+			$stm = $this->pdo->prepare("SELECT pr.id_producto as id_producto, pr.nombre as nombre, al.cantidad FROM  productos pr JOIN almacen al ON pr.id_producto = al.id_producto WHERE al.cantidad > 0");
+			$stm->execute();
+
+			return $stm->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function Tabla($pagina)
 	{
 

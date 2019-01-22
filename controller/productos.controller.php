@@ -38,7 +38,7 @@ class ProductosController{
 
      public function Agregar(){
       $model = new Productos;
-      $dataProviderproveedor = $this->modelProveedor->Listar();
+      $dataProviderproveedor = $this->modelProveedor->Listar_normal();
         if ($_POST) {
 
         $producto = new Productos;
@@ -79,7 +79,7 @@ class ProductosController{
 
        
           $model = $this->modelProductos->Obtener($id);
-          $dataProviderproveedor = $this->modelProveedor->Listar();
+          $dataProviderproveedor = $this->modelProveedor->Listar_normal();
         
 
       

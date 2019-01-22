@@ -184,5 +184,63 @@ class Almacen
 		}
 	}
 
+	public function Actualizar_cantidad($data)
+	{
+
+
+		try 
+		{
+			$sql = "UPDATE almacen  SET cantidad = ? WHERE id_almacen = ?";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+                         $data->cantidad,
+						 $data->id
+					)
+				);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function Obtener_cantidad_byid($id)
+	{
+		try 
+		{
+			$stm = $this->pdo
+			          ->prepare("SELECT cantidad FROM almacen  WHERE id_producto = ?");
+			          
+
+			$stm->execute(array($id));
+			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function Actualizar_cantidad_byid($data)
+	{
+
+
+		try 
+		{
+			$sql = "UPDATE almacen  SET cantidad = ? WHERE id_producto = ?";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+                         $data->cantidad,
+						 $data->id
+					)
+				);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
 	
 }

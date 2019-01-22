@@ -159,21 +159,20 @@
       }
     }
 
-    public function Registrar(Cita $data)
+    public function Inserta_pack($data)
     {
       try 
       {
-      $sql = "INSERT INTO citas (inicio, fin, id_cliente, id_habitacion, id_masajista) 
-              VALUES (?, ?, ?, ?, ?)";
+      $sql = "INSERT INTO paquetes (id_cliente, id_servicio, cantidad, fecha_caducidad) 
+              VALUES (?, ?, ?, ?)";
 
       $this->pdo->prepare($sql)
            ->execute(
           array(
-                      $data->inicio,
-                      $data->fin, 
-                      $data->id_cliente, 
-                      $data->id_habitacion,
-                      $data->id_masajista
+                      $data->id_cliente,
+                      $data->id_servicio, 
+                      $data->cantidad, 
+                      $data->fecha_caducidad
                   )
         );
       } catch (Exception $e) 

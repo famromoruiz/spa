@@ -126,6 +126,22 @@ class Usuario
 		}
 	}
 
+	public function Obtener_id_pass($id , $pass)
+	{
+		try 
+		{
+			$stm = $this->pdo
+			          ->prepare("SELECT * FROM usuarios WHERE id_usuario = ? and password = ?");
+			          
+
+			$stm->execute(array($id , $pass));
+			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
 
 	public function Obtener_mail($email)
 	{

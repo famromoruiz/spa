@@ -55,6 +55,12 @@ $t = 0;
 
     foreach ($configuracion['atributos'] as $key => $val) {
 
+      if ($_REQUEST['r'] == 'almacen') {
+        if ($val == 'cantidad') {
+          $cantidad = $value->$val;
+        }
+      }
+
 
       if ($val == 'rol') {
 
@@ -90,7 +96,7 @@ $t = 0;
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">';
     $tabla .= $_REQUEST['r'] == 'almacen' ? '' : '<a href="?r='.$ver.$value->$id.'" class="dropdown-item"><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>';
-    $tabla .= '<a href="?r='.$editar.$value->$id.'" class="dropdown-item"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>';
+    $tabla .= $_REQUEST['r'] == 'almacen' ? '<a href="#" onclick="editar('.$value->$id.','.$cantidad.');" class="dropdown-item editar"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>' : '<a href="?r='.$editar.$value->$id.'" class="dropdown-item"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>';
 
     $tabla .= '<a href="?r='.$eliminar.$value->$id.'" class="dropdown-item"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>';
       

@@ -7,6 +7,8 @@ error_reporting(E_ALL);
 define('HOME', '../');
 define('SERVIDOR', $_SERVER['HTTP_HOST']);
 
+define('SERV_IP' , $_SERVER['SERVER_ADDR']);
+
 require __DIR__ . '/../model/database.php';
 
 require __DIR__ . '/../vendor/widgets/route/route.php';

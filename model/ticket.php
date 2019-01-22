@@ -58,6 +58,22 @@
       }
     }
 
+     public function Obtener_montos($fecha)
+    {
+      try 
+      {
+        $stm = $this->pdo
+                  ->prepare("SELECT SUM(monto) as monto FROM `ticket` WHERE DATE(fecha) = ?");
+                  
+
+        $stm->execute(array($fecha));
+        return $stm->fetch(PDO::FETCH_OBJ);
+      } catch (Exception $e) 
+      {
+        die($e->getMessage());
+      }
+    }
+
     public function Obtener_por_zona($id)
     {
       try 
@@ -67,6 +83,22 @@
                   
 
         $stm->execute(array($id));
+        return $stm->fetchAll(PDO::FETCH_OBJ);
+      } catch (Exception $e) 
+      {
+        die($e->getMessage());
+      }
+    }
+
+     public function Reporte($fecha)
+    {
+      try 
+      {
+        $stm = $this->pdo
+                  ->prepare("SELECT * FROM ticket WHERE fecha BETWEEN CAST(? AS DATE) AND CAST(? as DATE);");
+                  
+
+        $stm->execute(array($fecha->inicio,$fecha->termino));
         return $stm->fetchAll(PDO::FETCH_OBJ);
       } catch (Exception $e) 
       {

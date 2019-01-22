@@ -31,6 +31,7 @@ class SiteController{
                 {
                     $usuario = htmlspecialchars(stripslashes(trim($_POST["usuario"])));
                     $clave = htmlspecialchars(stripslashes(trim($_POST["password"])));
+                   // var_dump($clave);exit;
                     $shaclave = sha1($clave);
 
                     $usuario = $this->model->Obtener($usuario , $shaclave);

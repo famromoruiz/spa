@@ -32,7 +32,7 @@
 	</div>
 	<hr class="seremas">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-6">
 			<div class="card">
 				<div class="card-header">
 					Compras
@@ -48,14 +48,42 @@
 				    </tr>
 				  </thead>
 				  <tbody class="tiket" id="tiket">
-				  	<?php foreach ($model_ticket as $tiket) { ?>
+				  	<?php $item = 0; foreach ($model_ticket as $tiket) { $item++; ?>
 				    <tr>
-				    	<td class="text-center">1</td>
+				    	<td class="text-center"><?= $item?></td>
 				    	<td class="text-center"><?= $tiket->fecha?></td>
 				    	<td class="text-center">$<?= $tiket->monto?></td>
 				    	<td class="text-center"> <button type="button" class="btn btn-seremas" onclick="tiket('<?= htmlspecialchars($tiket->descripcion)?>');" data-toggle="modal" data-target="#exampleModal">
   Ver tiket
 </button></td>
+				    </tr>
+				<?php } ?>
+				  </tbody>
+</table>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header">
+					Paquetes
+				</div>
+				 <table class="table">
+				  <thead>
+				    <tr>
+				      <th scope="col" class="text-center">#</th>
+				      <th scope="col" class="text-center">Paquete</th>
+				      <th scope="col" class="text-center">Cantidad</th>
+				      
+				      
+				    </tr>
+				  </thead>
+				  <tbody class="paquetes" id="paquetes">
+				  	<?php $item = 0;  foreach ($model_paquetes as $paquete) { $serv = $this->modelServicios->Obtener($paquete->id_servicio); $item++; ?>
+				    <tr>
+				    	<td class="text-center"><?= $item?></td>
+				    	<td class="text-center"><?= $serv->tratamiento?></td>
+				    	<td class="text-center"><?= $paquete->cantidad?></td>
+				    	
 				    </tr>
 				<?php } ?>
 				  </tbody>

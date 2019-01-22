@@ -1,5 +1,6 @@
 <?php
 use \roles\Roles;
+ use Twilio\Rest\Client;
 require __DIR__ . '/../model/cliente.php';
 require __DIR__ . '/../model/cita.php';
 require __DIR__ . '/../model/habitacion.php';
@@ -30,6 +31,25 @@ class CitasController{
     }
     
     public function Index(){
+
+
+
+// // Your Account SID and Auth Token from twilio.com/console
+// $sid = 'AC3c46837ca082ed640fe114cea6ad4e6a';
+// $token = '90b8e7817353be4835d81140aa675072';
+// $client = new Client($sid, $token);
+
+// // Use the client to do fun stuff like send text messages!
+// $client->messages->create(
+//     // the number you'd like to send the message to
+//     '+524494398156',
+//     array(
+//         // A Twilio phone number you purchased at twilio.com/console
+//         'from' => '+19282564488',
+//         // the body of the text message you'd like to send
+//         'body' => 'Hola cielo esto es una prueba'
+//     )
+// );
 
      // $model = new Masajista();
 

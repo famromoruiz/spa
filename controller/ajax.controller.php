@@ -11,6 +11,8 @@ require __DIR__ . '/../model/usuario.php';
 require __DIR__ . '/../model/almacen.php';
 require __DIR__ . '/../model/ticket.php';
 require __DIR__ . '/../model/paquetes.php';
+require __DIR__ . '/../model/promociones.php';
+require __DIR__ . '/../model/vale.php';
 
 class AjaxController{
 
@@ -24,6 +26,8 @@ class AjaxController{
    private $modelAlmacen;
    private $modelTicket;
    private $modelPaquetes;
+   private $modelPromociones;
+   private $modelVale;
     
     public function __CONSTRUCT(){
      
@@ -38,6 +42,8 @@ class AjaxController{
        $this->modelAlmacen = new Almacen();
        $this->modelTicket = new Ticket();
        $this->modelPaquetes = new Paquetes();
+       $this->modelPromociones = new Promociones();
+       $this->modelVale = new Vale();
     }
     
     public function Citas(){
@@ -393,7 +399,18 @@ class AjaxController{
         $pk = (object) array('cantidad' => $pack_c , 'id_servicio' => $p);
         $this->modelPaquetes->Resta_pack($pk);
         }
-        var_dump($pk);exit;
+       // var_dump($pk);exit;
+      }
+    }
+
+    public function Inserta_pack(){
+      if ($_POST) {
+        foreach ($_POST['paquetes'] as $p) {
+          
+        $pk = (object) array('id_cliente' => $p['id_cliente'], 'id_servicio' => $p['id_servicio'] ,'cantidad' => $p['cantidad'],'fecha_caducidad' => '2019-01-01');
+        $this->modelPaquetes->Inserta_pack($pk);
+        }
+        //var_dump($_POST);exit;
       }
     }
 
@@ -402,6 +419,16 @@ class AjaxController{
         $id = $_POST['id'];
         $servicio = $this->modelServicio->Obtener($id);
         echo json_encode($servicio);
+      }
+    }
+
+    public function Actualiza_almacen(){
+      if ($_POST) {
+
+        $al = (object) array('id' => $_POST['id'] , 'cantidad' => $_POST['cantidad']);
+
+        $this->modelAlmacen->Actualizar_cantidad($al);
+        
       }
     }
 
@@ -424,6 +451,25 @@ class AjaxController{
       
 
       echo 'ok';
+    }
+
+    public function Valida_promo(){
+      if ($_POST) {
+        $codigo = $_POST['codigo'];
+
+       $promo = $this->modelPromociones->Obtener($codigo);
+
+       if ($promo == false) {
+        $res = array('respuesta' => 'no existe promo', 'descuento' => 0);
+
+        echo json_encode($res);
+        
+       }else{
+        $res = array('respuesta' => 'si existe', 'descuento' => $promo->descuento);
+
+        echo json_encode($res);
+       }
+      }
     }
 
     public function Tiket(){
@@ -487,6 +533,150 @@ class AjaxController{
       }
     }
 
+     public function Listar_productos_almacen_vales(){
+      if ($_POST) {
+        
+        $productos = $this->modelProductos->Listar_2();
+        $productos_l = [];
+        foreach ($productos as $producto) {
+          $productos_l[] = array('id' => $producto->id_producto , 'text' => $producto->nombre );
+        }
+         echo json_encode($productos_l);
+      }
+    }
+
+     public function Listar_personal_almacen(){
+      if ($_POST) {
+        
+        $personal = $this->modelUsuario->Listar_normal();
+        $personal_l = [];
+        foreach ($personal as $usuario) {
+          $personal_l[] = array('id' => $usuario->id_usuario , 'text' => $usuario->nombre );
+        }
+        echo json_encode($personal_l);
+      }
+    }
+
+
+      public function Verifica_firma(){
+      if ($_POST) {
+
+
+
+        $vale = (object) array(
+          'producto' => intval($_POST['producto']), 
+          'cantidad' => intval($_POST['cantidad']), 
+          'entrega' => $_SESSION['id_usuario'],
+          'recibe' => $_POST['usuario']);
+
+        $user = (object) array('id' => $_POST['usuario'] , 'pass' => $_POST['firma']);
+        $user->pass = sha1($user->pass);
+        
+        
+        $usuario = $this->modelUsuario->Obtener_id_pass($user->id, $user->pass);
+
+
+        $desbloquea = $usuario == true ? 'ok' : 'denegado';
+
+        if ($desbloquea == 'ok') {
+          $cantidad = $this->modelAlmacen->Obtener_cantidad_byid($vale->producto);
+          $cantidad = intval($cantidad->cantidad) - $vale->cantidad;
+          $rebaja = (object) array('cantidad' => $cantidad , 'id' => $vale->producto);
+         // var_dump($rebaja);exit;
+          $this->modelAlmacen->Actualizar_cantidad_byid($rebaja);
+          $this->modelVale->Registrar($vale);
+          echo 'ok';
+        }else{
+          echo 'nel';
+        }
+      }
+    }
+
+    public function Lista_vales(){
+      if ($_POST) {
+        $vales = $this->modelVale->Listar();
+
+        $vales = json_encode($vales, JSON_PRETTY_PRINT);
+
+        echo $vales;
+      }
+    }
+
+    public function Reporte(){
+      if ($_POST) {
+        $fecha = (object) array(
+          'inicio' => fecha($_POST['inicio']), 
+          'termino' => fecha($_POST['termino'])
+        );
+
+        $ventas = $this->modelTicket->Reporte($fecha);
+
+        $ventas = json_encode($ventas , JSON_PRETTY_PRINT);
+
+        echo $ventas;
+      }
+    }
+
+    public function Graficas(){
+      if ($_POST) {
+         
+         $fecha = date('Y-m-d');
+         $d_f = dias_semana($fecha);
+
+        $dia = (object) array(
+          'lunes'=>$d_f[0],
+          'martes'=>$d_f[1] ,
+          'miercoles'=>$d_f[2],
+          'jueves'=>$d_f[3],
+          'viernes'=>$d_f[4],
+          'sabado'=>$d_f[5]
+        );
+        if ($_POST['grafica'] == 'ventas') {
+
+      $lunes = $this->modelTicket->Obtener_montos($dia->lunes);
+      $martes = $this->modelTicket->Obtener_montos($dia->martes);
+      $miercoles = $this->modelTicket->Obtener_montos($dia->miercoles);
+      $jueves = $this->modelTicket->Obtener_montos($dia->jueves);
+      $viernes = $this->modelTicket->Obtener_montos($dia->viernes);
+      $sabado = $this->modelTicket->Obtener_montos($dia->sabado);
+
+      $dia->lunes =  $lunes->monto == null ? 0 : $lunes->monto;
+      $dia->martes = $martes->monto == null ? 0 :$martes->monto;
+      $dia->miercoles = $miercoles->monto == null ? 0 : $miercoles->monto;
+      $dia->jueves = $jueves->monto == null ? 0 :$jueves->monto ;
+      $dia->viernes = $viernes->monto == null ? 0 :$viernes->monto;
+      $dia->sabado = $sabado->monto == null ? 0 :$sabado->monto;
+
+      echo json_encode($dia);
+          
+        }
+
+         if ($_POST['grafica'] == 'clientes') {
+
+      $lunes = $this->modelCliente->Total_clientes($dia->lunes);
+      $martes = $this->modelCliente->Total_clientes($dia->martes);
+      $miercoles = $this->modelCliente->Total_clientes($dia->miercoles);
+      $jueves = $this->modelCliente->Total_clientes($dia->jueves);
+      $viernes = $this->modelCliente->Total_clientes($dia->viernes);
+      $sabado = $this->modelCliente->Total_clientes($dia->sabado);
+
+      $dia->lunes =  $lunes->clientes == null ? 0 : $lunes->clientes;
+      $dia->martes = $martes->clientes == null ? 0 :$martes->clientes;
+      $dia->miercoles = $miercoles->clientes == null ? 0 : $miercoles->clientes;
+      $dia->jueves = $jueves->clientes == null ? 0 :$jueves->clientes ;
+      $dia->viernes = $viernes->clientes == null ? 0 :$viernes->clientes;
+      $dia->sabado = $sabado->clientes == null ? 0 :$sabado->clientes;
+
+      echo json_encode($dia);
+          
+        }
+        
+      }
+     
+
+     
+    }
+
    
 
   
@@ -496,3 +686,81 @@ class AjaxController{
     }
        
 }
+
+
+ function dias_semana($fecha){
+
+  $dias = array(
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday');
+
+  $strFecha = strtotime($fecha);
+
+  $fechas = [];
+
+ switch (date("l",$strFecha)) {
+  case 'Monday':
+     $fechas[] = $lunes = date('Y-m-d',strtotime('today',$strFecha));
+     $fechas[] = $martes = date('Y-m-d',strtotime('1 day ',$strFecha));
+     $fechas[] = $miercoles = date('Y-m-d',strtotime('2 day ',$strFecha));
+     $fechas[] = $jueves = date('Y-m-d',strtotime('3 day ',$strFecha));
+     $fechas[] = $viernes = date('Y-m-d',strtotime('4 day ',$strFecha));
+     $fechas[] = $sabado = date('Y-m-d',strtotime('5 day',$strFecha));
+     break;
+  case 'Tuesday':
+     $fechas[] = $lunes = date('Y-m-d',strtotime('- 1 day',$strFecha));
+     $fechas[] = $martes = date('Y-m-d',strtotime('today ',$strFecha));
+     $fechas[] = $miercoles = date('Y-m-d',strtotime('1 day ',$strFecha));
+     $fechas[] = $jueves = date('Y-m-d',strtotime('2 day ',$strFecha));
+     $fechas[] = $viernes = date('Y-m-d',strtotime('3 day ',$strFecha));
+     $fechas[] = $sabado = date('Y-m-d',strtotime('4 day',$strFecha));
+     break;
+  case 'Wednesday':
+     $fechas[] = $lunes = date('Y-m-d',strtotime('- 2 day',$strFecha));
+     $fechas[] = $martes = date('Y-m-d',strtotime('- 1 day ',$strFecha));
+     $fechas[] = $miercoles = date('Y-m-d',strtotime('today ',$strFecha));
+     $fechas[] = $jueves = date('Y-m-d',strtotime('1 day ',$strFecha));
+     $fechas[] = $viernes = date('Y-m-d',strtotime('2 day ',$strFecha));
+     $fechas[] = $sabado = date('Y-m-d',strtotime('3 day',$strFecha));
+     break;
+  case 'Thursday':
+     $fechas[] = $lunes = date('Y-m-d',strtotime('- 3 day',$strFecha));
+     $fechas[] = $martes = date('Y-m-d',strtotime('-2 ',$strFecha));
+     $fechas[] = $miercoles = date('Y-m-d',strtotime('1 day ',$strFecha));
+     $fechas[] = $jueves = date('Y-m-d',strtotime('today ',$strFecha));
+     $fechas[] = $viernes = date('Y-m-d',strtotime('1 day ',$strFecha));
+     $fechas[] = $sabado = date('Y-m-d',strtotime('2 day',$strFecha));
+     break;
+  case 'Friday':
+     $fechas[] = $lunes = date('Y-m-d',strtotime('- 4 day',$strFecha));
+     $fechas[] = $martes = date('Y-m-d',strtotime('- 3 day',$strFecha));
+     $fechas[] = $miercoles = date('Y-m-d',strtotime('-2 day ',$strFecha));
+     $fechas[] = $jueves = date('Y-m-d',strtotime('-1 day ',$strFecha));
+     $fechas[] = $viernes = date('Y-m-d',strtotime('today ',$strFecha));
+     $fechas[] = $sabado = date('Y-m-d',strtotime('1 day',$strFecha));
+     break;
+  case 'Saturday':
+     $fechas[] = $lunes = date('Y-m-d',strtotime('- 5 day ',$strFecha));
+     $fechas[] = $martes = date('Y-m-d',strtotime('- 4 day ',$strFecha));
+     $fechas[] = $miercoles = date('Y-m-d',strtotime('- 3 day ',$strFecha));
+     $fechas[] = $jueves = date('Y-m-d',strtotime('- 2 day ',$strFecha));
+     $fechas[] = $viernes = date('Y-m-d',strtotime('- 1 day ',$strFecha));
+     $fechas[] = $sabado = date('Y-m-d',strtotime('today',$strFecha));
+     break;
+   
+ }
+    return $fechas;
+}
+
+ function Fecha($fecha){
+
+          $fecha = explode('/', $fecha);
+          $fecha = $fecha[2].'-'.$fecha[1].'-'.$fecha[0];
+
+          return $fecha;
+
+        }

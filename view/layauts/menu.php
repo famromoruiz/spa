@@ -2,8 +2,12 @@
 
 	switch ($_SESSION['rol']) { case 10: ?>
 
+		<li class="nav-item <?= Route::Active("dashboard") ?>">
+			<a class="nav-link" href="<?= Route::Ruta(["dashboard"]) ?>">Dashboard<span class="sr-only"></span></a>
+		</li>
+
 		<li class="nav-item <?= Route::Active("site") ?>">
-			<a class="nav-link" href="<?= Route::Ruta(["site"]) ?>">inicio<span class="sr-only"></span></a>
+			<a class="nav-link" href="<?= Route::Ruta(["site"]) ?>">Ventas<span class="sr-only"></span></a>
 		</li>
 
 		<li class="nav-item dropdown">
@@ -14,6 +18,7 @@
           <a class="dropdown-item <?= Route::Active("clientes") ?>" href="<?= Route::Ruta(["clientes"]) ?>">Clientes</a>
           <a class="dropdown-item <?= Route::Active("habitaciones") ?>" href="<?= Route::Ruta(["habitaciones"]) ?>">habitaciones</a>
           <a class="dropdown-item <?= Route::Active("productos") ?>" href="<?= Route::Ruta(["productos"]) ?>">Productos</a>
+          <a class="dropdown-item <?= Route::Active("proveedores") ?>" href="<?= Route::Ruta(["proveedores"]) ?>">Proveedores</a>
           <a class="dropdown-item <?= Route::Active("servicios") ?>" href="<?= Route::Ruta(["servicios"]) ?>">Servicios</a>
           <a class="dropdown-item <?= Route::Active("usuarios") ?>" href="<?= Route::Ruta(["usuarios"]) ?>">Usuarios</a>
           
@@ -23,7 +28,11 @@
         </div>
       </li>
 
-      <li class="nav-item <?= Route::Active("almacen") ?>">
+      <li class="nav-item <?= Route::Active("promociones") ?>">
+		<a class="nav-link" href="<?= Route::Ruta(["promociones"]) ?>">Promociones</a>
+	 </li>
+
+	 <li class="nav-item <?= Route::Active("almacen") ?>">
 		<a class="nav-link" href="<?= Route::Ruta(["almacen"]) ?>">Almacen</a>
 	 </li>
 

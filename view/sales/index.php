@@ -1,13 +1,14 @@
 <?php
 use \route\Route;
+
 ?>
 <div class="container-fluid">
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-12">
       <input id="ventas-paquetes" type="checkbox" checked="true" data-toggle="toggle" data-on="Venta normal" data-off="Venta paquete">
     </div>
-  </div>
+  </div> -->
 
   <div class="row b_cliente">
     
@@ -52,7 +53,7 @@ use \route\Route;
             <div class="card">
 
               <div class="card-header bg-seremas text-white font-weight-bold d-flex justify-content-between align-items-center">
-               Tiket <span id="items">Productos / Servicios Total 0</span>
+               Tiket <span id="items">Total 0</span>
              </div>
 
             
@@ -80,7 +81,7 @@ use \route\Route;
 
       <br>
 
-      <div class="row">
+      <div id="citas_por_cobrar" class="row">
 
         <div class="col-md-12">
 
@@ -119,9 +120,9 @@ use \route\Route;
   <li class="nav-item">
     <a class="nav-link" id="pills-servicios-tab" data-toggle="pill" href="#pills-servicios" role="tab" aria-controls="pills-servicios" aria-selected="false">Servicios</a>
   </li>
-  <!-- <li class="nav-item">
-    <a class="nav-link" id="pills-paquetes-tab" data-toggle="pill" href="#pills-paquetes" role="tab" aria-controls="pills-paquetes" aria-selected="false">Paqutes</a>
-  </li> -->
+  <li class="nav-item">
+    <a class="nav-link" id="pills-paquetes-tab" data-toggle="pill" href="#pills-paquetes" role="tab" aria-controls="pills-paquetes" aria-selected="false">Paquetes</a>
+  </li>
 </ul>
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="pills-productos" role="tabpanel" aria-labelledby="pills-productos-tab">
@@ -179,7 +180,33 @@ use \route\Route;
 <br>
 <button type="button" class="btn btn-seremas btn-sm" onclick="agregar_servicio();">Agregar</button>
   </div>
-  <!-- <div class="tab-pane fade" id="pills-paquetes" role="tabpanel" aria-labelledby="pills-paquetes-tab">...</div> -->
+  <div class="tab-pane fade" id="pills-paquetes" role="tabpanel" aria-labelledby="pills-paquetes-tab">
+    <br>
+    <div class="form-row">
+    <div class="col">
+    <label for="zonas_p">Zona</label>
+    <select class="form-control zonas_p" style="width: 100%" id="zonas_p">
+      <option></option>
+      <?php foreach ($dataproviderZonas as $zona) {?>
+        <option value="<?= $zona->id_zona ?>"><?= $zona->nombre ?></option>
+      <?php } ?>
+    </select>
+  </div>
+  <div class="col">
+    <label for="servicio">Servicio</label>
+    <select class="form-control servicio_p" style="width: 100%" id="servicio_p">
+      
+    </select>
+  </div>
+  <div class="col">
+    <label for="cantidad_p">Cantidad</label>
+    <input id="cantidad_p"  min="1"  type="number" class="form-control" placeholder="Cantidad"  aria-label="cantidad" aria-describedby="button-addon2" >
+  </div>
+
+</div>
+<br>
+<button type="button" class="btn btn-seremas btn-sm" onclick="agregar_paquete();">Agregar</button>
+  </div>
 </div>
 </div>
           </div>
@@ -226,14 +253,18 @@ use \route\Route;
         <div class="row">
           <div class="col-md-12 text-center">
         <h1  class="font-weight-bold"><i class="fa fa-dollar text-seremas" aria-hidden="true"></i><span id="pesos_2" class="pesos">0.00</span></h1>
-        <p><label for="promo">Promo</label>
-    <select class="form-control promo" style="width: 50%" id="promo">
-      <option value=""></option>
-      <?php foreach ($dataproviderPromos as $promo) {?>
-        <option value="<?= $promo->descuento ?>"><?= $promo->descripcion ?></option>
-      <?php } ?>
-      
-    </select></p>
+        <p>
+           <div class="input-group ">
+
+
+        <input id="promo"    type="text" class="form-control" placeholder="Codigo promo"  aria-label="promo" aria-describedby="button-addon2" >
+
+          <div class="input-group-append">
+            <button onclick="valida_promo()" class="btn btn-outline-seremas" type="button" id="button-addon2"><i class="fa fa-plus" aria-hidden="true"></i></button>
+          </div>
+
+     </div>
+        </p>
             
           </div>
         </div>
@@ -279,7 +310,9 @@ use \route\Route;
     <img class="img_tck" src="../assets/img/logo.gif" alt="Logotipo">
     <p class="centrado">SERE +
       <br>neoterapia estetica
-      <br>5 de mayo #1006
+      <br>MONTES HIMALAYA #701
+      <br>JARDINES DE LA CONCEPCION
+      <br>C.P.;20120, AGS, AGS.
       <br>23/08/2017 08:22 a.m.</p>
     <table class="tabla_tck">
       <thead>
@@ -310,10 +343,15 @@ use \route\Route;
           <td class="producto">TOTAL</td>
           <td class="precio">$28.50</td>
         </tr> -->
+
       </tbody>
     </table>
+    <p class="derecho total">TOTAL $00.00</p>
+    <p class="derecho total_desc">TOTAL $00.00</p>
     <p class="centrado">¡GRACIAS POR SU COMPRA!
-      <br>seremas.com</p>
+      <br>
+      <br>
+    </p>
   </div>
 
 <script>
@@ -341,6 +379,7 @@ if(!thisDB.objectStoreNames.contains("productos")) {
 
   var os = thisDB.createObjectStore("productos", {keyPath: "upc"}); // crear tabla
   var os = thisDB.createObjectStore("citas", {keyPath: "id_cita"}); // crear tabla
+  var os = thisDB.createObjectStore("paquetes", {keyPath: "id_paquete" , autoIncrement:true}); // crear tabla
 
 }
 
@@ -356,6 +395,7 @@ var request = indexedDB.open("spa");
 var client_id;
 var packs;
 var rebaja_pack = 1;
+var aplica_promo = 0;
 
 request.onerror = function(event) {
   alert("¿Por qué no permitiste que mi aplicación web use IndexedDB?");
@@ -392,9 +432,10 @@ function cliente(id){
 
       packs = l_c_p_c.servicios;
 
-      console.log(packs);
+     // console.log(packs);
 
       $('.items_2').html(l_c_p_c.boton);
+      $(".pagos_2").html('Total '+$(".items_2 li").length);
     }
 
   });
@@ -404,13 +445,13 @@ function cliente(id){
 }
 
 
- $(function() {
-    $('#ventas-paquetes').change(function() {
-      let status = $(this).prop('checked');
-      localStorage.setItem("status-venta",status);
-      console.log(localStorage.getItem("status-venta"));
-    })
-  });
+ // $(function() {
+ //    $('#ventas-paquetes').change(function() {
+ //      let status = $(this).prop('checked');
+ //      localStorage.setItem("status-venta",status);
+ //      console.log(localStorage.getItem("status-venta"));
+ //    })
+ //  });
   
 
 
@@ -434,13 +475,13 @@ $(document).ready(function(){
    
     }).addClass("cliente");
 
-   $('#promo').select2({
-       width: 'resolve',
-       placeholder: 'Seleccione Promo...',
+   // $('#promo').select2({
+   //     width: 'resolve',
+   //     placeholder: 'Seleccione Promo...',
       
-        theme: "bootstrap4"
+   //      theme: "bootstrap4"
    
-    }).addClass("promo");
+   //  }).addClass("promo");
 
 
 
@@ -462,7 +503,27 @@ $(document).ready(function(){
    
     }).addClass("servicio");
 
+
+  $('.zonas_p').select2({
+       width: 'resolve',
+       placeholder: 'Seleccione...',
+        selectOnClose: true,
+        theme: "bootstrap4"
+   
+    }).addClass("zonas_p");
+
+  $('.servicio_p').select2({
+       width: 'resolve',
+       placeholder: 'Seleccione...',
+        selectOnClose: true,
+        theme: "bootstrap4"
+   
+    }).addClass("servicio_p");
+
 });
+
+
+
 
 $('#client').on('select2:select', function (e) {
   
@@ -472,17 +533,61 @@ $('#client').on('select2:select', function (e) {
   
 });
 
-$('.promo').on('select2:select', function (e) {
-     var descuento = '.'+parseInt(e.params.data.id);
+// $('.promo').on('select2:select', function (e) {
+//      var descuento = '.'+parseInt(e.params.data.id);
 
-     let cantidad = parseFloat($('#pesos_2').html()).toFixed(2);
+//      let cantidad = parseFloat($('#pesos_2').html()).toFixed(2);
 
-     let promo = parseFloat(cantidad-cantidad*descuento).toFixed(2);
+//      let promo = parseFloat(cantidad-cantidad*descuento).toFixed(2);
 
-     $('#pesos_2').html(promo);
+//      $('#pesos_2').html(promo);
 
      
-});
+// });
+
+function valida_promo(){
+  var codigo = $('#promo').val();
+  $.ajax({
+
+    data:  {codigo : codigo},
+    url:   '<?= Route::Ruta(['ajax' , 'valida_promo']) ?>',
+    type:  'post',
+    datatype: 'json',
+    beforeSend: function () {
+      // accion antes de envio
+    },
+    success:  function (response) {
+
+      var res = jQuery.parseJSON(response);
+
+      if (aplica_promo == 0) {
+
+         if (res.respuesta == 'no existe promo') {
+
+      }else{
+
+        aplica_promo = 1;
+
+      var descuento = parseInt(res.descuento);
+
+      var dec_real = descuento / 100;
+
+      let cantidad = parseFloat($('#pesos_2').html()).toFixed(2);
+
+      let promo = parseFloat(cantidad-cantidad*dec_real).toFixed(2);
+
+        $('#pesos_2').html(promo);
+      }
+
+      }
+
+     
+
+      
+    }
+
+  });
+}
 
 
 
@@ -534,12 +639,59 @@ $('.zonas').on('select2:select', function (e) {
       // if (servicios.length == 0) {
       //   servicios = [];
       // }
-      console.log(servicios);
+     // console.log(servicios);
        $('.servicio').select2({
       
         theme: "bootstrap4"
    
     }).addClass("servicio");
+
+      
+    }
+
+  });
+});
+
+$('.zonas_p').on('select2:select', function (e) {
+
+   $('#servicio_p').val('').trigger('change');
+  
+  var id = e.params.data.id;
+  $.ajax({
+
+    data:  {id : id},
+    url:   '<?= Route::Ruta(['ajax' , 'Listar_servicios_punto_venta']) ?>',
+    type:  'post',
+    datatype: 'json',
+    beforeSend: function () {
+      // accion antes de envio
+    },
+    success:  function (response) {
+ $('#servicio_p').val('').trigger('change');
+
+      // var servicios = [];
+     
+      //  servicios = JSON.parse(response);
+
+      var servicios = response;
+
+       $('#servicio_p').html(servicios);
+
+//       var data = $.map(servicios, function (obj) {
+//   obj.id = obj.id || obj.pk; // replace pk with your identifier
+
+//   return obj;
+// });
+     // var servicios = response;
+      // if (servicios.length == 0) {
+      //   servicios = [];
+      // }
+      //console.log(servicios);
+       $('.servicio_p').select2({
+      
+        theme: "bootstrap4"
+   
+    }).addClass("servicio_p");
 
       
     }
@@ -752,7 +904,7 @@ function agregar_servicio(){
 
   var datos_zonas = $('#zona').select2('data');
 
-  console.log();
+  //console.log();
 
   var id =$('#servicio').val();
 
@@ -791,7 +943,122 @@ function agregar_servicio(){
   });
 }
 
-function remover_fila(test){
+
+function agregar_paquete(){
+
+  
+
+  var datos_zonas = $('#zonas_p').select2('data');
+
+  //console.log();
+
+  var id =$('#servicio_p').val();
+
+  $.ajax({
+
+    data:  {id : id},
+    url:   "<?= Route::Ruta(['ajax' , 'Obtener_servicio']) ?>",
+    type:  'post',
+    beforeSend: function () {
+      // accion antes de envio
+    },
+    success:  function (response) {
+      var servicio = JSON.parse(response);
+     
+
+      var id = $("#pagos tr").length + 1;
+      var cantidad = $('#cantidad_p').val();
+
+      var precio = parseFloat(servicio.regular) * cantidad;
+      var p = datos_zonas[0].text+' '+servicio.tratamiento;
+
+      var transaction = db.transaction(["paquetes"],"readwrite");
+      var store = transaction.objectStore("paquetes");
+
+      var request = store.add({id_cliente: client_id, id_servicio: servicio.id_servicio, cantidad: cantidad});
+
+      
+     
+      request.onsuccess = function(e){
+        
+        var id_pq = request.result;
+
+        $('#pagos').append('<tr onclick="remover_fila(this,'+id_pq+',undefined)" id="fila_'+id+'" class="fila"><th class="text-center" scope="row"><span class="text-danger"> <i class="fa fa-times" aria-hidden="true"></i></span></th><td>'+p+'</td><td class="text-center">'+cantidad+'</td><td class="text-right costo">$'+precio.toFixed(2)+'</td></tr>');
+
+       $("#items").html('Total '+$("#pagos tr").length); 
+
+        var pesos = $('#pesos').html();
+
+            pesos = parseFloat(pesos) + parseFloat(precio);
+
+           
+                     
+                    
+
+           $('.pesos').html(pesos.toFixed(2)); 
+
+        
+      };
+
+      
+   
+
+
+       
+
+          
+    }
+
+  });
+}
+
+function remover_fila(test,id_paq,id_cita){
+
+  // console.log(test , id_paq , id_cita);
+
+
+  // return;
+
+
+  if (typeof(id_paq) == 'number') {
+    console.log(id_paq);
+     var request_p = db.transaction(["paquetes"], "readwrite")
+                .objectStore("paquetes")
+                .delete(id_paq);
+  }
+
+  if (typeof(id_cita) == 'number') {
+    id_cita.toString();
+    console.log(id_cita.toString());
+    var request_cit = db.transaction(["citas"], "readwrite")
+                .objectStore("citas")
+                .delete(id_cita.toString());
+
+    $.ajax({
+
+    data:  { id : client_id},
+    url:   "<?= Route::Ruta(['ajax' , 'Listar_citas_por_cobrar']) ?>",
+    type:  'post',
+    beforeSend: function () {
+      // accion antes de envio
+    },
+    success:  function (response) {
+
+      //$('.items_2').html(response); return;
+
+      var l_c_p_c = JSON.parse(response);
+
+      packs = l_c_p_c.servicios;
+
+     // console.log(packs);
+
+      $('.items_2').html(l_c_p_c.boton);
+      $(".pagos_2").html('Total '+$(".items_2 li").length);
+    }
+
+  });
+  }
+  
 
   var upc = $(test).children('.upc').text().split(' ');
   // var id_cita = $(test).children('input').val();
@@ -800,9 +1067,7 @@ function remover_fila(test){
                 .objectStore("productos")
                 .delete(upc[0]);
 
-  // var request = db.transaction(["citas"], "readwrite")
-  //               .objectStore("citas")
-  //               .delete(id_cita);
+  
 
   var precio = parseFloat($(test).children('.costo').text().substr(1));
 
@@ -837,7 +1102,7 @@ function agregar_citas_pago(id ,nombre , costo, fecha, id_cita){
 
 
      $('#pagos').append(`
-      <tr onclick="remover_fila(this)" id="fila_`+id+`" class="fila">
+      <tr onclick="remover_fila(this,undefined,`+id_cita+`)" id="fila_`+id+`" class="fila">
         <th class="text-center" scope="row"><span class="text-danger"> <i class="fa fa-times" aria-hidden="true"></i></span></th>
         <td>`+p+`</td>
         <td class="text-center">`+cantidad+`</td>
@@ -847,7 +1112,7 @@ function agregar_citas_pago(id ,nombre , costo, fecha, id_cita){
 
 
 
-   $("#items").html('Total '+$("#pagos li").length);
+   $("#items").html('Total '+$("#pagos tr").length);
 
   $('#'+id).remove();
 
@@ -870,6 +1135,30 @@ function agregar_citas_pago(id ,nombre , costo, fecha, id_cita){
 
 function confirmar(){
 
+   var transaction_paq = db.transaction(["paquetes"],"readwrite");
+  var store_paq = transaction_paq.objectStore("paquetes");
+
+  var request_paq = store_paq.getAll();
+
+  
+
+  request_paq.onsuccess = function(event) {
+
+   var paquetes = request_paq.result;
+
+   // console.log(paquetes);return;
+
+       
+ $.post("<?= Route::Ruta(['ajax' , 'Inserta_pack']) ?>",{paquetes}, function(json, textStatus) {
+      
+  }).then( function(response){
+    //console.log(response);
+  });
+
+
+};
+
+
   if (rebaja_pack == 0) {
     $.ajax({
 
@@ -880,7 +1169,7 @@ function confirmar(){
       // accion antes de envio
     },
     success:  function (response) {
-      console.log(response);
+     // console.log(response);
     }
 
   });
@@ -898,7 +1187,7 @@ function confirmar(){
   request.onsuccess = function(event) {
 
    var productos = request.result;
-
+   //console.log(productos); return;
        
  $.post("<?= Route::Ruta(['ajax' , 'Descontar_almacen']) ?>",{productos}, function(json, textStatus) {
       
@@ -924,7 +1213,7 @@ request_c.onsuccess = function(event) {
  $.post("<?= Route::Ruta(['ajax' , 'Cobrar_cita']) ?>",{citas_pv}, function(json, textStatus) {
       
   }).then( function(response){
-    console.log(response);
+    //console.log(response);
   });
 
 
@@ -934,6 +1223,7 @@ request_c.onsuccess = function(event) {
   var descripcion = $('#pagos').html();
   var tck = $.parseHTML(descripcion);
   var art = [];
+  var suma = 0.00;
   for (var i = 0; i < tck.length -1; i++) {
     let desc = tck[i].nextSibling.children[1].firstChild;
     let cant = tck[i].nextSibling.children[2].firstChild;
@@ -942,12 +1232,21 @@ request_c.onsuccess = function(event) {
   }
 
    for (var i = 0; i < art.length; i++) {
+
+    var peso = art[i].precio.split('$');
+
+    suma = parseFloat(peso[1]) + parseFloat(suma);
+
+
      $('#body_tck').append(`<tr>
-          <td class="cantidad">`+art[i].cantidad+`</td>
+          <td class="cantidad centrado">`+art[i].cantidad+`</td>
           <td class="producto">`+art[i].descripcion+`</td>
-          <td class="precio">`+art[i].precio+`</td>
+          <td class="precio derecho">`+art[i].precio+`</td>
         </tr>`);
    }
+
+   $('.total').html('Total: $'+suma.toFixed(2));
+   $('.total_desc').html('Total con descuento: $'+parseFloat($('#pesos_2').html()).toFixed(2));
    
     var imprimir=document.getElementById("tck");
    newWin= window.open("");
@@ -990,6 +1289,11 @@ th.precio {
   text-align: center;
   align-content: center;
 }
+
+.derecho {
+  text-align: right;
+  align-content: right;
+}
  
 .ticket {
   width: 155px;
@@ -1019,7 +1323,7 @@ img {
   switch(metodo_pago) {
   case "efectivo":
 
-    var pesos = parseFloat($('#pesos').html());
+    var pesos = parseFloat($('#pesos_2').html());
     var cambio =  $('#efectivo').val() - pesos ;
         
     $('.m-pago').remove();
@@ -1089,8 +1393,12 @@ function cerrar(){
   var transaction_c = db.transaction(["citas"],"readwrite");
   var store_c = transaction_c.objectStore("citas");
 
+  var transaction_paq = db.transaction(["paquetes"],"readwrite");
+  var store_paq = transaction_paq.objectStore("paquetes");
+
   store.clear();
   store_c.clear();
+  store_paq.clear();
 }
 
 </script>

@@ -2,6 +2,8 @@
 use \roles\Roles;
 require __DIR__ . '/../model/cliente.php';
 require __DIR__ . '/../model/ticket.php';
+require __DIR__ . '/../model/paquetes.php';
+require __DIR__ . '/../model/servicio.php';
 
 class ClientesController{
     
@@ -11,6 +13,8 @@ class ClientesController{
       Roles::Acceso($_SESSION['rol']);
       $this->modelCliente = new Cliente();
       $this->modelTicket = new Ticket();
+      $this->modelPaquetes = new Paquetes();
+      $this->modelServicios = new Servicio();
     }
     
     public function Index(){
@@ -23,6 +27,7 @@ class ClientesController{
 
       $model = $this->modelCliente->Obtener($id);
       $model_ticket = $this->modelTicket->Listar($id);
+      $model_paquetes = $this->modelPaquetes->Obtener($id);
 
       require __DIR__ .'/../view/clientes/ver.php';
 

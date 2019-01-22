@@ -24,6 +24,10 @@ class SaleController{
     }
     
     public function Index(){
+     // $test =  shell_exec("ifconfig wlp2s0");
+     // //$test = shell_exec('DISPLAY=:0 bash /data/manager/application/.shell/system.sh');
+
+     // var_dump($test);
        $dataproviderZonas = $this->modelZonas->Listar_normal();
        $dataproviderPromos = $this->modelPromociones->Listar_normal();
         require __DIR__ .'/../view/sales/index.php';

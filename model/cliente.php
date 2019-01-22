@@ -107,6 +107,22 @@ class Cliente
 		}
 	}
 
+	public function Total_clientes($fecha)
+	{
+		try 
+		{
+			$stm = $this->pdo
+			          ->prepare("SELECT COUNT(*) as clientes FROM clientes WHERE DATE(fecha) = ?");
+			          
+
+			$stm->execute(array($fecha));
+			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e) 
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function Eliminar($id)
 	{
 		try 

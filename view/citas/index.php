@@ -176,14 +176,6 @@ use \route\Route;
         <div class="col-md-12">
             <div class="col-md-12">
                 <h3>Contacto</h3>
-                 <div class="form-group">
-                    <label class="control-label">Telefono</label>
-                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono"  name="telefono" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Telefono oficina</label>
-                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono oficina" name="telefono_oficina" />
-                </div>
                 <div class="form-group">
                     <label class="control-label">Celular 1</label>
                     <input maxlength="10" type="text" required="required" class="form-control" placeholder="Celular 1" name="cel_1" />
@@ -191,6 +183,14 @@ use \route\Route;
                 <div class="form-group">
                     <label class="control-label">Celular 2</label>
                     <input maxlength="10" type="text" r class="form-control" placeholder="Celular 2" name="cel_2" />
+                </div>
+                 <div class="form-group">
+                    <label class="control-label">Telefono</label>
+                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono"  name="telefono" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Telefono oficina</label>
+                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono oficina" name="telefono_oficina" />
                 </div>
                 
             </div>

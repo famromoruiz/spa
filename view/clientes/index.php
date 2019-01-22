@@ -125,14 +125,6 @@ $model = $this->modelCliente->listar($pagina);
         <div class="col-md-12">
             <div class="col-md-12">
                 <h3>Contacto</h3>
-                 <div class="form-group">
-                    <label class="control-label">Telefono</label>
-                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono"  name="telefono" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Telefono oficina</label>
-                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono oficina" name="telefono_oficina" />
-                </div>
                 <div class="form-group">
                     <label class="control-label">Celular 1</label>
                     <input maxlength="10" type="text" required="required" class="form-control" placeholder="Celular 1" name="cel_1" />
@@ -140,6 +132,14 @@ $model = $this->modelCliente->listar($pagina);
                 <div class="form-group">
                     <label class="control-label">Celular 2</label>
                     <input maxlength="10" type="text" r class="form-control" placeholder="Celular 2" name="cel_2" />
+                </div>
+                 <div class="form-group">
+                    <label class="control-label">Telefono</label>
+                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono"  name="telefono" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Telefono oficina</label>
+                    <input maxlength="10" type="text"  class="form-control" placeholder="Telefono oficina" name="telefono_oficina" />
                 </div>
                 
             </div>
@@ -297,7 +297,7 @@ $(document).ready(function () {
 
     allNextBtn.click(function(e){
 
-      console.log(e);
+      //console.log(e);
        e.preventDefault();
         var $target = $($(this).attr('href')),
                 $item = $(this);
@@ -361,7 +361,6 @@ function guardar(){
     cliente[allInputs[key].name] = allInputs[key].value ;
   });
 
-  console.log(cliente);
 
    $.ajax({
 
@@ -372,10 +371,12 @@ function guardar(){
       // accion antes de envio
     },
     success:  function (response) {
+      
       location.reload();
     }
 
   });
+
 }
 
 function ver(id){
@@ -392,7 +393,7 @@ function ver(id){
     },
     success:  function (response) {
       var cliente = JSON.parse(response);
-      console.log(cliente);
+     // console.log(cliente);
        
 
       $( "input[name*='"+allInputs[0].name+"']" ).val(cliente.nombre).attr('disabled', true);
