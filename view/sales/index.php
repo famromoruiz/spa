@@ -313,7 +313,7 @@ use \route\Route;
       <br>MONTES HIMALAYA #701
       <br>JARDINES DE LA CONCEPCION
       <br>C.P.;20120, AGS, AGS.
-      <br>23/08/2017 08:22 a.m.</p>
+      <br><span class="fecha_tck">23/08/2017 08:22 a.m.</span></p>
     <table class="tabla_tck">
       <thead>
         <tr>
@@ -397,6 +397,18 @@ var packs;
 var rebaja_pack = 1;
 var aplica_promo = 0;
 
+var fecha_completa = new Date();
+ 
+var mes_2_digitos = ((fecha_completa.getMonth().length+1) === 1)? (fecha_completa.getMonth()+1) : '0' + (fecha_completa.getMonth()+1);
+ 
+var fecha_actual = fecha_completa.getDate() + "/" + mes_2_digitos + "/" + fecha_completa.getFullYear();
+
+var min_2_digitos = (fecha_completa.getMinutes()<10?'0':'') + fecha_completa.getMinutes();
+var seg_2_digitos = (fecha_completa.getSeconds()<10?'0':'') + fecha_completa.getSeconds();
+
+var hora = fecha_completa.getHours()+':'+min_2_digitos+':'+seg_2_digitos;
+
+
 request.onerror = function(event) {
   alert("¿Por qué no permitiste que mi aplicación web use IndexedDB?");
 };
@@ -456,6 +468,7 @@ function cliente(id){
 
 
 $(document).ready(function(){
+
 
    if (localStorage.getItem("status-venta") == "true") {
 
@@ -1236,6 +1249,8 @@ request_c.onsuccess = function(event) {
     var peso = art[i].precio.split('$');
 
     suma = parseFloat(peso[1]) + parseFloat(suma);
+
+    $('.fecha_tck').html(fecha_actual+' '+hora);
 
 
      $('#body_tck').append(`<tr>
